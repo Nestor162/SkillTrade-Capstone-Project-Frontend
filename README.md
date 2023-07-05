@@ -1,4 +1,3 @@
-# SkillTrade-Capstone-Project-Frontend
 ## SkillTrade -  *Teach, Learn, Grow*
 
 **SkillTrade** è una piattaforma di scambio di abilità che consente alle persone di *scambiare* le proprie conoscenze e competenze. L'app permette agli utenti di offrire i propri servizi in cambio di lezioni o servizi forniti da altri utenti. SkillTrade offre un modo semplice per imparare nuove competenze, conoscere persone con interessi simili e valorizzare le proprie abilità.
