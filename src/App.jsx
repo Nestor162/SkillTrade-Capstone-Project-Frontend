@@ -1,7 +1,11 @@
-import './App.css'
+import LoginPage from './components/auth/LoginPage'
 
 function App() {
-  return <></>
+  return (
+    <>
+      <LoginPage />
+    </>
+  )
 }
 
 export default App
