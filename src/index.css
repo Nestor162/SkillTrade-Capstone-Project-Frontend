@@ -76,7 +76,7 @@ body {
   box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
 }
 
-#auth-wrapper {
+.centered-overlay-box {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -89,7 +89,7 @@ body {
 
 /* Extra small devices (phones, 390px and down) */
 @media only screen and (max-width: 390px) {
-  #auth-wrapper {
+  .centered-overlay-box {
     width: 90%;
   }
 }
