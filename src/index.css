@@ -108,3 +108,12 @@ a {
 a:visited {
   color: var(--secondary-color-dark);
 }
+
+/* ICONS */
+.left-icon-position {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  cursor: pointer;
+  color: black;
+}
