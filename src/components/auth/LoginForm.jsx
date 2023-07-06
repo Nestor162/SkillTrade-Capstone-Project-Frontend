@@ -1,9 +1,9 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-function BasicExample() {
+function LoginForm() {
   return (
-    <Form className='d-flex flex-column mx-4 mt-5'>
+    <Form className='d-flex flex-column mx-4 mt-4'>
       <Form.Group className='mb-3' controlId='formBasicEmail'>
         <Form.Label>Email</Form.Label>
         <Form.Control type='email' placeholder='Enter your email' />
@@ -20,4 +20,4 @@ function BasicExample() {
   )
 }
 
-export default BasicExample
+export default LoginForm

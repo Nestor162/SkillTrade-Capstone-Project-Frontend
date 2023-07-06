@@ -1,9 +1,10 @@
 import LoginPage from './components/auth/LoginPage'
-
 function App() {
   return (
     <>
-      <LoginPage />
+      <div id='login-wrapper'>
+        <LoginPage />
+      </div>
     </>
   )
 }

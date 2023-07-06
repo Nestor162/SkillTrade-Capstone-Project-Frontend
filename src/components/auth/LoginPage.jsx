@@ -1,16 +1,16 @@
 import LoginForm from './LoginForm'
-import logo from '../../assets/img/skilltrade-logo-with-text.png'
+import logo from '../../assets/img/skilltrade-logo-with-text-cropped.png'
 import GoogleSignBtn from './GoogleSignBtn'
 function LoginPage() {
   return (
     <>
       <header>
         <div className='d-flex justify-content-center'>
-          <img src={logo} alt='SkillTrade logo' width={'250px'} />
+          <img src={logo} alt='SkillTrade logo' width={'110px'} className='my-3' />
         </div>
         <div className='ms-4'>
-          <h1 className='big-txt'>Welcome!</h1>
-          <h2 className='fs-3 fst-italic fw-lighter'>Login to continue</h2>
+          <h1 className='fs-1'>Welcome!</h1>
+          <h2 className='fs-4 fst-italic fw-lighter'>Login to continue</h2>
         </div>
       </header>
       <LoginForm />
@@ -19,7 +19,7 @@ function LoginPage() {
         <div className='horizontal-separator me-5'></div>
       </div>
       <GoogleSignBtn />
-      <p className='d-flex justify-content-center mt-5'>
+      <p className='d-flex justify-content-center mt-2'>
         New to SkillTrade?&nbsp;<a href='#'>Register</a>
       </p>
     </>

@@ -25,9 +25,9 @@
 
   /* Background Color */
   --background-color: #ffffff;
-  --background-color-light: #f7f7f7;
-  --background-color-dark: #e0e0e0;
-  --background-color-accent: #f0f0f0;
+  --background-color-light: #f5f5f5;
+  --background-color-dark: #dde3e1;
+  --background-color-accent: #f6fcfa;
 
   /* Neutral Color */
   --neutral-color: #2b2730;
@@ -46,10 +46,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.big-txt {
-  font-size: 40px;
-}
-
+/* BUTTONS */
 .main-btn {
   background-color: var(--button-color);
   border: solid #47c0a3 3px;
@@ -64,9 +61,27 @@ body {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+/* FORMS */
 .form-control:focus {
-  border-color: var(--primary-color-light); /* Cambia el color del borde al enfoque */
-  box-shadow: 0 0 0 0.2rem var(--primary-color-dark); /* Cambia el sombreado del enfoque */
+  border-color: var(--primary-color-light);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
+}
+
+#login-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background-color: var(--background-color-accent);
+  border-radius: 20px;
+}
+
+/* Extra small devices (phones, 390px and down) */
+@media only screen and (max-width: 390px) {
+  #login-wrapper {
+    width: 90%;
+  }
 }
 
 .horizontal-separator {
@@ -75,6 +90,7 @@ body {
   width: 120px;
 }
 
+/* LINKS */
 a {
   color: var(--primary-color-dark);
 }
