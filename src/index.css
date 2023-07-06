@@ -46,6 +46,15 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.dark-bg {
+  background-color: var(--neutral-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* BUTTONS */
 .main-btn {
   background-color: var(--button-color);
@@ -67,7 +76,7 @@ body {
   box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
 }
 
-#login-wrapper {
+#auth-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -75,11 +84,12 @@ body {
   z-index: 100;
   background-color: var(--background-color-accent);
   border-radius: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 /* Extra small devices (phones, 390px and down) */
 @media only screen and (max-width: 390px) {
-  #login-wrapper {
+  #auth-wrapper {
     width: 90%;
   }
 }
