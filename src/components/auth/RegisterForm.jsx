@@ -1,10 +1,11 @@
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, OverlayTrigger, Popover } from 'react-bootstrap'
 
 function RegisterForm() {
   const userRegisterPayload = { username: '', email: '', password: '' }
 
+  // FIELDS STATES
   const [username, setUsername] = useState('')
   const [usernameError, setUsernameError] = useState(null)
 
@@ -17,15 +18,25 @@ function RegisterForm() {
   const [repeatedPassword, setRepeatedPassword] = useState('')
   const [repeatedPasswordError, setRepeatedPasswordError] = useState(null)
 
+  // ---- INPUT FIELDS VALIDATION ----
   const validateUsername = () => {
     let errorMessage = null
     const pattern = new RegExp(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)
     if (!username) {
-      errorMessage = 'Username is required'
+      errorMessage = (
+        <>
+          Username is <strong>reqiuired</strong>
+        </>
+      )
     } else if (pattern.test(username)) {
       errorMessage = null
     } else {
-      errorMessage = 'Invalid Username'
+      errorMessage = (
+        <>
+          Username must be <strong>8-20 characters</strong> long, with
+          <strong> no spaces</strong> or <strong>consecutive special characters</strong>
+        </>
+      )
     }
     setUsernameError(errorMessage)
   }
@@ -34,11 +45,19 @@ function RegisterForm() {
     let errorMessage = null
     const pattern = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
     if (!email) {
-      errorMessage = 'Email is required'
+      errorMessage = (
+        <>
+          Email is <strong>reqiuired</strong>
+        </>
+      )
     } else if (pattern.test(email)) {
       errorMessage = null
     } else {
-      errorMessage = 'Invalid email address'
+      errorMessage = (
+        <>
+          <strong>Invalid email format.</strong> Please enter a valid email address
+        </>
+      )
     }
     setEmailError(errorMessage)
   }
@@ -47,11 +66,21 @@ function RegisterForm() {
     let errorMessage = null
     const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!_#%*?&]{8,}$/
     if (!password) {
-      errorMessage = 'Password is required'
+      errorMessage = (
+        <>
+          Password is <strong>reqiuired</strong>
+        </>
+      )
     } else if (pattern.test(password)) {
       errorMessage = null
     } else {
-      errorMessage = 'Invalid password'
+      errorMessage = (
+        <>
+          Password must be at least <strong>8 characters</strong> long and include an <strong>uppercase</strong> letter,
+          a <strong>lowercase</strong> letter, a <strong>number</strong>, and a <strong>special character</strong> (
+          <em>@$!_#%*?&</em>)
+        </>
+      )
     }
     setPasswordError(errorMessage)
   }
@@ -59,7 +88,11 @@ function RegisterForm() {
   const validateRepeatedPassword = () => {
     let errorMessage = null
     if (!password) {
-      errorMessage = 'Password is required'
+      errorMessage = (
+        <>
+          Password is <strong>reqiuired</strong>
+        </>
+      )
     } else if (repeatedPassword !== password) {
       errorMessage = 'Passwords do not match'
     } else {
@@ -89,12 +122,23 @@ function RegisterForm() {
               onBlur={validateUsername}
               className={usernameError && 'invalid-form'}
             />
-
-            <AlertCircle
-              color='var(--tertiary-color)'
-              strokeWidth={3}
-              className={usernameError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-            />
+            <OverlayTrigger
+              trigger={['hover', 'focus', 'click']}
+              placement='top'
+              overlay={
+                <Popover>
+                  <Popover.Header as='h3'>Invalid value</Popover.Header>
+                  <Popover.Body>{usernameError}</Popover.Body>
+                </Popover>
+              }
+            >
+              <AlertCircle
+                tabIndex={0}
+                color='var(--tertiary-color)'
+                strokeWidth={3}
+                className={usernameError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
+              />
+            </OverlayTrigger>
             <CheckCircle2
               color='var(--primary-color)'
               strokeWidth={3}
@@ -119,11 +163,23 @@ function RegisterForm() {
               onBlur={validateEmail}
               className={emailError && 'invalid-form'}
             />
-            <AlertCircle
-              color='var(--tertiary-color)'
-              strokeWidth={3}
-              className={emailError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-            />
+            <OverlayTrigger
+              trigger={['hover', 'focus', 'click']}
+              placement='top'
+              overlay={
+                <Popover>
+                  <Popover.Header as='h3'>Invalid value</Popover.Header>
+                  <Popover.Body>{emailError}</Popover.Body>
+                </Popover>
+              }
+            >
+              <AlertCircle
+                tabIndex={0}
+                color='var(--tertiary-color)'
+                strokeWidth={3}
+                className={emailError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
+              />
+            </OverlayTrigger>
             <CheckCircle2
               color='var(--primary-color)'
               strokeWidth={3}
@@ -147,11 +203,23 @@ function RegisterForm() {
               onBlur={validatePassword}
               className={passwordError && 'invalid-form'}
             />
-            <AlertCircle
-              color='var(--tertiary-color)'
-              strokeWidth={3}
-              className={passwordError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-            />
+            <OverlayTrigger
+              trigger={['hover', 'focus', 'click']}
+              placement='top'
+              overlay={
+                <Popover>
+                  <Popover.Header as='h3'>Invalid value</Popover.Header>
+                  <Popover.Body>{passwordError}</Popover.Body>
+                </Popover>
+              }
+            >
+              <AlertCircle
+                tabIndex={0}
+                color='var(--tertiary-color)'
+                strokeWidth={3}
+                className={passwordError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
+              />
+            </OverlayTrigger>
             <CheckCircle2
               color='var(--primary-color)'
               strokeWidth={3}
@@ -174,11 +242,23 @@ function RegisterForm() {
               onBlur={validateRepeatedPassword}
               className={repeatedPasswordError && 'invalid-form'}
             />
-            <AlertCircle
-              color='var(--tertiary-color)'
-              strokeWidth={3}
-              className={repeatedPasswordError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-            />
+            <OverlayTrigger
+              trigger={['hover', 'focus', 'click']}
+              placement='top'
+              overlay={
+                <Popover>
+                  <Popover.Header as='h3'>Invalid value</Popover.Header>
+                  <Popover.Body>{repeatedPasswordError}</Popover.Body>
+                </Popover>
+              }
+            >
+              <AlertCircle
+                tabIndex={0}
+                color='var(--tertiary-color)'
+                strokeWidth={3}
+                className={repeatedPasswordError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
+              />
+            </OverlayTrigger>
             <CheckCircle2
               color='var(--primary-color)'
               strokeWidth={3}
