@@ -76,6 +76,11 @@ body {
   box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
 }
 
+.invalid-form {
+  border-color: var(--tertiary-color);
+  box-shadow: 0 0 0 0.2rem var(--tertiary-color-dark);
+}
+
 .centered-overlay-box {
   position: absolute;
   top: 50%;
