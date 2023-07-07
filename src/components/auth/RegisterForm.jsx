@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2 } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { Button, Form, OverlayTrigger, Popover } from 'react-bootstrap'
 
@@ -101,6 +101,11 @@ function RegisterForm() {
     setRepeatedPasswordError(errorMessage)
   }
 
+  // ---- PASSWORD SHOW/HIDE ----
+  const [hidePassword, setHidePassword] = useState(true)
+  const [hideConfirmPassword, setHideConfirmPassword] = useState(true)
+
+  // ---- SUBMIT HANDLER----
   const handleSubmit = event => {
     event.preventDefault()
     userRegisterPayload.username = username
@@ -194,7 +199,7 @@ function RegisterForm() {
         <Form.Group className='mb-3'>
           <div className='position-relative'>
             <Form.Control
-              type='password'
+              type={hidePassword ? 'password' : 'text'}
               placeholder='Password'
               value={password}
               onChange={event => {
@@ -229,13 +234,33 @@ function RegisterForm() {
                   : 'd-none'
               }
             />
+            <Eye
+              className={
+                hidePassword
+                  ? 'd-none'
+                  : `position-absolute top-50 end-0 translate-middle-y ${
+                      passwordError !== null || password !== '' ? 'me-35' : 'me-2'
+                    }`
+              }
+              onClick={() => setHidePassword(true)}
+            />
+            <EyeOff
+              className={
+                hidePassword
+                  ? `position-absolute top-50 end-0 translate-middle-y ${
+                      passwordError !== null || password !== '' ? 'me-35' : 'me-2'
+                    }`
+                  : 'd-none'
+              }
+              onClick={() => setHidePassword(false)}
+            />
           </div>
         </Form.Group>
 
         <Form.Group className='mb-3'>
           <div className='position-relative'>
             <Form.Control
-              type='password'
+              type={hideConfirmPassword ? 'password' : 'text'}
               placeholder='Repeat password'
               value={repeatedPassword}
               onChange={event => setRepeatedPassword(event.target.value)}
@@ -267,6 +292,27 @@ function RegisterForm() {
                   ? 'position-absolute top-50 end-0 translate-middle-y me-1'
                   : 'd-none'
               }
+            />
+
+            <Eye
+              className={
+                hideConfirmPassword
+                  ? 'd-none'
+                  : `position-absolute top-50 end-0 translate-middle-y ${
+                      repeatedPasswordError !== null || repeatedPassword !== '' ? 'me-35' : 'me-2'
+                    }`
+              }
+              onClick={() => setHideConfirmPassword(true)}
+            />
+            <EyeOff
+              className={
+                hideConfirmPassword
+                  ? `position-absolute top-50 end-0 translate-middle-y ${
+                      repeatedPasswordError !== null || repeatedPassword !== '' ? 'me-35' : 'me-2'
+                    }`
+                  : 'd-none'
+              }
+              onClick={() => setHideConfirmPassword(false)}
             />
           </div>
         </Form.Group>

@@ -76,6 +76,10 @@ body {
   box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
 }
 
+.form-control + svg {
+  cursor: pointer;
+}
+
 .invalid-form {
   border-color: var(--tertiary-color);
   box-shadow: 0 0 0 0.2rem var(--tertiary-color-dark);
@@ -121,4 +125,9 @@ a:visited {
   left: 20px;
   cursor: pointer;
   color: black;
+}
+
+/* CUSTOM MARGINS */
+.me-35 {
+  margin-inline-end: 35px;
 }
