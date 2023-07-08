@@ -1,10 +1,12 @@
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
-import { Alert, OverlayTrigger, Popover } from 'react-bootstrap'
+import { OverlayTrigger, Popover } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import { useNavigate } from 'react-router-dom'
 
 function LoginForm() {
+  const navigate = useNavigate()
   const userLoginPayload = { email: '', password: '' }
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -34,6 +36,9 @@ function LoginForm() {
 
     if (!response.ok) {
       setErrorMsg(data.message)
+    } else {
+      localStorage.setItem('token', data.accessToken)
+      navigate('/home')
     }
   }
 
@@ -80,13 +85,14 @@ function LoginForm() {
 
       <OverlayTrigger
         show={errorMsg !== null}
+        transition={false}
         placement='bottom'
         overlay={
           <Popover id='popover-basic'>
-            <Popover.Header as='h3' style={{ backgroundColor: 'var(--tertiary-color-light)' }}>
+            <Popover.Header as='h3' className='text-center' style={{ backgroundColor: '#a04a35' }}>
               <span className='text-light'>LOGIN ERROR</span>
             </Popover.Header>
-            <Popover.Body className='bg-danger-muted' style={{ backgroundColor: 'var(--tertiary-color)' }}>
+            <Popover.Body className='text-center' style={{ backgroundColor: '#B2523B' }}>
               <span className='text-light'> {errorMsg}</span>
             </Popover.Body>
           </Popover>
