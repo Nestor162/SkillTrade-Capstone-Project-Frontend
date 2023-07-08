@@ -131,3 +131,22 @@ a:visited {
 .me-35 {
   margin-inline-end: 35px;
 }
+
+/* CUSTOM BADGE */
+.badge-primary-selected {
+  background-color: var(--primary-color-dark) !important;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  color: var(--background-color-accent);
+  border: 1.7px solid transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.badge-primary {
+  background-color: transparent !important;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  color: var(--neutral-color-dark);
+  border: 1.7px solid var(--primary-color-dark);
+  cursor: pointer;
+  user-select: none;
+}
