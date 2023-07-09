@@ -6,7 +6,7 @@ function SingleInterestBadge({ name }) {
   const [selected, setSelected] = useState(false)
   return (
     <Badge
-      className={selected ? 'badge-primary-selected m-1 p-2 fs-6' : 'badge-primary m-1 p-2 fs-6'}
+      className={selected ? 'badge-primary-selected m-1 p-2' : 'badge-primary m-1 p-2 fs-6'}
       onClick={() => setSelected(!selected)}
     >
       {name}

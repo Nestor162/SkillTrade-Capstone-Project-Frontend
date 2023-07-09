@@ -29,7 +29,7 @@ function InterestsList() {
   }, [])
 
   return (
-    <div className='m-4 d-flex justify-content-center flex-wrap'>
+    <div className='mx-4 my-3 d-flex justify-content-center flex-wrap'>
       {data.map(interest => (
         <SingleInterestBadge key={interest.id} name={interest.name} />
       ))}

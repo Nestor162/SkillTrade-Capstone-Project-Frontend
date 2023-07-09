@@ -94,6 +94,7 @@ body {
   background-color: var(--background-color-accent);
   border-radius: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 388.85px;
   /* height: 94vh; */
 }
 
@@ -109,6 +110,13 @@ body {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+  }
+}
+
+@media only screen and (max-height: 607px) {
+  .register-header-container .logo-with-text {
+    width: 30px;
+    opacity: 0;
   }
 }
 
@@ -149,6 +157,7 @@ a:visited {
   border: 1.7px solid transparent;
   cursor: pointer;
   user-select: none;
+  font-size: 14px !important;
 }
 
 .badge-primary {
@@ -158,4 +167,5 @@ a:visited {
   border: 1.7px solid var(--primary-color-dark);
   cursor: pointer;
   user-select: none;
+  font-size: 14px !important;
 }

@@ -13,7 +13,9 @@ function RegisterPage() {
             <Link to={'/'}>
               <ArrowLeft className='left-icon-position' />
             </Link>
-            <AuthHeader title='Register' subtitle='create a new account' />
+            <span className='register-header-container'>
+              <AuthHeader title='Register' subtitle='create a new account' />
+            </span>
           </div>
           <RegisterForm />
           <div className='d-flex align-items-center justify-content-center mt-4'>
