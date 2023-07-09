@@ -94,12 +94,21 @@ body {
   background-color: var(--background-color-accent);
   border-radius: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  /* height: 94vh; */
 }
 
 /* Extra small devices (phones, 390px and down) */
 @media only screen and (max-width: 390px) {
   .centered-overlay-box {
     width: 90%;
+  }
+}
+
+@media only screen and (max-height: 520px) {
+  .centered-overlay-box {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 

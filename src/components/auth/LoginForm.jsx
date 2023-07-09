@@ -48,7 +48,6 @@ function LoginForm() {
   return (
     <Form className='d-flex flex-column mx-4 mt-4' onSubmit={handleSubmit}>
       <Form.Group className='mb-3' controlId='formBasicEmail'>
-        <Form.Label>Email</Form.Label>
         <Form.Control
           type='email'
           placeholder='Enter your email'
@@ -61,7 +60,6 @@ function LoginForm() {
       </Form.Group>
 
       <Form.Group className='mb-3' controlId='formBasicPassword'>
-        <Form.Label>Password</Form.Label>
         <div className='position-relative'>
           <Form.Control
             type={hidePassword ? 'password' : 'text'}
@@ -75,10 +73,12 @@ function LoginForm() {
           <Eye
             className={hidePassword ? 'd-none' : 'position-absolute top-50 end-0 translate-middle-y me-2'}
             onClick={() => setHidePassword(true)}
+            style={{ cursor: 'pointer' }}
           />
           <EyeOff
             className={hidePassword ? 'position-absolute top-50 end-0 translate-middle-y me-2' : 'd-none'}
             onClick={() => setHidePassword(false)}
+            style={{ cursor: 'pointer' }}
           />
         </div>
       </Form.Group>

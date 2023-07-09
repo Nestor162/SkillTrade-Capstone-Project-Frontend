@@ -11,7 +11,7 @@ function GoogleSignBtn() {
 
   return (
     <Row>
-      <Col md={6} className='mb-2 mt-1 w-100 position-relative'>
+      <Col md={6} className='mb-2 w-100 position-relative'>
         <div className='d-flex justify-content-center mt-3' onClick={toggleShowToast}>
           <img
             src={googleBtn}
@@ -22,7 +22,7 @@ function GoogleSignBtn() {
           />
         </div>
 
-        <div className='mt-3 position-absolute' style={{ left: '50%', transform: 'translateX(-50%)' }}>
+        <div className='mt-1 position-absolute' style={{ left: '50%', transform: 'translateX(-50%)' }}>
           <Toast show={showToast} onClose={toggleShowToast} style={{ left: '50%', transform: 'translateY(-100%)' }}>
             <Toast.Header>
               <strong className='me-auto'>Don&apos;t panic!</strong>

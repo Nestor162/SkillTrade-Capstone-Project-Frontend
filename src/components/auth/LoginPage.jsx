@@ -14,7 +14,7 @@ function LoginPage() {
           <div className='horizontal-separator me-5'></div>
         </div>
         <GoogleSignBtn />
-        <p className='d-flex justify-content-center mt-2'>
+        <p className='d-flex justify-content-center mt-1'>
           New to SkillTrade?&nbsp;<Link to='/register'>Register</Link>
         </p>
       </div>

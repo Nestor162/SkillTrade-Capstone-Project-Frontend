@@ -5,11 +5,11 @@ function AuthHeader({ title, subtitle }) {
   return (
     <header>
       <div className='d-flex justify-content-center'>
-        <img src={logo} alt='SkillTrade logo' width={'110px'} className='my-3' />
+        <img src={logo} alt='SkillTrade logo' width={'100px'} className='my-3' />
       </div>
       <div className='ms-4'>
-        <h1 className='fs-1'>{title}</h1>
-        <h2 className='fs-4 fst-italic fw-lighter'>{subtitle}</h2>
+        <h1 className='fs-2'>{title}</h1>
+        <h2 className='fs-5 fst-italic fw-lighter'>{subtitle}</h2>
       </div>
     </header>
   )
