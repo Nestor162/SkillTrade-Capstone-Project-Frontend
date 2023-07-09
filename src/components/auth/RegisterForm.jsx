@@ -242,6 +242,7 @@ function RegisterForm() {
                       passwordError !== null || password !== '' ? 'me-35' : 'me-2'
                     }`
               }
+              style={{ cursor: 'pointer' }}
               onClick={() => setHidePassword(true)}
             />
             <EyeOff
@@ -252,6 +253,7 @@ function RegisterForm() {
                     }`
                   : 'd-none'
               }
+              style={{ cursor: 'pointer' }}
               onClick={() => setHidePassword(false)}
             />
           </div>
@@ -302,6 +304,7 @@ function RegisterForm() {
                       repeatedPasswordError !== null || repeatedPassword !== '' ? 'me-35' : 'me-2'
                     }`
               }
+              style={{ cursor: 'pointer' }}
               onClick={() => setHideConfirmPassword(true)}
             />
             <EyeOff
@@ -312,6 +315,7 @@ function RegisterForm() {
                     }`
                   : 'd-none'
               }
+              style={{ cursor: 'pointer' }}
               onClick={() => setHideConfirmPassword(false)}
             />
           </div>
