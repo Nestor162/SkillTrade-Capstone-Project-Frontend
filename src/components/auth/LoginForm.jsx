@@ -4,7 +4,7 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../../utils/api.js'
+import { loginUser, getUserByEmail } from '../../utils/api.js'
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -26,9 +26,22 @@ function LoginForm() {
   async function handleLogin(payload) {
     const { data, error } = await loginUser(payload)
     if (error || data === null) {
-      setErrorMsg(error)
+      setErrorMsg(error.message)
     } else {
       localStorage.setItem('token', data.accessToken)
+      // Get user info and store it in localstorage for the future
+      const userByEmailResponse = await getUserByEmail(payload.email)
+
+      // If there is an error in get by email fetch return the error
+      if (userByEmailResponse.error) {
+        console.error(userByEmailResponse.error)
+        return { data: null, error: userByEmailResponse.error }
+      }
+      // othrewise store the user's ID and profile's ID in local storage
+      else {
+        localStorage.setItem('userId', userByEmailResponse.data.id)
+        localStorage.setItem('profileId', userByEmailResponse.data.profile)
+      }
       navigate('/home')
     }
   }

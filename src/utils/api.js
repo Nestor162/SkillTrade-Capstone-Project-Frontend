@@ -12,7 +12,6 @@ async function loginUser(payload) {
     if (response.ok) {
       return { data, error: null }
     } else {
-      console.log(data.message)
       return { data: null, error: data.message }
     }
   } catch (error) {
@@ -47,6 +46,26 @@ async function registerUser(payload) {
   }
 }
 
+async function getUserByEmail(email) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/users?email=${email}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      localStorage.setItem('userId', data.id)
+      localStorage.setItem('profileId', data.profile)
+      return { data, error: null }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- {INTEREST ENDPOINT} ----
 async function getAllInterests() {
   try {
@@ -64,4 +83,28 @@ async function getAllInterests() {
   }
 }
 
-export { loginUser, registerUser, getAllInterests }
+// ---- {PROFILE ENDPOINTS} ----
+async function addInterestsToProfile(payload, profileId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/profiles/` + profileId, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      console.log(data.message)
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+export { loginUser, registerUser, getAllInterests, getUserByEmail, addInterestsToProfile }

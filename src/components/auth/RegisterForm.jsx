@@ -2,7 +2,7 @@ import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Alert, Button, Form, OverlayTrigger, Popover } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { registerUser } from '../../utils/api.js'
+import { registerUser, getUserByEmail } from '../../utils/api.js'
 
 function RegisterForm() {
   const userRegisterPayload = { username: '', email: '', password: '' }
@@ -121,9 +121,22 @@ function RegisterForm() {
   async function handleRegister(payload) {
     const { data, error } = await registerUser(payload)
     if (error || data === null) {
-      setErrorMsg(error)
+      setErrorMsg(error.message)
     } else {
       localStorage.setItem('token', data.accessToken)
+      // Get user info and store it in localstorage for the future
+      const userByEmailResponse = await getUserByEmail(payload.email)
+
+      // If there is an error in get by email fetch return the error
+      if (userByEmailResponse.error) {
+        console.error(userByEmailResponse.error)
+        return { data: null, error: userByEmailResponse.error }
+      }
+      // othrewise store the user's ID and profile's ID in local storage
+      else {
+        localStorage.setItem('userId', userByEmailResponse.data.id)
+        localStorage.setItem('profileId', userByEmailResponse.data.profile)
+      }
       navigate('/interests')
     }
   }
