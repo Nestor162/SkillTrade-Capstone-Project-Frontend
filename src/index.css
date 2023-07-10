@@ -70,6 +70,11 @@ body {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.main-btn:disabled {
+  background-color: var(--button-color);
+  border: solid var(--primary-color-light) 3px;
+}
+
 /* FORMS */
 .form-control:focus {
   border-color: var(--primary-color-light);

@@ -1,13 +1,14 @@
 import { ArrowLeft } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import InterestsList from './InterestsList'
-import { Alert, Button } from 'react-bootstrap'
+import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useState } from 'react'
 import { addInterestsToProfile } from '../../utils/api'
 
 function SelectInterestPage() {
   const [selectedInterests, setSelectedInterests] = useState([])
   const [errorMsg, setErrorMsg] = useState(null)
+  const navigate = useNavigate()
 
   const handleSelectInterest = name => {
     setSelectedInterests(prevSelectedInterests => {
@@ -35,7 +36,25 @@ function SelectInterestPage() {
     const response = await addInterestsToProfile(payloadInterestList, profileId)
     if (response.error) {
       setErrorMsg(response.error)
+    } else {
+      navigate('/profile-creation')
     }
+  }
+
+  // Show message when interests selected are less than 3
+  const renderTooltip = props => (
+    <Tooltip id='button-tooltip' {...props}>
+      You must select at least 3 interests to continue
+    </Tooltip>
+  )
+
+  const [showTooltip, setShowTooltip] = useState(false)
+
+  const handleMouseEnter = () => {
+    setShowTooltip(true)
+  }
+  const handleMouseLeave = () => {
+    setShowTooltip(false)
   }
 
   return (
@@ -65,9 +84,18 @@ function SelectInterestPage() {
           </header>
           <InterestsList onSelectInterest={handleSelectInterest} />
           <div className='text-center'>
-            <Button type='submit' className='mb-3 main-btn' onClick={handleSubmit}>
-              CONTINUE
-            </Button>
+            <OverlayTrigger placement='top' overlay={renderTooltip} show={showTooltip && selectedInterests.length < 3}>
+              <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                <Button
+                  type='submit'
+                  className='mb-3 main-btn'
+                  onClick={handleSubmit}
+                  disabled={selectedInterests.length < 3}
+                >
+                  CONTINUE
+                </Button>
+              </div>
+            </OverlayTrigger>
           </div>
         </div>
       </div>
