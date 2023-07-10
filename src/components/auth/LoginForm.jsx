@@ -15,7 +15,7 @@ function LoginForm() {
     event.preventDefault()
     userLoginPayload.email = email
     userLoginPayload.password = password
-    registerUser(userLoginPayload)
+    loginUser(userLoginPayload)
     setTimeout(() => setErrorMsg(null), 4000)
   }
 
@@ -23,7 +23,7 @@ function LoginForm() {
   const [hidePassword, setHidePassword] = useState(true)
 
   // ---- LOGIN FETCH ----
-  async function registerUser(payload) {
+  async function loginUser(payload) {
     try {
       const response = await fetch('http://localhost:3001/auth/login', {
         method: 'POST',
