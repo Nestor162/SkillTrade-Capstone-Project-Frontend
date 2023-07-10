@@ -15,9 +15,8 @@ function LoginForm() {
     event.preventDefault()
     userLoginPayload.email = email
     userLoginPayload.password = password
-    console.log(userLoginPayload)
     registerUser(userLoginPayload)
-    setTimeout(() => setErrorMsg(null), 3000)
+    setTimeout(() => setErrorMsg(null), 4000)
   }
 
   // ---- PASSWORD SHOW/HIDE ----
@@ -25,20 +24,25 @@ function LoginForm() {
 
   // ---- LOGIN FETCH ----
   async function registerUser(payload) {
-    const response = await fetch('http://localhost:3001/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-    const data = await response.json()
+    try {
+      const response = await fetch('http://localhost:3001/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      const data = await response.json()
 
-    if (!response.ok) {
-      setErrorMsg(data.message)
-    } else {
-      localStorage.setItem('token', data.accessToken)
-      navigate('/home')
+      if (!response.ok) {
+        setErrorMsg(data.message)
+      } else {
+        localStorage.setItem('token', data.accessToken)
+        navigate('/home')
+      }
+    } catch (error) {
+      setErrorMsg(error.message)
+      console.error(error.message)
     }
   }
 
