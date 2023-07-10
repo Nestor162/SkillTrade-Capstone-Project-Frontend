@@ -4,6 +4,7 @@ import { OverlayTrigger, Popover } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
+import { loginUser } from '../../utils/api.js'
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -15,34 +16,20 @@ function LoginForm() {
     event.preventDefault()
     userLoginPayload.email = email
     userLoginPayload.password = password
-    loginUser(userLoginPayload)
+    handleLogin(userLoginPayload)
     setTimeout(() => setErrorMsg(null), 4000)
   }
 
   // ---- PASSWORD SHOW/HIDE ----
   const [hidePassword, setHidePassword] = useState(true)
 
-  // ---- LOGIN FETCH ----
-  async function loginUser(payload) {
-    try {
-      const response = await fetch('http://localhost:3001/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-      const data = await response.json()
-
-      if (!response.ok) {
-        setErrorMsg(data.message)
-      } else {
-        localStorage.setItem('token', data.accessToken)
-        navigate('/home')
-      }
-    } catch (error) {
-      setErrorMsg(error.message)
-      console.error(error.message)
+  async function handleLogin(payload) {
+    const { data, error } = await loginUser(payload)
+    if (error || data === null) {
+      setErrorMsg(error)
+    } else {
+      localStorage.setItem('token', data.accessToken)
+      navigate('/home')
     }
   }
 
