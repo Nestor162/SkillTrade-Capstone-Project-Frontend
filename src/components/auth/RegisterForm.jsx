@@ -1,6 +1,8 @@
 import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
-import { Button, Form, OverlayTrigger, Popover } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import { Alert, Button, Form, OverlayTrigger, Popover } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { registerUser } from '../../utils/api.js'
 
 function RegisterForm() {
   const userRegisterPayload = { username: '', email: '', password: '' }
@@ -111,11 +113,49 @@ function RegisterForm() {
     userRegisterPayload.username = username
     userRegisterPayload.email = email
     userRegisterPayload.password = password
-    console.log(userRegisterPayload)
+    handleRegister(userRegisterPayload)
   }
+
+  // REGISTER FETCH (POST)
+  const navigate = useNavigate()
+  async function handleRegister(payload) {
+    const { data, error } = await registerUser(payload)
+    if (error || data === null) {
+      setErrorMsg(error)
+    } else {
+      localStorage.setItem('token', data.accessToken)
+      navigate('/interests')
+    }
+  }
+
+  // ERRROR ALERT SHOW/HIDE
+  const [errorMsg, setErrorMsg] = useState(null)
+  const handleCloseAlert = () => {
+    setErrorMsg(null)
+  }
+
+  useEffect(() => {
+    if (errorMsg) {
+      const timer = setTimeout(() => {
+        handleCloseAlert()
+      }, 5000) // close the alert after 5 seconds
+
+      return () => clearTimeout(timer) // clean up the timer when the component unmounts or errorMsg changes
+    }
+  }, [errorMsg])
 
   return (
     <>
+      {errorMsg && (
+        <Alert
+          key='danger'
+          variant='danger'
+          className='position-absolute start-0 end-0 top-0'
+          onClick={handleCloseAlert}
+        >
+          {errorMsg}
+        </Alert>
+      )}
       <Form className='d-flex flex-column mx-4 mt-4' onSubmit={handleSubmit}>
         <Form.Group className='mb-3'>
           <div className='position-relative'>
