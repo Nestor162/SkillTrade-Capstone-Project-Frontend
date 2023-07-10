@@ -7,6 +7,7 @@ function InterestsList() {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
+  const [selectedInterests, setSelectedInterests] = useState([])
 
   async function handleGetAllInterests() {
     setIsLoading(true)
@@ -17,6 +18,18 @@ function InterestsList() {
       setData(data)
     }
     setIsLoading(false)
+  }
+
+  const handleSelectInterest = name => {
+    setSelectedInterests(prevSelectedInterests => {
+      if (prevSelectedInterests.includes(name)) {
+        // remove the interest from the selectedInterests array
+        return prevSelectedInterests.filter(interest => interest !== name)
+      } else {
+        // add the interest to the selectedInterests array
+        return [...prevSelectedInterests, name]
+      }
+    })
   }
 
   useEffect(() => {
@@ -30,7 +43,9 @@ function InterestsList() {
           <Spinner animation='border' variant='success' />
         </div>
       ) : (
-        data.map(interest => <SingleInterestBadge key={interest.id} name={interest.name} />)
+        data.map(interest => (
+          <SingleInterestBadge key={interest.id} name={interest.name} onSelect={handleSelectInterest} />
+        ))
       )}
       {errorMsg && (
         <Alert key='danger' variant='danger'>
