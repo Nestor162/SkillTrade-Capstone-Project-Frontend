@@ -1,3 +1,4 @@
+// ---- {USER ENDPOINTS} ----
 async function loginUser(payload) {
   try {
     const response = await fetch('http://localhost:3001/auth/login', {
@@ -19,4 +20,48 @@ async function loginUser(payload) {
   }
 }
 
-export { loginUser }
+async function registerUser(payload) {
+  try {
+    const response = await fetch('http://localhost:3001/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    if (response.ok) {
+      const userLoginResponse = await loginUser({ email: payload.email, password: payload.password })
+      if (userLoginResponse.error) {
+        console.error(userLoginResponse.error)
+        return { data: null, error: userLoginResponse.error }
+      } else {
+        return { data: userLoginResponse.data, error: null }
+      }
+    } else {
+      console.log(data.message)
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+// ---- {INTEREST ENDPOINT} ----
+async function getAllInterests() {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/interests', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+export { loginUser, registerUser, getAllInterests }

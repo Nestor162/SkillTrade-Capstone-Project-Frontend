@@ -1,39 +1,26 @@
 import { useEffect, useState } from 'react'
 import SingleInterestBadge from './singleInterestBadge'
 import { Alert, Spinner } from 'react-bootstrap'
+import { getAllInterests } from '../../utils/api'
 
 function InterestsList() {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
 
-  async function getAllInterests() {
-    try {
-      const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3001/interests', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      const data = await response.json()
-      console.log(data)
-
-      if (!response.ok) {
-        setErrorMsg(response)
-      } else {
-        setData(data)
-      }
-    } catch (error) {
-      console.error(error)
+  async function handleGetAllInterests() {
+    setIsLoading(true)
+    const { data, error } = await getAllInterests()
+    if (error) {
       setErrorMsg(error.message)
-    } finally {
-      setIsLoading(false)
+    } else {
+      setData(data)
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
-    getAllInterests()
+    handleGetAllInterests()
   }, [])
 
   return (
