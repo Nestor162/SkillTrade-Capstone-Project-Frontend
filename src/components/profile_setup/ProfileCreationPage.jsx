@@ -8,7 +8,7 @@ function ProfileCreationPage() {
       <div className='dark-bg'>
         <div className='centered-overlay-box'>
           <div className='position-relative'>
-            <Link to={'/interests'}>
+            <Link to={'/profile-name'}>
               <ArrowLeft className='left-icon-position' />
             </Link>
           </div>

@@ -37,7 +37,7 @@ function SelectInterestPage() {
     if (response.error) {
       setErrorMsg(response.error)
     } else {
-      navigate('/profile-creation')
+      navigate('/profile-name')
     }
   }
 

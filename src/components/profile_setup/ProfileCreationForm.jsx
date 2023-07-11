@@ -22,23 +22,16 @@ function ProfileCreationForm() {
   const handleShow = () => setShow(true)
   const handleSavePic = () => setShow(false)
 
-  const profilePayload = {
-    birthDate: '',
-    location: '',
-    gender: '',
-    biography: '',
-    profilePicture: 'https://pasteboard.co/1I7zuqwG8cQy.jpg' //default profile picture
-  }
-
   async function handleSubmit(event) {
     event.preventDefault()
 
-    //set the values in the object payload
-    profilePayload.birthDate = birthDate
-    profilePayload.location = location
-    profilePayload.gender = gender
-    profilePayload.biography = bio
-    profilePayload.profilePicture = profilePic
+    const profilePayload = {
+      birthDate: birthDate,
+      location: location,
+      gender: gender,
+      biography: bio,
+      profilePicture: profilePic || 'https://pasteboard.co/1I7zuqwG8cQy.jpg' //default profile picture
+    }
 
     // fetch to save interests in current profile
     const profileId = localStorage.getItem('profileId')
