@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, Button, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
+import { Alert, Button, Dropdown, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { updateProfile } from '../../utils/api'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
@@ -40,8 +40,6 @@ function ProfileCreationForm() {
     profilePayload.biography = bio
     profilePayload.profilePicture = profilePic
 
-    console.log(profilePayload)
-
     // fetch to save interests in current profile
     const profileId = localStorage.getItem('profileId')
     const response = await updateProfile(profilePayload, profileId)
@@ -57,6 +55,30 @@ function ProfileCreationForm() {
 
   const handleCloseAlert = () => {
     setErrorMsg(null)
+  }
+
+  // Geoapify autocomplete API
+  const [suggestions, setSuggestions] = useState([])
+
+  const handleSuggestionClick = suggestion => {
+    setLocation(suggestion.properties.formatted)
+    setSuggestions([])
+  }
+
+  const apiKey = import.meta.env.VITE_GEOAPIFY_API_KEY
+
+  const handleLocationChange = async event => {
+    setLocation(event.target.value)
+
+    if (event.target.value.length > 2) {
+      const response = await fetch(
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${event.target.value}&apiKey=${apiKey}`
+      )
+      const data = await response.json()
+      setSuggestions(data.features)
+    } else {
+      setSuggestions([])
+    }
   }
 
   return (
@@ -115,12 +137,15 @@ function ProfileCreationForm() {
           <Form.Control type='date' value={birthDate} onChange={e => setBirthDate(e.target.value)} />
         </Form.Group>
         <Form.Group className='mb-3' controlId='location'>
-          <Form.Control
-            type='text'
-            placeholder='Location'
-            value={location}
-            onChange={e => setLocation(e.target.value)}
-          />
+          <Form.Control type='text' placeholder='Location' value={location} onChange={handleLocationChange} />
+
+          <Dropdown.Menu show={suggestions.length > 0}>
+            {suggestions.map(suggestion => (
+              <Dropdown.Item key={suggestion.properties.formatted} onClick={() => handleSuggestionClick(suggestion)}>
+                {suggestion.properties.formatted}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
         </Form.Group>
         <Form.Group controlId='gender'>
           <Form.Select value={gender} onChange={e => setGender(e.target.value)}>
