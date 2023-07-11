@@ -75,6 +75,13 @@ body {
   border: solid var(--primary-color-light) 3px;
 }
 
+.secondary-btn {
+  background-color: transparent;
+  border: solid #47c0a3 3px;
+  border-radius: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 /* FORMS */
 .form-control:focus {
   border-color: var(--primary-color-light);
@@ -173,4 +180,10 @@ a:visited {
   cursor: pointer;
   user-select: none;
   font-size: 14px !important;
+}
+
+.profile-picture-placeholder {
+  width: 85px;
+  border: solid var(--primary-color-dark) 3px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
