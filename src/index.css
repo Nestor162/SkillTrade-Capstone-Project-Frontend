@@ -13,8 +13,8 @@
 
   /* Tertiary Color */
   --tertiary-color: #e16ed7;
-  --tertiary-color-light: #ae55a6;
-  --tertiary-color-dark: #ff7ccf;
+  --tertiary-color-light: #ff7ccf;
+  --tertiary-color-dark: #ae55a6;
   --tertiary-color-accent: #432140;
 
   /* Accent Color */
@@ -82,6 +82,20 @@ body {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.negative-btn {
+  background-color: var(--tertiary-color);
+  border: solid var(--tertiary-color-light) 3px;
+  border-radius: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.negative-btn:hover {
+  background-color: var(--tertiary-color-dark);
+  border: solid #c761be 3px;
+  border-radius: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 /* FORMS */
 .form-control:focus {
   border-color: var(--primary-color-light);
@@ -94,7 +108,7 @@ body {
 
 .invalid-form {
   border-color: var(--tertiary-color);
-  box-shadow: 0 0 0 0.2rem var(--tertiary-color-dark);
+  box-shadow: 0 0 0 0.2rem var(--tertiary-color-light);
 }
 
 .centered-overlay-box {

@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Alert, Button, FloatingLabel, Form } from 'react-bootstrap'
+import { Alert, Button, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { updateProfile } from '../../utils/api'
+import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 
 function ProfileCreationForm() {
   const [errorMsg, setErrorMsg] = useState(null)
@@ -11,12 +12,22 @@ function ProfileCreationForm() {
   const [location, setLocation] = useState('')
   const [gender, setGender] = useState('')
   const [bio, setBio] = useState('')
+  const [profilePic, setProfilePic] = useState('')
+
+  const [show, setShow] = useState(false)
+  const handleClose = () => {
+    setShow(false)
+    setProfilePic('')
+  }
+  const handleShow = () => setShow(true)
+  const handleSavePic = () => setShow(false)
 
   const profilePayload = {
     birthDate: '',
     location: '',
     gender: '',
-    biography: ''
+    biography: '',
+    profilePicture: 'https://pasteboard.co/1I7zuqwG8cQy.jpg' //default profile picture
   }
 
   async function handleSubmit(event) {
@@ -27,6 +38,7 @@ function ProfileCreationForm() {
     profilePayload.location = location
     profilePayload.gender = gender
     profilePayload.biography = bio
+    profilePayload.profilePicture = profilePic
 
     console.log(profilePayload)
 
@@ -60,6 +72,44 @@ function ProfileCreationForm() {
         </Alert>
       )}
       <Form className='px-5 my-3' onSubmit={handleSubmit}>
+        <Image
+          src={profilePic ? profilePic : ProfilePicturePlaceholder}
+          roundedCircle
+          className='profile-picture-placeholder mx-auto d-block'
+          width={'85px'}
+          height={'85px'}
+        />
+        <button type='button' className='secondary-btn mx-auto d-block mt-2 mb-3 small' onClick={handleShow}>
+          Change profile picture
+        </button>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Set your profile picture</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
+                <Form.Label>Paste link here</Form.Label>
+                <Form.Control
+                  value={profilePic}
+                  type='text'
+                  onChange={e => setProfilePic(e.target.value)}
+                  placeholder='example-picture-link.jpg'
+                  autoFocus
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='secondary' className='negative-btn' onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant='primary' className='main-btn' onClick={handleSavePic}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <Form.Group className='mb-3' controlId='birthDate'>
           <Form.Label className='mb-1'>Birth date</Form.Label>
           <Form.Control type='date' value={birthDate} onChange={e => setBirthDate(e.target.value)} />
