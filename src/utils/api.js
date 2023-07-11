@@ -84,7 +84,7 @@ async function getAllInterests() {
 }
 
 // ---- {PROFILE ENDPOINTS} ----
-async function addInterestsToProfile(payload, profileId) {
+async function updateProfile(payload, profileId) {
   try {
     const token = localStorage.getItem('token')
     const response = await fetch(`http://localhost:3001/profiles/` + profileId, {
@@ -107,4 +107,4 @@ async function addInterestsToProfile(payload, profileId) {
   }
 }
 
-export { loginUser, registerUser, getAllInterests, getUserByEmail, addInterestsToProfile }
+export { loginUser, registerUser, getAllInterests, getUserByEmail, updateProfile }

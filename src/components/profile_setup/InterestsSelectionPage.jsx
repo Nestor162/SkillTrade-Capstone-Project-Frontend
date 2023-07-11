@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import InterestsList from './InterestsList'
 import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useState } from 'react'
-import { addInterestsToProfile } from '../../utils/api'
+import { updateProfile } from '../../utils/api'
 
 function SelectInterestPage() {
   const [selectedInterests, setSelectedInterests] = useState([])
@@ -33,7 +33,7 @@ function SelectInterestPage() {
   async function handleSubmit() {
     // fetch to save interests in current profile
     const profileId = localStorage.getItem('profileId')
-    const response = await addInterestsToProfile(payloadInterestList, profileId)
+    const response = await updateProfile(payloadInterestList, profileId)
     if (response.error) {
       setErrorMsg(response.error)
     } else {
