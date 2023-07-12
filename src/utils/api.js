@@ -83,6 +83,27 @@ async function getAllInterests() {
   }
 }
 
+async function getInterestById(interestId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/interests/` + interestId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- {PROFILE ENDPOINTS} ----
 async function updateProfile(payload, profileId) {
   try {
@@ -127,4 +148,29 @@ async function getProfileById(profileId) {
   }
 }
 
-export { loginUser, registerUser, getAllInterests, getUserByEmail, updateProfile, getProfileById }
+// ---- {POSTS ENDPOINTS} ----
+async function getAllPosts() {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/posts', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+export {
+  loginUser,
+  registerUser,
+  getAllInterests,
+  getUserByEmail,
+  updateProfile,
+  getProfileById,
+  getAllPosts,
+  getInterestById
+}

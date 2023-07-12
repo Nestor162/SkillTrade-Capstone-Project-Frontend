@@ -1,5 +1,5 @@
 import { Button, Container, Form, Image, InputGroup, Navbar } from 'react-bootstrap'
-import SkillTradeLogo from '../../assets/img/skilltrade-icon.png'
+import SkillTradeLogo from '../../assets/img/skilltrade-logo-with-text-horizontal-cropped-big-text.png'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
@@ -20,13 +20,14 @@ function HomeNavbar() {
   }, [])
 
   return (
-    <main className='light-bg'>
-      <Navbar className='main-navbar mb-3 p-1 w-100'>
+    <>
+      <div className='light-bg'></div>
+      <Navbar fixed='top' className='main-navbar p-1 w-100'>
         <Container fluid className=''>
-          <div className='d-none d-md-flex align-items-center gap-2 ms-4 nav-desktop-options'>
+          <div className='d-none d-md-flex align-items-center gap-3 ms-4 nav-desktop-options'>
             <Menu />
             <Link to={'/home'}>
-              <img src={SkillTradeLogo} alt='Logo' width={'60px'} className='user-select-none me-3' />
+              <img src={SkillTradeLogo} alt='Logo' width={'140px'} className='user-select-none me-3' />
             </Link>
           </div>
           <InputGroup className='main-search-group mx-auto m-3'>
@@ -54,7 +55,7 @@ function HomeNavbar() {
           </div>
         </Container>
       </Navbar>
-    </main>
+    </>
   )
 }
 

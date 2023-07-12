@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import InterestsSelectionPage from './components/profile_setup/InterestsSelectionPage'
 import ProfileCreation from './components/profile_setup/ProfileCreationPage'
 import ProfileNameSurnamePage from './components/profile_setup/ProfileNameSurnamePage'
-import Homepage from './components/home/HomeNavbar'
+import Homepage from './components/home/Homepage'
 
 function App() {
   return (
