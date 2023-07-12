@@ -4,6 +4,7 @@
   --primary-color-light: #5effec;
   --primary-color-dark: #3ca289;
   --primary-color-accent: #102b24;
+  --primary-color-borders: #47c0a3;
 
   /* Secondary Color */
   --secondary-color: #ae6bf2;
@@ -34,6 +35,7 @@
   --neutral-color-light: #4d4656;
   --neutral-color-dark: #1f1c23;
   --neutral-color-accent: #1d1c1c;
+  --neutral-color-borders: #97929c;
 
   /* Button Color */
   --button-color: var(--primary-color);
@@ -73,14 +75,14 @@ input[type='password']::-ms-clear {
 /* BUTTONS */
 .main-btn {
   background-color: var(--button-color);
-  border: solid #47c0a3 3px;
+  border: solid var(--primary-color-borders) 3px;
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .main-btn:hover {
   background-color: var(--button-color-dark);
-  border: solid #47c0a3 3px;
+  border: solid var(--primary-color-borders) 3px;
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
@@ -92,9 +94,10 @@ input[type='password']::-ms-clear {
 
 .secondary-btn {
   background-color: transparent;
-  border: solid #47c0a3 3px;
+  border: solid var(--primary-color-borders) 2px;
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  cursor: pointer;
 }
 
 .negative-btn {
@@ -217,7 +220,24 @@ a:visited {
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
+/* HOMEPAGE */
 .main-navbar {
   background-color: var(--background-color);
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.main-search-group {
+  width: 500px;
+}
+
+.main-search-input {
+  border: solid var(--neutral-color-borders) 2px;
+  border-right: 0px;
+  border-radius: 15px;
+}
+
+.main-search-input:focus {
+  border: solid var(--primary-color-borders) 2px;
+  box-shadow: 0 0 0 0rem var(--primary-color-dark);
+  border-right: 0px;
 }
