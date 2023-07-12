@@ -157,7 +157,7 @@ function ProfileCreationForm() {
             className='mt-3'
             value={bio}
             onChange={e => setBio(e.target.value)}
-            maxlength={500}
+            maxLength={500}
             minLength={25}
           />
         </FloatingLabel>
