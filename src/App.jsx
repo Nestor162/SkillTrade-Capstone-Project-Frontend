@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import InterestsSelectionPage from './components/profile_setup/InterestsSelectionPage'
 import ProfileCreation from './components/profile_setup/ProfileCreationPage'
 import ProfileNameSurnamePage from './components/profile_setup/ProfileNameSurnamePage'
+import Homepage from './components/home/HomeNavbar'
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path='/interests' element={<InterestsSelectionPage />} />
           <Route path='/profile-name' element={<ProfileNameSurnamePage />} />
           <Route path='/profile-creation' element={<ProfileCreation />} />
-          <Route path='/home' element={<h1>HomePage (WIP)</h1>} />
+          <Route path='/home' element={<Homepage />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>

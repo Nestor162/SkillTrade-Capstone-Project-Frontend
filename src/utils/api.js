@@ -99,7 +99,6 @@ async function updateProfile(payload, profileId) {
     if (response.ok) {
       return { data, error: null }
     } else {
-      console.log(data.message)
       return { data: null, error: data.message }
     }
   } catch (error) {
@@ -107,4 +106,25 @@ async function updateProfile(payload, profileId) {
   }
 }
 
-export { loginUser, registerUser, getAllInterests, getUserByEmail, updateProfile }
+async function getProfileById(profileId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/profiles/` + profileId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+export { loginUser, registerUser, getAllInterests, getUserByEmail, updateProfile, getProfileById }
