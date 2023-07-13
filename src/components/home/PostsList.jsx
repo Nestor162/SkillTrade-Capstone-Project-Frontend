@@ -1,8 +1,9 @@
-import { Alert, Row, Spinner } from 'react-bootstrap'
+import { Alert, Spinner } from 'react-bootstrap'
 import SinglePost from './SinglePost'
 import { useEffect, useState } from 'react'
 import { getAllPosts, getProfileById } from '../../utils/api'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
+import Masonry from 'react-masonry-css'
 
 function PostList() {
   const [data, setData] = useState([])
@@ -31,6 +32,15 @@ function PostList() {
     setIsLoading(false)
   }
 
+  const breakpointColumnsObj = {
+    default: 4,
+    1400: 3,
+    1200: 3,
+    992: 2,
+    768: 2,
+    576: 1
+  }
+
   useEffect(() => {
     handleGetAllPosts()
   }, [])
@@ -42,22 +52,28 @@ function PostList() {
           <Spinner animation='border' variant='success' />
         </div>
       ) : (
-        <Row xs={1} sm={2} md={2} lg={3} xxl={4} className='g-4 mt-3 mx-4'>
-          {data.content.map(post => (
-            <SinglePost
-              key={post.id}
-              title={post.title}
-              content={post.content}
-              availability={convertSnakeCaseToCapitalized(post.availability)}
-              skillLevel={convertSnakeCaseToCapitalized(post.skillLevel)}
-              category={post.category.name}
-              authorName={post.authorName}
-              authorSurname={post.authorSurname}
-              publicationDate={post.publicationDate}
-              postPhoto={post.imageUrl}
-            />
-          ))}
-        </Row>
+        <div className='pt-3 mx-5'>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className='my-masonry-grid'
+            columnClassName='my-masonry-grid_column'
+          >
+            {data.content.map(post => (
+              <SinglePost
+                key={post.id}
+                title={post.title}
+                content={post.content}
+                availability={convertSnakeCaseToCapitalized(post.availability)}
+                skillLevel={convertSnakeCaseToCapitalized(post.skillLevel)}
+                category={post.category.name}
+                authorName={post.authorName}
+                authorSurname={post.authorSurname}
+                publicationDate={post.publicationDate}
+                postPhoto={post.imageUrl}
+              />
+            ))}
+          </Masonry>
+        </div>
       )}
       {errorMsg && (
         <Alert key='danger' variant='danger'>
