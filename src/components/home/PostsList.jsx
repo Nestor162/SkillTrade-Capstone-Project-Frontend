@@ -71,6 +71,7 @@ function PostList() {
                 authorSurname={post.authorSurname}
                 publicationDate={formatDate(post.publicationDate)}
                 postPhoto={post.imageUrl}
+                postId={post.id}
               />
             ))}
           </Masonry>

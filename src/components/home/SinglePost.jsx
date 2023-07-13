@@ -14,7 +14,8 @@ function SinglePost({
   publicationDate,
   authorName,
   authorSurname,
-  postPhoto
+  postPhoto,
+  postId
 }) {
   const [profilePic, setProfilePic] = useState('')
 
@@ -38,7 +39,7 @@ function SinglePost({
           <div className='small text-secondary ms-2'>{publicationDate}</div>
         </div>
       </Card.Header>
-      <Link to={'/post-details'} className='text-decoration-none'>
+      <Link to={`/post-details?id=${postId}`} className='text-decoration-none'>
         {postPhoto && <Card.Img variant='top' className='rounded-0' src={postPhoto} />}
         <Card.Body>
           <Card.Title className='text-black hover-underline'>{title}</Card.Title>
@@ -92,6 +93,7 @@ SinglePost.propTypes = {
   authorName: PropTypes.string.isRequired,
   authorSurname: PropTypes.string.isRequired,
   postPhoto: PropTypes.string.isRequired,
-  publicationDate: PropTypes.string.isRequired
+  publicationDate: PropTypes.string.isRequired,
+  postId: PropTypes.string.isRequired
 }
 export default SinglePost

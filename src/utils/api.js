@@ -164,6 +164,28 @@ async function getAllPosts() {
     return { data: null, error }
   }
 }
+
+async function getPostById(postId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 export {
   loginUser,
   registerUser,
@@ -172,5 +194,6 @@ export {
   updateProfile,
   getProfileById,
   getAllPosts,
-  getInterestById
+  getInterestById,
+  getPostById
 }

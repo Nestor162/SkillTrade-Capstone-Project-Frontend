@@ -8,12 +8,9 @@ function LeftCol() {
           <div>
             <Card.Title>Card Title</Card.Title>
             <Card.Text>
-              Some quick example text to build on the card title and make up the bulk of the cards content. Lorem ipsum
-              dolor sit, amet consectetur adipisicing elit. Rem ullam dolores perspiciatis delectus itaque suscipit
-              odit, eaque nesciunt, placeat molestiae error dolorum est, cum nostrum officiis. Quasi vitae quos
-              voluptatem? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio, culpa. Voluptatum
-              exercitationem facere accusantium earum saepe blanditiis? Facere nihil cupiditate deleniti unde vel amet
-              eaque impedit velit magni, eos soluta.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius nesciunt blanditiis obcaecati officiis
+              inventore quidem iure asperiores consequuntur recusandae nam? Neque id voluptas laborum? Eum ipsum
+              quibusdam veniam ratione possimus?
             </Card.Text>
           </div>
         </Card.Body>
