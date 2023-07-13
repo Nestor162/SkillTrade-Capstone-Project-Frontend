@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Button, Card, Col, Spinner } from 'react-bootstrap'
+import { Card, Col, Spinner } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 import { getPostById } from '../../utils/api'
+import ExtraInfoWithIcons from '../home/ExtraInfoWithIcons'
+import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 
 function RightCol() {
   const [data, setData] = useState([])
@@ -42,6 +44,13 @@ function RightCol() {
             <Card.Body>
               <Card.Title>{data.title}</Card.Title>
               <Card.Text>{data.content}</Card.Text>
+              <div className='d-flex gap-3 small text-secondary mt-4'>
+                <ExtraInfoWithIcons
+                  availability={convertSnakeCaseToCapitalized(data.availability)}
+                  skillLevel={convertSnakeCaseToCapitalized(data.skillLevel)}
+                  category={data.category.name}
+                />
+              </div>
               {/* <Button variant='primary'>Go somewhere</Button> */}
             </Card.Body>
           </Card>

@@ -1,9 +1,9 @@
-import { Card, Col, Image, Row } from 'react-bootstrap'
+import { Card, Image } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import { CalendarClock, Signal, Tag } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 import { Link } from 'react-router-dom'
+import ExtraInfoWithIcons from './ExtraInfoWithIcons'
 
 function SinglePost({
   title,
@@ -45,38 +45,7 @@ function SinglePost({
           <Card.Title className='text-black hover-underline'>{title}</Card.Title>
           <Card.Text className='text-body'>{content}</Card.Text>
           <div className='d-flex gap-3 small text-secondary'>
-            <Row>
-              <Col xs={'auto'}>
-                <Row className='flex-column align-items-center'>
-                  <Col xs='auto'>
-                    <Tag size={'18px'} />
-                  </Col>
-                  <Col xs='auto'>
-                    <div>{category}</div>
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs={'auto'}>
-                <Row className='flex-column align-items-center'>
-                  <Col xs='auto'>
-                    <CalendarClock size={'18px'} />
-                  </Col>
-                  <Col xs='auto'>
-                    <div>{availability}</div>
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs={'auto'}>
-                <Row className='flex-column align-items-center'>
-                  <Col xs='auto'>
-                    <Signal size={'18px'} />
-                  </Col>
-                  <Col xs='auto'>
-                    <div>{skillLevel}</div>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+            <ExtraInfoWithIcons category={category} availability={availability} skillLevel={skillLevel} />
           </div>
           {/* <Button variant='primary'>Go somewhere</Button> */}
         </Card.Body>
