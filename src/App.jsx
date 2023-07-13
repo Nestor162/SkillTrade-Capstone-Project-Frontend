@@ -6,6 +6,8 @@ import InterestsSelectionPage from './components/profile_setup/InterestsSelectio
 import ProfileCreation from './components/profile_setup/ProfileCreationPage'
 import ProfileNameSurnamePage from './components/profile_setup/ProfileNameSurnamePage'
 import Homepage from './components/home/Homepage'
+import PostDetails from './components/details/PostDetails'
+import ProfileDetails from './components/details/ProfileDetails'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path='/profile-name' element={<ProfileNameSurnamePage />} />
           <Route path='/profile-creation' element={<ProfileCreation />} />
           <Route path='/home' element={<Homepage />} />
+          <Route path='/post-details' element={<PostDetails />} />
+          <Route path='/profile-details' element={<ProfileDetails />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
