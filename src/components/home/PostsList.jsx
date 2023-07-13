@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { getAllPosts, getProfileById } from '../../utils/api'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 import Masonry from 'react-masonry-css'
+import { formatDate } from '../../utils/stringUtils'
 
 function PostList() {
   const [data, setData] = useState([])
@@ -68,7 +69,7 @@ function PostList() {
                 category={post.category.name}
                 authorName={post.authorName}
                 authorSurname={post.authorSurname}
-                publicationDate={post.publicationDate}
+                publicationDate={formatDate(post.publicationDate)}
                 postPhoto={post.imageUrl}
               />
             ))}
