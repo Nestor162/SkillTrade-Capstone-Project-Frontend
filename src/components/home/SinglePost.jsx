@@ -1,12 +1,42 @@
-import { Card, Col, Row } from 'react-bootstrap'
+import { Card, Col, Image, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 import { CalendarClock, Signal, Tag } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 
-function SinglePost({ title, content, availability, skillLevel, category }) {
+function SinglePost({
+  title,
+  content,
+  availability,
+  skillLevel,
+  category,
+  publicationDate,
+  authorName,
+  authorSurname,
+  postPhoto
+}) {
+  const [profilePic, setProfilePic] = useState('')
+
+  useEffect(() => {
+    setProfilePic(localStorage.getItem('profilePicture'))
+  }, [])
   return (
     <div>
       <Card className='custom-card'>
-        {/* <Card.Img variant='top' src='holder.js/100px180' /> */}
+        <Card.Header className='d-flex'>
+          <Image
+            src={profilePic ? profilePic : ProfilePicturePlaceholder}
+            roundedCircle
+            className='profile-picture-placeholder'
+            width={'40px'}
+            height={'40px'}
+          />
+          <div className=''>
+            <div className='fw-medium ms-2'>{authorName + ' ' + authorSurname}</div>
+            <div className='small text-secondary ms-2'>{publicationDate}</div>
+          </div>
+        </Card.Header>
+        {postPhoto && <Card.Img variant='top' className='rounded-0' src={postPhoto} />}
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Card.Text>{content}</Card.Text>
@@ -55,6 +85,10 @@ SinglePost.propTypes = {
   content: PropTypes.string.isRequired,
   availability: PropTypes.string.isRequired,
   skillLevel: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired
+  category: PropTypes.string.isRequired,
+  authorName: PropTypes.string.isRequired,
+  authorSurname: PropTypes.string.isRequired,
+  postPhoto: PropTypes.string.isRequired,
+  publicationDate: PropTypes.instanceOf(Date).isRequired
 }
 export default SinglePost

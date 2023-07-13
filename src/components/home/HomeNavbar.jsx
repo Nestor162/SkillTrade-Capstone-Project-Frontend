@@ -13,10 +13,12 @@ function HomeNavbar() {
     const profileId = localStorage.getItem('profileId')
     const foundProfile = await getProfileById(profileId)
     setProfilePic(foundProfile.data.profilePicture)
+    localStorage.setItem('profilePicture', profilePic)
   }
 
   useEffect(() => {
     handleProfilePicFetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

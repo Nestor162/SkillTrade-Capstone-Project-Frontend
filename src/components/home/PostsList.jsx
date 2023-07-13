@@ -1,7 +1,7 @@
 import { Alert, Row, Spinner } from 'react-bootstrap'
 import SinglePost from './SinglePost'
 import { useEffect, useState } from 'react'
-import { getAllPosts } from '../../utils/api'
+import { getAllPosts, getProfileById } from '../../utils/api'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 
 function PostList() {
@@ -15,7 +15,18 @@ function PostList() {
     if (error) {
       setErrorMsg(error.message)
     } else {
-      setData(data)
+      // I create a copy of array data.content
+      const postsWithAuthor = [...data.content]
+      // For each post
+      for (let i = 0; i < postsWithAuthor.length; i++) {
+        const post = postsWithAuthor[i]
+        const author = await getProfileById(post.profile)
+        // I add the author namea nd surname to the post object
+        post.authorName = author.data.name
+        post.authorSurname = author.data.surname
+      }
+      // I set the content with the updated data
+      setData({ ...data, content: postsWithAuthor })
     }
     setIsLoading(false)
   }
@@ -40,6 +51,10 @@ function PostList() {
               availability={convertSnakeCaseToCapitalized(post.availability)}
               skillLevel={convertSnakeCaseToCapitalized(post.skillLevel)}
               category={post.category.name}
+              authorName={post.authorName}
+              authorSurname={post.authorSurname}
+              publicationDate={post.publicationDate}
+              postPhoto={post.imageUrl}
             />
           ))}
         </Row>
