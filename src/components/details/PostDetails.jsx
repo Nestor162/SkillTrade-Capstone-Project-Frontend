@@ -32,7 +32,6 @@ function PostDetails() {
         console.error(errorMsg)
       } else {
         setProfileData(foundProfile.data)
-        console.log(foundProfile.data)
       }
     }
     setIsLoading(false)
@@ -77,6 +76,7 @@ function PostDetails() {
               skillLevel={postData.skillLevel}
               category={postData.category.name}
               publicationDate={postData.publicationDate}
+              postStatus={postData.status}
             />
           </Row>
         )}

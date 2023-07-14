@@ -186,6 +186,28 @@ async function getPostById(postId) {
   }
 }
 
+async function changePostStatus(payload, postId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 export {
   loginUser,
   registerUser,
@@ -195,5 +217,6 @@ export {
   getProfileById,
   getAllPosts,
   getInterestById,
-  getPostById
+  getPostById,
+  changePostStatus
 }

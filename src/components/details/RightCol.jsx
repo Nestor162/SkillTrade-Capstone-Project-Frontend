@@ -1,8 +1,11 @@
-import { Card, Col } from 'react-bootstrap'
+import { Alert, Button, Card, Col } from 'react-bootstrap'
 import ExtraInfoWithIcons from '../home/ExtraInfoWithIcons'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { changePostStatus } from '../../utils/api'
+import { Clock4 } from 'lucide-react'
 
 function RightCol({
   title,
@@ -13,8 +16,39 @@ function RightCol({
   category,
   authorName,
   authorSurname,
-  authorId
+  authorId,
+  postStatus
 }) {
+  const [clicked, setClicked] = useState(false)
+  // eslint-disable-next-line no-unused-vars
+  const [data, setData] = useState(null)
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const [searchParams] = useSearchParams()
+  const postId = searchParams.get('id')
+
+  const handleClick = async () => {
+    setClicked(!clicked)
+    const payload = clicked ? { postStatus: 'ACTIVE' } : { postStatus: 'PENDING' }
+    try {
+      const response = await changePostStatus(payload, postId)
+      if (response.error) {
+        setErrorMsg(response.error)
+        console.error(response.error)
+      } else {
+        setData(response.data)
+      }
+    } catch (error) {
+      setErrorMsg(error.message)
+    }
+  }
+
+  useEffect(() => {
+    // If the post status retrieved from the API is "PENDING", then we set the "clicked" state to true to show the clicked button style.
+    setClicked(postStatus === 'PENDING')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4'>
       <Card className='right-col-details border-0'>
@@ -32,7 +66,33 @@ function RightCol({
               category={category}
             />
           </div>
-          {/* <Button variant='primary'>Go somewhere</Button> */}
+
+          {errorMsg && (
+            <Alert
+              className='position-fixed top-0 start-0 w-100'
+              style={{ zIndex: 9999 }}
+              variant='danger'
+              onClose={() => setErrorMsg(null)}
+              dismissible
+            >
+              <Alert.Heading>Error!</Alert.Heading>
+              {errorMsg}
+            </Alert>
+          )}
+
+          <Button
+            className={`main-btn d-block mt-4 mx-auto fw-medium ${clicked ? 'clicked' : ''}`}
+            onClick={handleClick}
+            variant='success'
+          >
+            {clicked ? (
+              <>
+                Pending <Clock4 size={16} />
+              </>
+            ) : (
+              'I’m Interested!'
+            )}
+          </Button>
         </Card.Body>
       </Card>
     </Col>
@@ -49,7 +109,8 @@ RightCol.propTypes = {
   publicationDate: PropTypes.string.isRequired,
   authorName: PropTypes.string.isRequired,
   authorSurname: PropTypes.string.isRequired,
-  authorId: PropTypes.string.isRequired
+  authorId: PropTypes.string.isRequired,
+  postStatus: PropTypes.string.isRequired
 }
 
 export default RightCol
