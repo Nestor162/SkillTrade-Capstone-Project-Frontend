@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 import { Link } from 'react-router-dom'
 import ExtraInfoWithIcons from './ExtraInfoWithIcons'
+import TruncateText from '../../utils/TruncateText'
 
 function SinglePost({
   title,
@@ -43,7 +44,9 @@ function SinglePost({
         {postPhoto && <Card.Img variant='top' className='rounded-0' src={postPhoto} />}
         <Card.Body>
           <Card.Title className='text-black hover-underline'>{title}</Card.Title>
-          <Card.Text className='text-body'>{content}</Card.Text>
+          <div className='text-body mb-3'>
+            <TruncateText text={content} maxLines={3} className='text-body' />
+          </div>
           <div className='d-flex gap-3 small text-secondary'>
             <ExtraInfoWithIcons category={category} availability={availability} skillLevel={skillLevel} />
           </div>
