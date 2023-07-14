@@ -30,7 +30,6 @@ function PostList() {
       }
       // I set the content with the updated data
       setData({ ...data, content: postsWithAuthor })
-      console.log(data)
     }
     setIsLoading(false)
   }
