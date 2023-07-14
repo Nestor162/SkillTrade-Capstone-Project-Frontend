@@ -1,63 +1,55 @@
-import { useEffect, useState } from 'react'
-import { Card, Col, Spinner } from 'react-bootstrap'
-import { useSearchParams } from 'react-router-dom'
-import { getPostById } from '../../utils/api'
+import { Card, Col } from 'react-bootstrap'
 import ExtraInfoWithIcons from '../home/ExtraInfoWithIcons'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
-function RightCol() {
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [errorMsg, setErrorMsg] = useState('')
-
-  const [searchParams] = useSearchParams()
-  const postId = searchParams.get('id')
-
-  async function handleGetPostById(id) {
-    setIsLoading(true)
-    const { data, error } = await getPostById(id)
-    if (error) {
-      setErrorMsg(error.message)
-      console.error(errorMsg)
-    } else {
-      setData(data)
-      console.log(data)
-    }
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    handleGetPostById(postId)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+function RightCol({
+  title,
+  content,
+  postPhoto,
+  availability,
+  skillLevel,
+  category,
+  authorName,
+  authorSurname,
+  authorId
+}) {
   return (
-    <>
-      {isLoading ? (
-        <div className='d-flex align-items-center justify-content-center' style={{ height: '360px' }}>
-          <Spinner animation='border' variant='success' />
-        </div>
-      ) : (
-        <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4'>
-          <Card className='right-col-details border-0'>
-            {data.imageUrl && <Card.Img variant='top' src={data.imageUrl} />}
-            <Card.Body>
-              <Card.Title>{data.title}</Card.Title>
-              <Card.Text>{data.content}</Card.Text>
-              <div className='d-flex gap-3 small text-secondary mt-4'>
-                <ExtraInfoWithIcons
-                  availability={convertSnakeCaseToCapitalized(data.availability)}
-                  skillLevel={convertSnakeCaseToCapitalized(data.skillLevel)}
-                  category={data.category.name}
-                />
-              </div>
-              {/* <Button variant='primary'>Go somewhere</Button> */}
-            </Card.Body>
-          </Card>
-        </Col>
-      )}
-    </>
+    <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4'>
+      <Card className='right-col-details border-0'>
+        {postPhoto && <Card.Img variant='top' src={postPhoto} />}
+        <Card.Body>
+          <Card.Title className='mb-0 fs-3'>{title}</Card.Title>
+          <Link to={`/profile-details?id=${authorId}`} className='text-decoration-none'>
+            <div className='mb-3 small text-dark hover-underline '>{authorName + ' ' + authorSurname}</div>
+          </Link>
+          <Card.Text className='fs-5'>{content}</Card.Text>
+          <div className='d-flex gap-3 small text-secondary mt-4'>
+            <ExtraInfoWithIcons
+              availability={convertSnakeCaseToCapitalized(availability)}
+              skillLevel={convertSnakeCaseToCapitalized(skillLevel)}
+              category={category}
+            />
+          </div>
+          {/* <Button variant='primary'>Go somewhere</Button> */}
+        </Card.Body>
+      </Card>
+    </Col>
   )
+}
+
+RightCol.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  availability: PropTypes.string.isRequired,
+  skillLevel: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  postPhoto: PropTypes.string.isRequired,
+  publicationDate: PropTypes.string.isRequired,
+  authorName: PropTypes.string.isRequired,
+  authorSurname: PropTypes.string.isRequired,
+  authorId: PropTypes.string.isRequired
 }
 
 export default RightCol
