@@ -27,6 +27,7 @@ function PostList() {
         // I add the author namea nd surname to the post object
         post.authorName = author.data.name
         post.authorSurname = author.data.surname
+        post.authorId = author.data.id
       }
       // I set the content with the updated data
       setData({ ...data, content: postsWithAuthor })
@@ -73,6 +74,7 @@ function PostList() {
                 publicationDate={formatDate(post.publicationDate)}
                 postPhoto={post.imageUrl}
                 postId={post.id}
+                authorId={post.authorId}
               />
             ))}
           </Masonry>

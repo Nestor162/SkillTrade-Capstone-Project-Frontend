@@ -16,7 +16,8 @@ function SinglePost({
   authorName,
   authorSurname,
   postPhoto,
-  postId
+  postId,
+  authorId
 }) {
   const [profilePic, setProfilePic] = useState('')
 
@@ -34,7 +35,7 @@ function SinglePost({
           height={'40px'}
         />
         <div>
-          <Link to={'/profile-details'} className='text-decoration-none'>
+          <Link to={`/profile-details?id=${authorId}`} className='text-decoration-none'>
             <div className='fw-medium ms-2 text-dark hover-underline'>{authorName + ' ' + authorSurname}</div>
           </Link>
           <div className='small text-secondary ms-2'>{publicationDate}</div>
@@ -66,6 +67,7 @@ SinglePost.propTypes = {
   authorSurname: PropTypes.string.isRequired,
   postPhoto: PropTypes.string.isRequired,
   publicationDate: PropTypes.string.isRequired,
-  postId: PropTypes.string.isRequired
+  postId: PropTypes.string.isRequired,
+  authorId: PropTypes.string.isRequired
 }
 export default SinglePost
