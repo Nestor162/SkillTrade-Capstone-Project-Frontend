@@ -5,6 +5,7 @@ import { getAllPosts, getProfileById } from '../../utils/api'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 import Masonry from 'react-masonry-css'
 import { formatDate } from '../../utils/stringUtils'
+import noContentImg from '../../assets/img/no-content-guy.png'
 
 function PostList() {
   const [data, setData] = useState([])
@@ -29,6 +30,7 @@ function PostList() {
       }
       // I set the content with the updated data
       setData({ ...data, content: postsWithAuthor })
+      console.log(data)
     }
     setIsLoading(false)
   }
@@ -75,6 +77,14 @@ function PostList() {
               />
             ))}
           </Masonry>
+          {data.content.length === 0 && (
+            <>
+              <h4 className='text-center px-3s py-4'>
+                This page is currently empty. Be the first to share your knowledge and skills by creating a post!
+              </h4>
+              <img width={'220px'} className='d-block mx-auto' src={noContentImg} alt='Sad gray guy' />
+            </>
+          )}
         </div>
       )}
       {errorMsg && (
