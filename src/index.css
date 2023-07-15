@@ -93,11 +93,26 @@ input[type='password']::-ms-clear {
   border: solid var(--primary-color-borders) 3px;
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  color: white;
 }
 
 .main-btn:disabled {
   background-color: var(--button-color);
   border: solid var(--primary-color-light) 3px;
+}
+
+/* Disable annoying default color on click */
+.main-btn:active:focus {
+  color: white;
+  background-color: var(--button-color-dark);
+  border: solid var(--primary-color-borders) 3px;
+}
+
+/* Button 'push' effect */
+.main-btn:active {
+  position: relative;
+  top: 2px;
+  left: 2px;
 }
 
 .secondary-btn {
@@ -369,4 +384,58 @@ a:visited {
   box-sizing: border-box;
   width: 100%;
   box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+/* DROPDOWNS */
+.dropdown-menu::before {
+  position: absolute;
+  top: -7px;
+  left: 101px;
+  display: inline-block;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-left: 7px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  content: '';
+}
+.dropdown-menu::after {
+  position: absolute;
+  top: -6px;
+  left: 102px;
+  display: inline-block;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid white;
+  border-left: 6px solid transparent;
+  content: '';
+}
+
+.dropdown-menu-alignment {
+  position: absolute;
+  top: 69px;
+  right: 158px;
+}
+
+/* reset default toggle button style */
+.dropdown-toggle,
+.dropdown-toggle:hover,
+.dropdown-toggle:focus,
+.dropdown-toggle:active,
+.dropdown-toggle:not(:focus) {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Disable annoying default color on click */
+.dropdown-toggle:active:focus {
+  color: transparent;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.dropdown-item:hover {
+  border-left: 2px solid var(--primary-color);
+}
+.dropdown-item {
+  border-left: 2px solid transparent;
 }

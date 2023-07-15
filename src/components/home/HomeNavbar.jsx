@@ -1,10 +1,13 @@
-import { Button, Container, Form, Image, InputGroup, Navbar } from 'react-bootstrap'
+import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar } from 'react-bootstrap'
 import SkillTradeLogo from '../../assets/img/skilltrade-logo-with-text-horizontal-cropped-big-text.png'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { Menu, PlusSquare, Search } from 'lucide-react'
+import { LogOut, Menu, MessagesSquare, Moon, PlusSquare, Search, Settings2 } from 'lucide-react'
 import { getProfileById } from '../../utils/api'
+import { User } from 'lucide-react'
+import { Bell } from 'lucide-react'
+import { History } from 'lucide-react'
 
 function HomeNavbar() {
   const [profilePic, setProfilePic] = useState('')
@@ -48,12 +51,50 @@ function HomeNavbar() {
               <span className='user-select-none text-nowrap'>Publish skill</span>
               <PlusSquare />
             </div>
-            <Image
-              src={profilePic ? profilePic : ProfilePicturePlaceholder}
-              roundedCircle
-              className='profile-picture-placeholder'
-              width={'50px'}
-            />
+            <Dropdown>
+              <Dropdown.Toggle id='dropdown-profile-picture'>
+                <Image
+                  src={profilePic ? profilePic : ProfilePicturePlaceholder}
+                  roundedCircle
+                  className='profile-picture-placeholder'
+                  width={'50px'}
+                />
+              </Dropdown.Toggle>
+
+              <div className='dropdown-menu-alignment'>
+                <Dropdown.Menu>
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#'>
+                    <User size={20} />
+                    <span>My Profile</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                    <Bell size={20} />
+                    <span>Notifications</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                    <Settings2 size={20} />
+                    <span>Settings</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                    <Moon size={20} />
+                    <span>Dark mode</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                    <History size={20} />
+                    <span>History</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                    <MessagesSquare size={20} />
+                    <span>Chats</span>
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#'>
+                    <LogOut size={20} />
+                    <span>Logout</span>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </div>
+            </Dropdown>
           </div>
         </Container>
       </Navbar>
