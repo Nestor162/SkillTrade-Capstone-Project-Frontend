@@ -208,6 +208,28 @@ async function changePostStatus(payload, postId) {
   }
 }
 
+async function publishPost(payload) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/posts', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 export {
   loginUser,
   registerUser,
@@ -218,5 +240,6 @@ export {
   getAllPosts,
   getInterestById,
   getPostById,
-  changePostStatus
+  changePostStatus,
+  publishPost
 }

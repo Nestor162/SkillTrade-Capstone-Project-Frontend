@@ -8,9 +8,12 @@ import { getProfileById } from '../../utils/api'
 import { User } from 'lucide-react'
 import { Bell } from 'lucide-react'
 import { History } from 'lucide-react'
+import PublishSkillModal from './PublishSkillModal'
 
 function HomeNavbar() {
   const [profilePic, setProfilePic] = useState('')
+
+  const [modalShow, setModalShow] = useState(false)
 
   async function handleProfilePicFetch() {
     const profileId = localStorage.getItem('profileId')
@@ -47,10 +50,13 @@ function HomeNavbar() {
             </Button>
           </InputGroup>
           <div className='d-none d-md-flex justify-content-center align-items-center gap-3 me-4'>
-            <div className='d-flex gap-2 secondary-btn p-1 px-2 ms-4'>
+            <div className='d-flex gap-2 secondary-btn p-1 px-2 ms-4' onClick={() => setModalShow(true)}>
               <span className='user-select-none text-nowrap'>Publish skill</span>
               <PlusSquare />
             </div>
+
+            <PublishSkillModal show={modalShow} onHide={() => setModalShow(false)} />
+
             <Dropdown>
               <Dropdown.Toggle id='dropdown-profile-picture'>
                 <Image
