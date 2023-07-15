@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Alert, Col, Form, Row } from 'react-bootstrap'
 import { useEffect, useRef, useState } from 'react'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
-import { getAllInterests, publishPost } from '../../utils/api'
+import { getAllInterests, isValidImageUrl, publishPost } from '../../utils/api'
 
 function PublishSkillModal(props) {
   const [categories, setCategories] = useState([])
@@ -52,10 +52,13 @@ function PublishSkillModal(props) {
     }
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault()
     validateForm()
-    const errors = validateForm()
+    let errors = validateForm()
+    if (formData.imageUrl && !(await isValidImageUrl(formData.imageUrl))) {
+      errors = { ...errors, imageUrl: 'Please enter a valid image URL.' }
+    }
     setFormErrors(errors)
     if (Object.keys(errors).length === 0) {
       try {
@@ -91,8 +94,8 @@ function PublishSkillModal(props) {
     if (!formData.availability || !availabilities.includes(formData.availability)) {
       errors.availability = 'Please select a valid availability.'
     }
-    // if (!formData.imageUrl || formData.imageUrl.length === 0) {
-    //   errors.imageUrl = 'Please enter an image URL.'
+    // if (formData.imageUrl && !(await isValidImageUrl(formData.imageUrl))) {
+    //   errors.imageUrl = 'Please enter a valid image URL.'
     // }
     if (formData.imageUrl.length > 700) {
       errors.imageUrl = 'ImageUrl cannot be longer than 300 characters.'
@@ -204,7 +207,9 @@ function PublishSkillModal(props) {
           <Row>
             <Col>
               <Form.Group controlId='imageUrl' className='mt-3'>
-                <Form.Label>Image URL</Form.Label>
+                <Form.Label>
+                  Image URL <span className='text-secondary fst-italic'>(optional)</span>
+                </Form.Label>
                 <Form.Control
                   type='text'
                   value={formData.imageUrl}

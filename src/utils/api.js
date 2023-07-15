@@ -230,6 +230,16 @@ async function publishPost(payload) {
   }
 }
 
+// Check if a certaing image URL is valid or not
+export async function isValidImageUrl(url) {
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return false
+  }
+  const response = await fetch(url, { method: 'HEAD' })
+  const contentType = response.headers.get('Content-Type')
+  return contentType.startsWith('image/')
+}
+
 export {
   loginUser,
   registerUser,

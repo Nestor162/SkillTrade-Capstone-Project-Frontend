@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Alert, Button, Dropdown, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { updateProfile } from '../../utils/api'
+import { isValidImageUrl, updateProfile } from '../../utils/api'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 
 function ProfileCreationForm() {
@@ -20,7 +20,14 @@ function ProfileCreationForm() {
     setProfilePic('')
   }
   const handleShow = () => setShow(true)
-  const handleSavePic = () => setShow(false)
+  const handleSavePic = async () => {
+    if (!(await isValidImageUrl(profilePic))) {
+      setErrorMsg('Please enter a valid image URL.')
+      return
+    }
+    setShow(false)
+    setErrorMsg('')
+  }
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -102,14 +109,24 @@ function ProfileCreationForm() {
             <Modal.Title>Set your profile picture</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            {errorMsg && (
+              <Alert
+                key='danger'
+                variant='danger'
+                className='position-absolute start-0 end-0 top-0 z-3'
+                onClick={handleCloseAlert}
+              >
+                {errorMsg}
+              </Alert>
+            )}
             <Form>
-              <Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
+              <Form.Group className='my-5' controlId='exampleForm.ControlInput1'>
                 <Form.Label>Paste link here</Form.Label>
                 <Form.Control
                   value={profilePic}
                   type='text'
                   onChange={e => setProfilePic(e.target.value)}
-                  placeholder='example-picture-link.jpg'
+                  placeholder='https://example.com/image.jpg'
                   autoFocus
                 />
               </Form.Group>
