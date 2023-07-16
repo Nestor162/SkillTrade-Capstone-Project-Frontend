@@ -104,6 +104,23 @@ async function getInterestById(interestId) {
   }
 }
 
+// ---- {LANGUAGE ENDPOINT } ----
+async function GetAllLanguages() {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/langs', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- {PROFILE ENDPOINTS} ----
 async function updateProfile(payload, profileId) {
   try {
@@ -251,5 +268,6 @@ export {
   getInterestById,
   getPostById,
   changePostStatus,
-  publishPost
+  publishPost,
+  GetAllLanguages
 }
