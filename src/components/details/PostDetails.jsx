@@ -1,10 +1,10 @@
 import { Alert, Row, Spinner } from 'react-bootstrap'
 import HomeNavbar from '../home/HomeNavbar'
-import LeftCol from './LeftCol'
-import RightCol from './RightCol'
 import { useEffect, useState } from 'react'
 import { getPostById, getProfileById } from '../../utils/api'
 import { useSearchParams } from 'react-router-dom'
+import LeftColPost from './LeftColPost'
+import RightColPost from './RightColPost'
 
 function PostDetails() {
   const [profileData, setProfileData] = useState([])
@@ -53,7 +53,7 @@ function PostDetails() {
           </div>
         ) : (
           <Row>
-            <LeftCol
+            <LeftColPost
               name={profileData.name}
               surname={profileData.surname}
               profilePicture={profileData.profilePicture}
@@ -65,7 +65,7 @@ function PostDetails() {
               interests={profileData.interests}
               profileId={profileData.id}
             />
-            <RightCol
+            <RightColPost
               authorName={profileData.name}
               authorSurname={profileData.surname}
               authorId={profileData.id}
