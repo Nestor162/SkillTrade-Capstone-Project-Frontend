@@ -203,6 +203,27 @@ async function getPostById(postId) {
   }
 }
 
+async function getPostByAuthorId(authorId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/posts?authorId=` + authorId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 async function changePostStatus(payload, postId) {
   try {
     const token = localStorage.getItem('token')
@@ -247,6 +268,66 @@ async function publishPost(payload) {
   }
 }
 
+// ---- { REVIEWS ENDPOINT } ----
+async function getAllReviews() {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/reviews', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+async function getReviewsOfProfile(profileId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/reviews?profile=` + profileId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+async function publishReview(payload) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/reviews', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // Check if a certaing image URL is valid or not
 export async function isValidImageUrl(url) {
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -269,5 +350,9 @@ export {
   getPostById,
   changePostStatus,
   publishPost,
-  GetAllLanguages
+  GetAllLanguages,
+  getAllReviews,
+  getReviewsOfProfile,
+  getPostByAuthorId,
+  publishReview
 }

@@ -320,6 +320,16 @@ a:visited {
   font-size: 14px !important;
 }
 
+.badge-secondary {
+  background-color: transparent !important;
+  /* box-shadow: var(--secondary-color-light) 0px 3px 3px 0px; */
+  box-shadow: var(--secondary-color-light) 0px 1px 4px;
+  color: var(--neutral-color-dark);
+  border: 1.7px solid var(--secondary-color-dark);
+  user-select: none;
+  font-size: 14px !important;
+}
+
 .profile-picture-placeholder {
   border: solid var(--primary-color-dark) 3px;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
@@ -448,4 +458,8 @@ a:visited {
 }
 .dropdown-item {
   border-left: 2px solid transparent;
+}
+
+.review-card {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 }

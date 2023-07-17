@@ -38,24 +38,6 @@ function LeftColPost({ name, surname, profilePicture, biography, averageRating, 
 
             <Card.Title className='text-dark hover-underline'>{name + ' ' + surname}</Card.Title>
             <Card.Text className='fs-6'>{biography}</Card.Text>
-            {/* 
-        
-        
-          <div>
-            <h5>Interests</h5>
-            <ul>
-              {interests.map(interest => (
-                <li key={interest.id}>{interest.name}</li>
-              ))}
-            </ul>
-
-            <h5>Spoken Languages</h5>
-            <ul>
-              {spokenLanguages.map(language => (
-                <li key={language.languageCode}>{language.languageName}</li>
-              ))}
-            </ul>
-          </div> */}
           </Card.Body>
         </Link>
       </Card>
