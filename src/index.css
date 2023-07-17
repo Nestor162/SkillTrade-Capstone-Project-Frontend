@@ -17,6 +17,7 @@
   --tertiary-color-light: #ff7ccf;
   --tertiary-color-dark: #ae55a6;
   --tertiary-color-accent: #432140;
+  --tertiary-color-borders: #c761be;
 
   /* Accent Color */
   --accent-color: #dfb288;
@@ -109,7 +110,9 @@ input[type='password']::-ms-clear {
 }
 
 /* Button 'push' effect */
-.main-btn:active {
+.main-btn:active,
+.negative-btn:active,
+.secondary-btn:active {
   position: relative;
   top: 2px;
   left: 2px;
@@ -132,9 +135,16 @@ input[type='password']::-ms-clear {
 
 .negative-btn:hover {
   background-color: var(--tertiary-color-dark);
-  border: solid #c761be 3px;
+  border: solid var(--tertiary-color-borders) 3px;
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+/* Disable annoying default color on click */
+.negative-btn:active:focus {
+  color: white;
+  background-color: var(--tertiary-color-dark);
+  border: solid var(--tertiary-color-borders) 3px;
 }
 /* BUTTONS ANIMATIONS */
 /* .main-btn.clicked {
