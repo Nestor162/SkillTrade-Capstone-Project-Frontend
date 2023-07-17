@@ -5,7 +5,7 @@ import { MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import StarRatings from 'react-star-ratings'
 
-function LeftCol({ name, surname, profilePicture, biography, averageRating, location, profileId }) {
+function LeftColPost({ name, surname, profilePicture, biography, averageRating, location, profileId }) {
   return (
     <Col xs={4} className='d-none d-md-flex'>
       <Card className='left-col-details ms-5 mt-4 border-0 position-sticky' style={{ top: '95px' }}>
@@ -63,7 +63,7 @@ function LeftCol({ name, surname, profilePicture, biography, averageRating, loca
   )
 }
 
-LeftCol.propTypes = {
+LeftColPost.propTypes = {
   name: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,
   profilePicture: PropTypes.string,
@@ -86,4 +86,4 @@ LeftCol.propTypes = {
   )
 }
 
-export default LeftCol
+export default LeftColPost

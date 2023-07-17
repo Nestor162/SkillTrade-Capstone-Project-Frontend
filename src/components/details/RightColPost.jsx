@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import { changePostStatus } from '../../utils/api'
 import { Clock4 } from 'lucide-react'
 
-function RightCol({
+function RightColPost({
   title,
   content,
   postPhoto,
@@ -50,7 +50,7 @@ function RightCol({
   }, [])
 
   return (
-    <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4'>
+    <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4 mb-4'>
       <Card className='right-col-details border-0'>
         {postPhoto && <Card.Img variant='top' src={postPhoto} />}
         <Card.Body>
@@ -99,7 +99,7 @@ function RightCol({
   )
 }
 
-RightCol.propTypes = {
+RightColPost.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   availability: PropTypes.string.isRequired,
@@ -113,4 +113,4 @@ RightCol.propTypes = {
   postStatus: PropTypes.string.isRequired
 }
 
-export default RightCol
+export default RightColPost
