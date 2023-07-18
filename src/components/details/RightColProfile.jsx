@@ -163,35 +163,41 @@ function RightColProfile() {
               </Alert>
             )}
           </Card.Body>
+
+          <div className='mt-5 mx-5'>
+            <h5 className='mb-3'>More posts from this profile</h5>
+            <div className='position-relative mb-5'>
+              <div className='opacity-layout-start'></div>
+              <Carousel
+                responsive={responsive}
+                swipeable={true}
+                infinite={true}
+                keyBoardControl={true}
+                removeArrowOnDeviceType={['tablet', 'mobile']}
+                showDots={true}
+              >
+                {postData.map(post => (
+                  <ProfilePostsCarousel
+                    key={post.id}
+                    title={post.title}
+                    content={post.content}
+                    skillLevel={post.skillLevel}
+                    availability={post.availability}
+                    imageUrl={post.imageUrl}
+                    category={post.category.name}
+                    postId={post.id}
+                    publicationDate={formatDate(post.publicationDate)}
+                  />
+                ))}
+              </Carousel>
+              <div className='opacity-layout-end'></div>
+            </div>
+          </div>
+
           <div className='ms-5 ps-3'>
             <NewReviewAccordion />
           </div>
           <ReviewList />
-
-          <div className='mt-5 mx-5'>
-            <h5 className='mb-3'>More posts from this profile</h5>
-            <Carousel
-              responsive={responsive}
-              swipeable={true}
-              infinite={true}
-              keyBoardControl={true}
-              removeArrowOnDeviceType={['tablet', 'mobile']}
-            >
-              {postData.map(post => (
-                <ProfilePostsCarousel
-                  key={post.id}
-                  title={post.title}
-                  content={post.content}
-                  skillLevel={post.skillLevel}
-                  availability={post.availability}
-                  imageUrl={post.imageUrl}
-                  category={post.category.name}
-                  postId={post.id}
-                  publicationDate={formatDate(post.publicationDate)}
-                />
-              ))}
-            </Carousel>
-          </div>
         </Card>
       )}
     </Col>

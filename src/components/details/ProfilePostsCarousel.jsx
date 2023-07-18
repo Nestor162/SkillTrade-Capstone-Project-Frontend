@@ -19,7 +19,7 @@ function ProfilePostsCarousel({
   return (
     <Card className='custom-card' style={{ width: '100%', height: 'max-content' }}>
       <Link to={`/post-details?id=${postId}`} className='text-decoration-none'>
-        {imageUrl && <Card.Img variant='top' className='rounded-0' src={imageUrl} />}
+        {imageUrl && <Card.Img variant='top' className='rounded-0 narrow-img-top' src={imageUrl} />}
         <Card.Body>
           <Card.Title className='text-black hover-underline'>{title}</Card.Title>
           <div className='text-body mb-3'>
