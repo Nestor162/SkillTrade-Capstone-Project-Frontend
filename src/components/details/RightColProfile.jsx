@@ -36,7 +36,6 @@ function RightColProfile() {
         setErrorMsg(foundPosts.error.message)
         console.error(errorMsg)
       } else {
-        console.log(foundPosts.data.content)
         setPostData(foundPosts.data.content)
       }
     }
