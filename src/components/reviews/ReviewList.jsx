@@ -18,7 +18,7 @@ function ReviewList() {
 
   async function handleGetReviewsOfProfile(id, page) {
     setIsLoading(true)
-    const { data, error } = await getReviewsOfProfile(id, page)
+    const { data, error } = await getReviewsOfProfile(id, page - 1)
     if (error) {
       setErrorMsg(error.message)
     } else {
