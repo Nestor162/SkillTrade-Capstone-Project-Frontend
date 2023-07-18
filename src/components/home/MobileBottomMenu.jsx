@@ -1,4 +1,4 @@
-import { History, LogOut, MessagesSquare, Settings2 } from 'lucide-react'
+import { MessagesSquare, Settings2 } from 'lucide-react'
 import { Bell, PlusCircle, User } from 'lucide-react'
 import { Navbar } from 'react-bootstrap'
 
