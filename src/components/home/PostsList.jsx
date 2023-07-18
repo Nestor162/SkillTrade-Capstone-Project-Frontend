@@ -1,4 +1,4 @@
-import { Alert, Spinner } from 'react-bootstrap'
+import { Alert, Pagination, Spinner } from 'react-bootstrap'
 import SinglePost from './SinglePost'
 import { useEffect, useState } from 'react'
 import { getAllPosts, getProfileById } from '../../utils/api'
@@ -6,15 +6,19 @@ import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 import Masonry from 'react-masonry-css'
 import { formatDate } from '../../utils/stringUtils'
 import noContentImg from '../../assets/img/no-content-guy.png'
+import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-react'
 
 function PostList() {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
 
-  async function handleGetAllPosts() {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  async function handleGetAllPosts(page) {
     setIsLoading(true)
-    const { data, error } = await getAllPosts()
+    const { data, error } = await getAllPosts(page - 1)
     if (error) {
       setErrorMsg(error.message)
     } else {
@@ -31,6 +35,7 @@ function PostList() {
       }
       // I set the content with the updated data
       setData({ ...data, content: postsWithAuthor })
+      setTotalPages(data.totalPages)
     }
     setIsLoading(false)
   }
@@ -45,8 +50,18 @@ function PostList() {
   }
 
   useEffect(() => {
-    handleGetAllPosts()
-  }, [])
+    handleGetAllPosts(currentPage)
+  }, [currentPage])
+
+  // PAGINATION
+  let items = []
+  for (let number = 1; number <= totalPages; number++) {
+    items.push(
+      <Pagination.Item key={number} active={number === currentPage} onClick={() => setCurrentPage(number)}>
+        {number}
+      </Pagination.Item>
+    )
+  }
 
   return (
     <div className='page-content'>
@@ -86,6 +101,23 @@ function PostList() {
               <img width={'220px'} className='d-block mx-auto' src={noContentImg} alt='Sad gray guy' />
             </>
           )}
+          <div className='d-flex justify-content-center'>
+            <Pagination>
+              <Pagination.First onClick={() => setCurrentPage(1)}>
+                <ChevronFirst size={'18px'} />
+              </Pagination.First>
+              <Pagination.Prev onClick={() => setCurrentPage(currentPage => Math.max(currentPage - 1, 1))}>
+                <ChevronLeft size={'18px'} />
+              </Pagination.Prev>
+              {items}
+              <Pagination.Next onClick={() => setCurrentPage(currentPage => Math.min(currentPage + 1, totalPages))}>
+                <ChevronRight size={'18px'} />
+              </Pagination.Next>
+              <Pagination.Last onClick={() => setCurrentPage(totalPages)}>
+                <ChevronLast size={'18px'} />
+              </Pagination.Last>
+            </Pagination>
+          </div>
         </div>
       )}
       {errorMsg && (

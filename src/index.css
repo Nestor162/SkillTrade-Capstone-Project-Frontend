@@ -480,6 +480,10 @@ a:visited {
   color: var(--secondary-color-dark);
 }
 
+.page-link:hover {
+  color: var(--secondary-color-accent);
+}
+
 .pagination {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }

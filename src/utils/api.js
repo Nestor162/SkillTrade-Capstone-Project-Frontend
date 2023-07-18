@@ -166,10 +166,10 @@ async function getProfileById(profileId) {
 }
 
 // ---- {POSTS ENDPOINTS} ----
-async function getAllPosts() {
+async function getAllPosts(page = 0, size = 10, sortValue = 'id') {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3001/posts', {
+    const response = await fetch(`http://localhost:3001/posts?page=${page}&size=${size}&sort=${sortValue}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
