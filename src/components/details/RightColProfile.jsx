@@ -1,4 +1,4 @@
-import { Alert, Badge, Card, Col, Image, Spinner } from 'react-bootstrap'
+import { Alert, Badge, Card, Col, Image, Row, Spinner } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getPostByAuthorId, getProfileById } from '../../utils/api'
@@ -8,6 +8,9 @@ import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placehol
 import { MapPin } from 'lucide-react'
 import StarRatings from 'react-star-ratings'
 import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/stringUtils'
+import ProfilePostsCarousel from './ProfilePostsCarousel'
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
 
 function RightColProfile() {
   const [profileData, setProfileData] = useState(null)
@@ -33,6 +36,7 @@ function RightColProfile() {
         setErrorMsg(foundPosts.error.message)
         console.error(errorMsg)
       } else {
+        console.log(foundPosts.data.content)
         setPostData(foundPosts.data.content)
       }
     }
@@ -43,6 +47,22 @@ function RightColProfile() {
     handleGetProfileById(profileId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search])
+
+  // react-multi-carousel configuration
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  }
 
   return (
     <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4 mb-4'>
@@ -147,10 +167,30 @@ function RightColProfile() {
             <NewReviewAccordion />
           </div>
           <ReviewList />
-          <div>
-            {postData.map(post => (
-              <h3 key={post.id}>{post.title}</h3>
-            ))}
+
+          <div className='mt-5 mx-5'>
+            <h5 className='mb-3'>More posts from this profile</h5>
+            <Carousel
+              responsive={responsive}
+              swipeable={true}
+              infinite={true}
+              keyBoardControl={true}
+              removeArrowOnDeviceType={['tablet', 'mobile']}
+            >
+              {postData.map(post => (
+                <ProfilePostsCarousel
+                  key={post.id}
+                  title={post.title}
+                  content={post.content}
+                  skillLevel={post.skillLevel}
+                  availability={post.availability}
+                  imageUrl={post.imageUrl}
+                  category={post.category.name}
+                  postId={post.id}
+                  publicationDate={formatDate(post.publicationDate)}
+                />
+              ))}
+            </Carousel>
           </div>
         </Card>
       )}
