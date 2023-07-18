@@ -515,3 +515,31 @@ a:visited {
   right: 0;
   height: 100%;
 }
+
+/* MOBILE BOTTOM MENU STYLE */
+.nav-bottom {
+  background-color: var(--background-color);
+  height: 70px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.nav-bottom span {
+  display: none;
+}
+
+.nav-bottom div {
+  /* d-flex flex-column justify-content-center align-items-center */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-bottom .middle-icon {
+  position: absolute;
+  top: -20px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 10px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+}

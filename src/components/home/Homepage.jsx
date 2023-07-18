@@ -1,4 +1,5 @@
 import HomeNavbar from './HomeNavbar'
+import MobileBottomMenu from './MobileBottomMenu'
 import PostList from './PostsList'
 
 function Homepage() {
@@ -6,6 +7,7 @@ function Homepage() {
     <div>
       <HomeNavbar />
       <PostList />
+      <MobileBottomMenu />
     </div>
   )
 }
