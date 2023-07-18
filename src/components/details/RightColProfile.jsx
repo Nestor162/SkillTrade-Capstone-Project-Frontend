@@ -1,4 +1,4 @@
-import { Alert, Badge, Card, Col, Image, Row, Spinner } from 'react-bootstrap'
+import { Alert, Badge, Card, Col, Image, Spinner } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getPostByAuthorId, getProfileById } from '../../utils/api'

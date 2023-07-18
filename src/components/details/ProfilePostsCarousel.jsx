@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import { Card, Carousel, Col, Row } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import TruncateText from '../../utils/TruncateText'
-import ExtraInfoWithIcons from '../home/ExtraInfoWithIcons'
 import { CalendarClock, Signal, Tag } from 'lucide-react'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 
