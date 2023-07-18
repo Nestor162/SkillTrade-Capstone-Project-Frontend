@@ -46,7 +46,7 @@ function HomeNavbar() {
               className='main-search-input'
             />
             <Button className='main-btn'>
-              <Search size={18} />
+              <Search size={18} color='white' strokeWidth={3} />
             </Button>
           </InputGroup>
           <div className='d-none d-md-flex justify-content-center align-items-center gap-3 me-4'>
