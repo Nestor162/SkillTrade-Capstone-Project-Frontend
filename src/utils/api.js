@@ -285,10 +285,10 @@ async function getAllReviews() {
   }
 }
 
-async function getReviewsOfProfile(profileId) {
+async function getReviewsOfProfile(profileId, page = 0) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/reviews?profile=` + profileId, {
+    const response = await fetch(`http://localhost:3001/reviews?profile=${profileId}&page=${page}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

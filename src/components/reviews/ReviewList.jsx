@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Alert, Spinner } from 'react-bootstrap'
+import { Alert, Pagination, Spinner } from 'react-bootstrap'
 import { useSearchParams } from 'react-router-dom'
 import { getReviewsOfProfile } from '../../utils/api'
 import SingleReview from './SingleReview'
@@ -12,21 +12,48 @@ function ReviewList() {
   const [isLoading, setIsLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
 
-  async function handleGetReviewsOfProfile(id) {
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  async function handleGetReviewsOfProfile(id, page) {
     setIsLoading(true)
-    const { data, error } = await getReviewsOfProfile(id)
+    const { data, error } = await getReviewsOfProfile(id, page)
     if (error) {
       setErrorMsg(error.message)
     } else {
       setData(data)
+      setTotalPages(data.totalPages)
     }
     setIsLoading(false)
   }
 
+  const handlePageClick = pageNumber => {
+    setCurrentPage(pageNumber)
+  }
+
   useEffect(() => {
-    handleGetReviewsOfProfile(profileId)
+    handleGetReviewsOfProfile(profileId, currentPage)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [currentPage])
+
+  let items = []
+  for (let number = 1; number <= totalPages; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={e => {
+          e.preventDefault()
+          e.stopPropagation()
+          handlePageClick(number)
+        }}
+        onMouseDown={e => e.preventDefault()}
+      >
+        {number}
+      </Pagination.Item>
+    )
+  }
 
   return (
     <div className='mx-4 my-3 d-flex justify-content-center flex-wrap gap-4'>
@@ -35,18 +62,22 @@ function ReviewList() {
           <Spinner animation='border' variant='success' />
         </div>
       ) : (
-        data.map(review => (
-          <SingleReview
-            key={review.id}
-            reviewTitle={review.title}
-            reviewContent={review.content}
-            reviewAuthor={review.reviewAuthor}
-            reviewRating={review.rating}
-            publicationDate={review.publicationDate}
-            contentPreview={review.content.slice(0, 200) + (review.content.length > 100 ? '...' : '')}
-          />
-        ))
+        <>
+          {data.content.map(review => (
+            <SingleReview
+              key={review.id}
+              reviewTitle={review.title}
+              reviewContent={review.content}
+              reviewAuthor={review.reviewAuthor}
+              reviewRating={review.rating}
+              publicationDate={review.publicationDate}
+              contentPreview={review.content.slice(0, 200) + (review.content.length > 100 ? '...' : '')}
+            />
+          ))}
+          <Pagination>{items}</Pagination>
+        </>
       )}
+
       {errorMsg && (
         <Alert key='danger' variant='danger'>
           {errorMsg}

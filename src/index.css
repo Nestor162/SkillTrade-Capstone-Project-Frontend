@@ -463,3 +463,17 @@ a:visited {
 .review-card {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 }
+
+/* Custom pagination menu */
+.page-item.active .page-link {
+  background-color: var(--secondary-color) !important;
+  border: 1.5px solid var(--secondary-color-dark);
+}
+
+.page-link {
+  color: var(--secondary-color-dark);
+}
+
+.pagination {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
