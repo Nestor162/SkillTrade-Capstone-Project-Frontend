@@ -1,6 +1,6 @@
-import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar } from 'react-bootstrap'
+import { Button, Container, Dropdown, Form, Image, InputGroup, Modal, Navbar } from 'react-bootstrap'
 import SkillTradeLogo from '../../assets/img/skilltrade-logo-with-text-horizontal-cropped-big-text.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 import { LogOut, MessagesSquare, Moon, PlusSquare, Search, Settings2 } from 'lucide-react'
@@ -10,6 +10,7 @@ import { Bell } from 'lucide-react'
 import { History } from 'lucide-react'
 import PublishSkillModal from './PublishSkillModal'
 import LeftOffCanvasMenu from './LeftOffCanvasMenu'
+import GoodbyeImg from '../../assets/img/funny-character-goodbye.png'
 
 function HomeNavbar() {
   const [profilePic, setProfilePic] = useState('')
@@ -21,6 +22,17 @@ function HomeNavbar() {
     const foundProfile = await getProfileById(profileId)
     setProfilePic(foundProfile.data.profilePicture)
     localStorage.setItem('profilePicture', profilePic)
+  }
+
+  const [showModal, setShowModal] = useState(false)
+
+  const handleCloseModal = () => setShowModal(false)
+  const handleShowModal = () => setShowModal(true)
+
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
   }
 
   useEffect(() => {
@@ -95,7 +107,7 @@ function HomeNavbar() {
                     <span>Chats</span>
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href='#'>
+                  <Dropdown.Item onClick={handleShowModal}>
                     <LogOut size={20} />
                     <span>Logout</span>
                   </Dropdown.Item>
@@ -105,6 +117,23 @@ function HomeNavbar() {
           </div>
         </Container>
       </Navbar>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>Are you sure you want to logout?</div>
+          <img src={GoodbyeImg} width={'120px'} alt='funny character saying goodbye' className='mt-3' />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className='secondary-btn text-dark' onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button className='negative-btn' onClick={handleLogout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

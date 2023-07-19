@@ -151,6 +151,21 @@ input[type='password']::-ms-clear {
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   cursor: pointer;
+  color: var(--neutral-color);
+}
+
+/* Disable annoying default color on click */
+.secondary-btn:active:focus {
+  color: var(--neutral-color);
+  background-color: white;
+  border: solid var(--primary-color-borders) 2px;
+  border-radius: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.secondary-btn:hover {
+  background-color: unset;
+  border: solid var(--primary-color-borders) 2px;
 }
 
 .negative-btn {

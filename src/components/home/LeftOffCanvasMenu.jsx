@@ -4,7 +4,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 import logo from '../../assets/img/skilltrade-logo-only-text-cropped.png'
 import { LogOut, MessagesSquare, Moon, Settings2 } from 'lucide-react'
 import { History } from 'lucide-react'
-import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Button, Form, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import GoodbyeImg from '../../assets/img/funny-character-goodbye.png'
 
 function LeftOffCanvasMenu() {
   const [show, setShow] = useState(false)
@@ -13,6 +15,17 @@ function LeftOffCanvasMenu() {
   const handleShow = () => setShow(true)
 
   const [darkMode, setDarkMode] = useState(false)
+
+  const [showModal, setShowModal] = useState(false)
+
+  const handleCloseModal = () => setShowModal(false)
+  const handleShowModal = () => setShowModal(true)
+
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+  }
 
   // Dark mode, not working yet
   useEffect(() => {
@@ -94,7 +107,7 @@ function LeftOffCanvasMenu() {
                 </div>
               </OverlayTrigger>
 
-              <div>
+              <div onClick={handleShowModal}>
                 <LogOut size={20} />
                 <span>Logout</span>
               </div>
@@ -102,6 +115,23 @@ function LeftOffCanvasMenu() {
           </div>
         </Offcanvas.Body>
       </Offcanvas>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>Are you sure you want to logout?</div>
+          <img src={GoodbyeImg} width={'120px'} alt='funny character saying goodbye' className='mt-3' />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className='secondary-btn text-dark' onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button className='negative-btn' onClick={handleLogout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }
