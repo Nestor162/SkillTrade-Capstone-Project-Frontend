@@ -78,7 +78,7 @@ function ReviewList() {
         </>
       )}
 
-      {data.content.length === 0 && (
+      {data.length !== 0 && data.content.length === 0 && (
         <p className='text-center fst-italic text-muted mb-5'>No reviews yet, be the first to leave a review! </p>
       )}
 
