@@ -587,6 +587,25 @@ a:visited {
   display: none;
 }
 
+.offcanvas {
+  transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.custom-close-btn {
+  right: -18px;
+  position: absolute;
+  top: 13px;
+  background-color: white;
+  /* background-color: var(--primary-color); */
+  border-radius: 50%;
+  padding: 13px;
+  cursor: pointer;
+}
+
+.custom-close-btn:hover {
+  color: var(--primary-color-dark);
+}
+
 .left-menu div {
   display: flex;
   gap: 20px;

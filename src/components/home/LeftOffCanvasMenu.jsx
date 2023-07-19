@@ -1,4 +1,4 @@
-import { Bell, Menu, Sun, User } from 'lucide-react'
+import { Bell, ChevronLeft, Menu, Sun, User, XCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import logo from '../../assets/img/skilltrade-logo-only-text-cropped.png'
@@ -40,9 +40,12 @@ function LeftOffCanvasMenu() {
         <Menu />
       </span>
 
-      <Offcanvas show={show} closeButton={false} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton={false}>
           <img src={logo} width={'170px'} height={'51.5px'} className='mx-auto mt-0' />
+          <div className='custom-close-btn' onClick={handleClose}>
+            <XCircle size={'27px'} />
+          </div>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <div className='left-menu d-flex flex-column gap-4 pt-3 h-100 ms-4'>
