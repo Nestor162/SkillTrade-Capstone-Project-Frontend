@@ -35,6 +35,10 @@ function HomeNavbar() {
     navigate('/')
   }
 
+  const handleLinkClick = route => {
+    navigate(route)
+  }
+
   useEffect(() => {
     handleProfilePicFetch()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,7 +86,7 @@ function HomeNavbar() {
 
               <div className='dropdown-menu-alignment'>
                 <Dropdown.Menu>
-                  <Dropdown.Item href='#'>
+                  <Dropdown.Item onClick={() => handleLinkClick('/me')}>
                     <User size={20} />
                     <span>My Profile</span>
                   </Dropdown.Item>

@@ -5,7 +5,7 @@ import logo from '../../assets/img/skilltrade-logo-only-text-cropped.png'
 import { LogOut, MessagesSquare, Moon, Settings2 } from 'lucide-react'
 import { History } from 'lucide-react'
 import { Button, Form, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import GoodbyeImg from '../../assets/img/funny-character-goodbye.png'
 
 function LeftOffCanvasMenu() {
@@ -62,10 +62,12 @@ function LeftOffCanvasMenu() {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <div className='left-menu d-flex flex-column gap-4 pt-3 h-100 ms-4'>
-            <div>
-              <User size={20} />
-              <span>My Profile</span>
-            </div>
+            <Link to={'/me'} className='text-decoration-none text-dark'>
+              <div>
+                <User size={20} />
+                <span>My Profile</span>
+              </div>
+            </Link>
             <div>
               <Bell size={20} />
               <OverlayTrigger placement='right' overlay={<Tooltip id='notifications-tooltip'>Coming soon!</Tooltip>}>
