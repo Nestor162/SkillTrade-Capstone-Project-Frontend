@@ -206,7 +206,7 @@ async function getPostById(postId) {
 async function getPostByAuthorId(authorId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts?authorId=` + authorId, {
+    const response = await fetch(`http://localhost:3001/posts?author=` + authorId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

@@ -165,32 +165,36 @@ function RightColProfile() {
 
           <div className='mt-5 mx-5'>
             <h5 className='mb-3'>More posts from this profile</h5>
-            <div className='position-relative mb-5'>
-              <div className='opacity-layout-start'></div>
-              <Carousel
-                responsive={responsive}
-                swipeable={true}
-                infinite={true}
-                keyBoardControl={true}
-                removeArrowOnDeviceType={['tablet', 'mobile']}
-                showDots={true}
-              >
-                {postData.map(post => (
-                  <ProfilePostsCarousel
-                    key={post.id}
-                    title={post.title}
-                    content={post.content}
-                    skillLevel={post.skillLevel}
-                    availability={post.availability}
-                    imageUrl={post.imageUrl}
-                    category={post.category.name}
-                    postId={post.id}
-                    publicationDate={formatDate(post.publicationDate)}
-                  />
-                ))}
-              </Carousel>
-              <div className='opacity-layout-end'></div>
-            </div>
+            {postData ? (
+              <div className='position-relative mb-5'>
+                <div className='opacity-layout-start'></div>
+                <Carousel
+                  responsive={responsive}
+                  swipeable={true}
+                  infinite={true}
+                  keyBoardControl={true}
+                  removeArrowOnDeviceType={['tablet', 'mobile']}
+                  showDots={true}
+                >
+                  {postData.map(post => (
+                    <ProfilePostsCarousel
+                      key={post.id}
+                      title={post.title}
+                      content={post.content}
+                      skillLevel={post.skillLevel}
+                      availability={post.availability}
+                      imageUrl={post.imageUrl}
+                      category={post.category.name}
+                      postId={post.id}
+                      publicationDate={formatDate(post.publicationDate)}
+                    />
+                  ))}
+                </Carousel>
+                <div className='opacity-layout-end'></div>
+              </div>
+            ) : (
+              <p className='text-center fst-italic text-muted mb-5'>No posts yet</p>
+            )}
           </div>
 
           <div className='ms-5 ps-3'>
