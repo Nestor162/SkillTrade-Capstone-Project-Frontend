@@ -45,6 +45,21 @@
   --button-color-accent: var(--primary-color-accent);
 }
 
+/* DARK MODE */
+:root {
+  --bs-body-bg: #fff;
+  --bs-body-color: #212529;
+  /* Add more custom values for other CSS variables as needed */
+}
+
+[data-color-mode='dark'] {
+  /* --bs-body-bg: #212529;
+  --bs-body-color: #f8f9fa; */
+  --background-color-accent: var(--neutral-color-light);
+  --background-color: var(--neutral-color);
+  /* Add more custom values for other CSS variables as needed */
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   overflow-x: hidden;
@@ -551,4 +566,25 @@ a:visited {
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+/* OFFCANVAS LEFT MENU */
+.left-menu {
+  width: max-content;
+  margin: 0 auto;
+}
+
+.offcanvas.offcanvas-start.show {
+  width: 250px;
+}
+
+.offcanvas-header button.btn-close {
+  display: none;
+}
+
+.left-menu div {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
 }

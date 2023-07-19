@@ -3,12 +3,13 @@ import SkillTradeLogo from '../../assets/img/skilltrade-logo-with-text-horizonta
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { LogOut, Menu, MessagesSquare, Moon, PlusSquare, Search, Settings2 } from 'lucide-react'
+import { LogOut, MessagesSquare, Moon, PlusSquare, Search, Settings2 } from 'lucide-react'
 import { getProfileById } from '../../utils/api'
 import { User } from 'lucide-react'
 import { Bell } from 'lucide-react'
 import { History } from 'lucide-react'
 import PublishSkillModal from './PublishSkillModal'
+import LeftOffCanvasMenu from './LeftOffCanvasMenu'
 
 function HomeNavbar() {
   const [profilePic, setProfilePic] = useState('')
@@ -33,7 +34,7 @@ function HomeNavbar() {
       <Navbar fixed='top' className='main-navbar p-1 w-100'>
         <Container fluid className=''>
           <div className='d-none d-md-flex align-items-center gap-3 ms-4 nav-desktop-options'>
-            <Menu />
+            <LeftOffCanvasMenu />
             <Link to={'/home'}>
               <img src={SkillTradeLogo} alt='Logo' width={'140px'} className='user-select-none me-3' />
             </Link>
