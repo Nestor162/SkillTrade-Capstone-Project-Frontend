@@ -131,6 +131,11 @@ input[type='password']::-ms-clear {
   border: solid var(--primary-color-borders) 3px;
 }
 
+.dropdown-item:active:focus {
+  color: black;
+  background-color: white;
+}
+
 /* Button 'push' effect */
 .main-btn:active,
 .negative-btn:active,
@@ -587,4 +592,71 @@ a:visited {
   gap: 20px;
   align-items: center;
   cursor: pointer;
+}
+
+/* LEFT MENU ANIMATIONS */
+
+.left-menu div:nth-child(1) {
+  animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s both;
+}
+
+.left-menu div:nth-child(2) {
+  animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both;
+}
+
+.left-menu div:nth-child(3) {
+  animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+}
+
+.left-menu div:nth-child(4) {
+  animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+}
+
+.left-menu div:nth-child(5) {
+  animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
+}
+
+@keyframes slide-bottom {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.left-menu div span::before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  inset: 0 0 0 0;
+  background: var(--primary-color);
+  z-index: -1;
+  transition: transform 0.3s ease;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+}
+
+.left-menu div span:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.left-menu div span {
+  position: relative;
+}
+
+.left-menu div:hover .lucide {
+  color: var(--primary-color-dark);
+}
+
+.left-menu div:hover > .dark-mode-icon:hover,
+.left-menu div:hover > .logout-icon:hover {
+  color: var(--primary-color-dark);
 }
