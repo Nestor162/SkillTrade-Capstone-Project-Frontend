@@ -8,7 +8,7 @@ function ProfileDetails() {
     <Row>
       <LeftColProfile />
       <RightColProfile />
-      <MobileBottomMenu></MobileBottomMenu>
+      <MobileBottomMenu />
     </Row>
   )
 }
