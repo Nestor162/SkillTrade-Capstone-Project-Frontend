@@ -5,6 +5,7 @@ import { getPostById, getProfileById } from '../../utils/api'
 import { useSearchParams } from 'react-router-dom'
 import LeftColPost from './LeftColPost'
 import RightColPost from './RightColPost'
+import MobileBottomMenu from '../home/MobileBottomMenu'
 
 function PostDetails() {
   const [profileData, setProfileData] = useState([])
@@ -78,6 +79,7 @@ function PostDetails() {
               publicationDate={postData.publicationDate}
               postStatus={postData.status}
             />
+            <MobileBottomMenu />
           </Row>
         )}
       </div>
