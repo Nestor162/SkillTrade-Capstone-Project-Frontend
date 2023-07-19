@@ -36,7 +36,7 @@ function RightColProfile() {
         setErrorMsg(foundPosts.error.message)
         console.error(errorMsg)
       } else {
-        setPostData(foundPosts.data.content)
+        setPostData(foundPosts.data)
       }
     }
     setIsLoading(false)
@@ -165,7 +165,7 @@ function RightColProfile() {
 
           <div className='mt-5 mx-5'>
             <h5 className='mb-3'>More posts from this profile</h5>
-            {postData ? (
+            {postData && postData.length > 0 ? (
               <div className='position-relative mb-5'>
                 <div className='opacity-layout-start'></div>
                 <Carousel
