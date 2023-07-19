@@ -1,7 +1,4 @@
 import { Card, Col } from 'react-bootstrap'
-import PropTypes from 'prop-types'
-import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { Link } from 'react-router-dom'
 
 function LeftColPost() {
   return (
