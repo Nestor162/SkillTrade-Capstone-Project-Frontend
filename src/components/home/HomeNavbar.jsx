@@ -70,32 +70,32 @@ function HomeNavbar() {
 
               <div className='dropdown-menu-alignment'>
                 <Dropdown.Menu>
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#'>
+                  <Dropdown.Item href='#'>
                     <User size={20} />
                     <span>My Profile</span>
                   </Dropdown.Item>
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                  <Dropdown.Item className='item-disabled' href='#/'>
                     <Bell size={20} />
                     <span>Notifications</span>
                   </Dropdown.Item>
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                  <Dropdown.Item className='item-disabled' href='#/'>
                     <Settings2 size={20} />
                     <span>Settings</span>
                   </Dropdown.Item>
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                  <Dropdown.Item className='item-disabled' href='#/'>
                     <Moon size={20} />
                     <span>Dark mode</span>
                   </Dropdown.Item>
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                  <Dropdown.Item className='item-disabled' href='#/'>
                     <History size={20} />
                     <span>History</span>
                   </Dropdown.Item>
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#/'>
+                  <Dropdown.Item className='item-disabled' href='#/'>
                     <MessagesSquare size={20} />
                     <span>Chats</span>
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item className='text-dark d-flex gap-2 align-items-center' href='#'>
+                  <Dropdown.Item href='#'>
                     <LogOut size={20} />
                     <span>Logout</span>
                   </Dropdown.Item>

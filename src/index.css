@@ -491,6 +491,14 @@ a:visited {
 }
 .dropdown-item {
   border-left: 2px solid transparent;
+  color: var(--neutral-color) !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-item.item-disabled {
+  color: var(--neutral-color-borders) !important;
 }
 
 .review-card {
