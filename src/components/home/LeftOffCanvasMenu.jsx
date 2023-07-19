@@ -4,9 +4,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 import logo from '../../assets/img/skilltrade-logo-only-text-cropped.png'
 import { LogOut, MessagesSquare, Moon, Settings2 } from 'lucide-react'
 import { History } from 'lucide-react'
-import { Button, Form, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { useNavigate, Link } from 'react-router-dom'
-import GoodbyeImg from '../../assets/img/funny-character-goodbye.png'
+import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import LogoutModal from './LogoutModal'
 
 function LeftOffCanvasMenu() {
   const [show, setShow] = useState(false)
@@ -20,12 +20,6 @@ function LeftOffCanvasMenu() {
 
   const handleCloseModal = () => setShowModal(false)
   const handleShowModal = () => setShowModal(true)
-
-  const navigate = useNavigate()
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    navigate('/')
-  }
 
   // Dark mode, not working yet
   useEffect(() => {
@@ -117,23 +111,7 @@ function LeftOffCanvasMenu() {
           </div>
         </Offcanvas.Body>
       </Offcanvas>
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Logout</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>Are you sure you want to logout?</div>
-          <img src={GoodbyeImg} width={'120px'} alt='funny character saying goodbye' className='mt-3' />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className='secondary-btn text-dark' onClick={handleCloseModal}>
-            Cancel
-          </Button>
-          <Button className='negative-btn' onClick={handleLogout}>
-            Logout
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <LogoutModal showModal={showModal} handleCloseModal={handleCloseModal} />
     </>
   )
 }
