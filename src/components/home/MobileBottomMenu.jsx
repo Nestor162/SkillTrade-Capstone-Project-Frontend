@@ -1,50 +1,72 @@
-import { MessagesSquare, Settings2 } from 'lucide-react'
-import { Bell, PlusCircle, User } from 'lucide-react'
+import { HomeIcon, LogOut, Settings2 } from 'lucide-react'
+import { PlusCircle, User } from 'lucide-react'
+import { useState } from 'react'
 import { Navbar } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import PublishSkillModal from './PublishSkillModal'
+import LogoutModal from './LogoutModal'
 
 function MobileBottomMenu() {
+  const navigate = useNavigate()
+  const handleLinkClick = route => {
+    navigate(route)
+  }
+  const [modalShow, setModalShow] = useState(false)
+
+  const [showModal, setShowModal] = useState(false)
+  const handleCloseModal = () => setShowModal(false)
+  const handleShowModal = () => setShowModal(true)
+
   return (
     <div>
       <Navbar
         fixed='bottom'
         className='nav-bottom d-flex d-md-none justify-content-center align-items-center pb-2 gap-5'
       >
-        <div>
+        <div onClick={() => handleLinkClick('/home')}>
+          <HomeIcon />
+          <span>Profile</span>
+        </div>
+
+        <div onClick={() => handleLinkClick('/me')}>
           <User />
           <span>Profile</span>
         </div>
 
-        <div>
-          <Settings2 />
-          <span>Settings</span>
-        </div>
-
-        <div className='middle-icon'>
+        <div className='middle-icon' onClick={() => setModalShow(true)}>
           <PlusCircle size={'35px'} />
           <span>New skill</span>
         </div>
+        <PublishSkillModal show={modalShow} onHide={() => setModalShow(false)} />
 
         {/* Separator */}
         <div></div>
 
         <div>
-          <Bell />
-          <span>Notifications</span>
+          <Settings2 color={'var(--neutral-color-borders) '} />
+          <span>Settings</span>
         </div>
 
-        <div>
+        <div onClick={handleShowModal}>
+          <LogOut />
+          <span>Logout</span>
+        </div>
+
+        <LogoutModal showModal={showModal} handleCloseModal={handleCloseModal} />
+
+        {/* <div>
+          <Bell />
+          <span>Notifications</span>
+        </div> */}
+
+        {/* <div>
           <MessagesSquare />
           <span>Chats</span>
-        </div>
+        </div> */}
 
         {/* <div>
           <History />
           <span>History</span>
-        </div> */}
-
-        {/* <div>
-          <LogOut />
-          <span>Logout</span>
         </div> */}
       </Navbar>
     </div>
