@@ -18,9 +18,11 @@ function LeftColPost({ name, surname, profilePicture, biography, averageRating, 
               width={'70px'}
             />
             <div className='text-center'>
-              <div className='d-flex justify-content-center align-items-center gap-1s mt-1 position-relative'>
-                <MapPin size={'15px'} className='position-absolute' style={{ left: '57px' }} />
-                {location}
+              <div className='d-flex justify-content-center align-items-center gap-1s mt-1'>
+                <span className='position-relative'>
+                  <MapPin size={'15px'} className='position-absolute' style={{ right: '45px', top: '4px' }} />
+                  {location}
+                </span>
               </div>
               <div className='d-flex align-items-end justify-content-center'>
                 <StarRatings
