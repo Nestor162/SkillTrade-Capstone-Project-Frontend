@@ -1,4 +1,4 @@
-import { Bell, ChevronLeft, Menu, Sun, User, XCircle } from 'lucide-react'
+import { Bell, Menu, Sun, User, XCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import logo from '../../assets/img/skilltrade-logo-only-text-cropped.png'
