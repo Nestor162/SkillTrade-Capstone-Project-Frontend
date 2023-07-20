@@ -3,16 +3,19 @@ import MobileBottomMenu from '../home/MobileBottomMenu'
 import HomeNavbar from '../home/HomeNavbar'
 import LeftColMyProfile from './LeftColMyProfile'
 import RightColMyProfile from './RightColMyProfile'
+import { SearchProvider } from '../contexts/SearchContext'
 
 function MyProfile() {
   return (
     <>
-      <HomeNavbar />
+      <SearchProvider>
+        <HomeNavbar />
+        <MobileBottomMenu />
+      </SearchProvider>
       <div className='page-content'>
         <Row>
           <LeftColMyProfile />
           <RightColMyProfile />
-          <MobileBottomMenu />
         </Row>
       </div>
     </>
