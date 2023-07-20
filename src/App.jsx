@@ -11,6 +11,7 @@ import ProfileDetails from './components/details/ProfileDetails'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import MyProfile from './components/details/MyProfile'
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate()
@@ -78,6 +79,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfileDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/me'
+            element={
+              <ProtectedRoute>
+                <MyProfile />
               </ProtectedRoute>
             }
           />
