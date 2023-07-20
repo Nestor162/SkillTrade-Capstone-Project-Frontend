@@ -7,7 +7,7 @@ import ReactSelect from 'react-select'
 import { useNavigate } from 'react-router-dom'
 
 function SearchBar() {
-  const { handleSearchResults, currentPage, setIsLoading } = useContext(SearchContext)
+  const { handleSearchResults, currentPage, setIsLoading, setSearchQuery } = useContext(SearchContext)
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState({})
   const [menuIsOpen, setMenuIsOpen] = useState(true)
@@ -53,6 +53,7 @@ function SearchBar() {
     event.preventDefault()
     navigate('/home')
     handlePostSearch(query)
+    setSearchQuery(query)
   }
 
   useEffect(() => {

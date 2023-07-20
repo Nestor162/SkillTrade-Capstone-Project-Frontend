@@ -1,15 +1,15 @@
 import Masonry from 'react-masonry-css'
 import SinglePost from './SinglePost'
 import { convertSnakeCaseToCapitalized, formatDate } from '../../utils/stringUtils'
-import { Pagination, Spinner } from 'react-bootstrap'
-import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-react'
+import { OverlayTrigger, Pagination, Spinner, Tooltip } from 'react-bootstrap'
+import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react'
 import noContentImg from '../../assets/img/no-content-guy.png'
 import { SearchContext } from '../contexts/SearchContext'
 import { useContext } from 'react'
 import PostList from './PostsList'
 
 function SearchResultList() {
-  const { searchResults, currentPage, setCurrentPage, isLoading } = useContext(SearchContext)
+  const { searchResults, currentPage, setCurrentPage, isLoading, searchQuery, resetSearch } = useContext(SearchContext)
 
   const breakpointColumnsObj = {
     default: 4,
@@ -37,16 +37,26 @@ function SearchResultList() {
   return (
     <div className='page-content'>
       {isLoading ? (
-        <div
-          className='d-flex align-items-center justify-content-center'
-          style={{ height: '360px', zIndex: '999999999999999' }}
-        >
+        <div className='d-flex align-items-center justify-content-center' style={{ height: '360px', zIndex: '999' }}>
           <Spinner animation='border' variant='success' />
         </div>
       ) : (
         <>
           {searchResults.numberOfElements > 0 ? (
             <>
+              {searchQuery !== ' ' && searchQuery !== undefined && (
+                <div className='ms-3 ms-md-5 fs-5 mb-0 pt-3 d-flex'>
+                  <p>
+                    Viewing results for: <em>&quot;{searchQuery}&quot;</em>
+                  </p>
+                  <span className='ms-3 reset-search-icon' onClick={resetSearch}>
+                    <OverlayTrigger placement='right' overlay={<Tooltip id='reset-tooltip'>Reset search</Tooltip>}>
+                      <RotateCcw size={'20px'} />
+                    </OverlayTrigger>
+                  </span>
+                </div>
+              )}
+
               <div className='pt-3 mx-5'>
                 <Masonry
                   breakpointCols={breakpointColumnsObj}
@@ -95,9 +105,10 @@ function SearchResultList() {
             </>
           ) : (
             <>
-              <h4 className='text-center px-3s py-4'>
-                No results found for your search. Please try different keywords or check your spelling.
-              </h4>
+              <p className='text-center px-3 py-4 fs-4'>
+                No results found for your search &quot;<strong>{searchQuery}</strong>&quot;. Please try different
+                keywords or check your spelling.
+              </p>
               <img width={'220px'} className='d-block mx-auto' src={noContentImg} alt='Sad gray guy' />
             </>
           )}

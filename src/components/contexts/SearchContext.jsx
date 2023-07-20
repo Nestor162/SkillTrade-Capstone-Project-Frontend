@@ -7,6 +7,7 @@ export function SearchProvider({ children }) {
   const [searchResults, setSearchResults] = useState({})
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState(undefined)
 
   function handleSearchResults(results) {
     setSearchResults(results)
@@ -19,7 +20,17 @@ export function SearchProvider({ children }) {
 
   return (
     <SearchContext.Provider
-      value={{ searchResults, handleSearchResults, currentPage, setCurrentPage, isLoading, setIsLoading, resetSearch }}
+      value={{
+        searchResults,
+        handleSearchResults,
+        currentPage,
+        setCurrentPage,
+        isLoading,
+        setIsLoading,
+        resetSearch,
+        searchQuery,
+        setSearchQuery
+      }}
     >
       {children}
     </SearchContext.Provider>

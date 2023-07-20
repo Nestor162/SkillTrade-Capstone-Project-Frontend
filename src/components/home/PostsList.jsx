@@ -95,7 +95,7 @@ function PostList() {
           </Masonry>
           {data.content.length === 0 && (
             <>
-              <h4 className='text-center px-3s py-4'>
+              <h4 className='text-center px-3 py-4'>
                 This page is currently empty. Be the first to share your knowledge and skills by creating a post!
               </h4>
               <img width={'220px'} className='d-block mx-auto' src={noContentImg} alt='Sad gray guy' />

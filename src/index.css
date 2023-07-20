@@ -724,3 +724,15 @@ a:visited {
 .css-13cymwt-control {
   visibility: hidden !important;
 }
+
+.reset-search-icon {
+  cursor: pointer;
+}
+.reset-search-icon {
+  transition: transform 0.5s;
+  transform-origin: center;
+}
+
+.reset-search-icon:hover {
+  transform: rotate(-40deg);
+}
