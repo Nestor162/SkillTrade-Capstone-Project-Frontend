@@ -712,3 +712,15 @@ a:visited {
 .left-menu div:hover > .logout-icon:hover {
   color: var(--primary-color-dark);
 }
+
+.search-suggestions {
+  position: absolute !important;
+  top: 0;
+  left: 5px;
+  width: 90%;
+  z-index: -1;
+}
+
+.css-13cymwt-control {
+  visibility: hidden !important;
+}

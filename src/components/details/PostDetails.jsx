@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import LeftColPost from './LeftColPost'
 import RightColPost from './RightColPost'
 import MobileBottomMenu from '../home/MobileBottomMenu'
+import { SearchProvider } from '../contexts/SearchContext'
 
 function PostDetails() {
   const [profileData, setProfileData] = useState([])
@@ -46,7 +47,10 @@ function PostDetails() {
   return (
     <>
       {errorMsg && <Alert variant='danger' onClose={() => setShow(false)} dismissible />}
-      <HomeNavbar />
+      <SearchProvider>
+        <HomeNavbar />
+        <MobileBottomMenu />
+      </SearchProvider>
       <div className='page-content'>
         {isLoading ? (
           <div className='d-flex align-items-center justify-content-center' style={{ height: '100vh' }}>
@@ -79,7 +83,6 @@ function PostDetails() {
               publicationDate={postData.publicationDate}
               postStatus={postData.status}
             />
-            <MobileBottomMenu />
           </Row>
         )}
       </div>

@@ -12,9 +12,14 @@ export function SearchProvider({ children }) {
     setSearchResults(results)
   }
 
+  const resetSearch = () => {
+    setSearchResults({})
+    setCurrentPage(1)
+  }
+
   return (
     <SearchContext.Provider
-      value={{ searchResults, handleSearchResults, currentPage, setCurrentPage, isLoading, setIsLoading }}
+      value={{ searchResults, handleSearchResults, currentPage, setCurrentPage, isLoading, setIsLoading, resetSearch }}
     >
       {children}
     </SearchContext.Provider>

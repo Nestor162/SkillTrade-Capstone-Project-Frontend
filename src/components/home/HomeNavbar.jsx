@@ -1,7 +1,7 @@
 import { Container, Dropdown, Image, Navbar } from 'react-bootstrap'
 import SkillTradeLogo from '../../assets/img/skilltrade-logo-with-text-horizontal-cropped-big-text.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 import { LogOut, MessagesSquare, Moon, PlusSquare, Settings2 } from 'lucide-react'
 import { getProfileById } from '../../utils/api'
@@ -12,6 +12,7 @@ import PublishSkillModal from './PublishSkillModal'
 import LeftOffCanvasMenu from './LeftOffCanvasMenu'
 import LogoutModal from './LogoutModal'
 import SearchBar from './SearchBar'
+import { SearchContext } from '../contexts/SearchContext'
 
 function HomeNavbar() {
   const [profilePic, setProfilePic] = useState('')
@@ -28,6 +29,8 @@ function HomeNavbar() {
   const [showModal, setShowModal] = useState(false)
   const handleCloseModal = () => setShowModal(false)
   const handleShowModal = () => setShowModal(true)
+
+  const { resetSearch } = useContext(SearchContext)
 
   const navigate = useNavigate()
   const handleLinkClick = route => {
@@ -46,7 +49,7 @@ function HomeNavbar() {
         <Container fluid className=''>
           <div className='d-none d-md-flex align-items-center gap-3 ms-4 nav-desktop-options'>
             <LeftOffCanvasMenu />
-            <Link to={'/home'}>
+            <Link to={'/home'} onClick={resetSearch}>
               <img src={SkillTradeLogo} alt='Logo' width={'140px'} className='user-select-none me-3' />
             </Link>
           </div>

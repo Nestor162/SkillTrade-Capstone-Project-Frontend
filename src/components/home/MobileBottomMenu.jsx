@@ -1,15 +1,23 @@
 import { HomeIcon, LogOut, Settings2 } from 'lucide-react'
 import { PlusCircle, User } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Navbar } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import PublishSkillModal from './PublishSkillModal'
 import LogoutModal from './LogoutModal'
+import { SearchContext } from '../contexts/SearchContext'
 
 function MobileBottomMenu() {
   const navigate = useNavigate()
+  const { resetSearch } = useContext(SearchContext)
+
   const handleLinkClick = route => {
     navigate(route)
+  }
+
+  const handleReset = () => {
+    navigate('/home')
+    resetSearch
   }
   const [modalShow, setModalShow] = useState(false)
 
@@ -23,9 +31,9 @@ function MobileBottomMenu() {
         fixed='bottom'
         className='nav-bottom d-flex d-md-none justify-content-center align-items-center pb-2 gap-5'
       >
-        <div onClick={() => handleLinkClick('/home')}>
+        <div onClick={handleReset}>
           <HomeIcon />
-          <span>Profile</span>
+          <span>Home</span>
         </div>
 
         <div onClick={() => handleLinkClick('/me')}>

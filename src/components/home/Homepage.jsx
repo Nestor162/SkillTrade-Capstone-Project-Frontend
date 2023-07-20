@@ -9,9 +9,8 @@ function Homepage() {
       <SearchProvider>
         <HomeNavbar />
         <SearchResultList />
+        <MobileBottomMenu />
       </SearchProvider>
-
-      <MobileBottomMenu />
     </div>
   )
 }
