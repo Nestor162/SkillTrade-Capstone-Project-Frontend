@@ -596,6 +596,16 @@ a:visited {
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
+/* animation */
+.nav-bottom .middle-icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.nav-bottom .middle-icon:hover,
+.nav-bottom .middle-icon:active {
+  transform: translateY(4px);
+}
+
 /* OFFCANVAS LEFT MENU */
 .left-menu {
   width: max-content;
