@@ -1,9 +1,9 @@
-import { Button, Container, Dropdown, Form, Image, InputGroup, Navbar } from 'react-bootstrap'
+import { Container, Dropdown, Image, Navbar } from 'react-bootstrap'
 import SkillTradeLogo from '../../assets/img/skilltrade-logo-with-text-horizontal-cropped-big-text.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { LogOut, MessagesSquare, Moon, PlusSquare, Search, Settings2 } from 'lucide-react'
+import { LogOut, MessagesSquare, Moon, PlusSquare, Settings2 } from 'lucide-react'
 import { getProfileById } from '../../utils/api'
 import { User } from 'lucide-react'
 import { Bell } from 'lucide-react'
@@ -11,6 +11,7 @@ import { History } from 'lucide-react'
 import PublishSkillModal from './PublishSkillModal'
 import LeftOffCanvasMenu from './LeftOffCanvasMenu'
 import LogoutModal from './LogoutModal'
+import SearchBar from './SearchBar'
 
 function HomeNavbar() {
   const [profilePic, setProfilePic] = useState('')
@@ -49,17 +50,7 @@ function HomeNavbar() {
               <img src={SkillTradeLogo} alt='Logo' width={'140px'} className='user-select-none me-3' />
             </Link>
           </div>
-          <InputGroup className='main-search-group mx-auto m-3'>
-            <Form.Control
-              placeholder='Search what you want to learn next...'
-              aria-label='Search what you want to learn next...'
-              aria-describedby='main-search-bar'
-              className='main-search-input'
-            />
-            <Button className='main-btn'>
-              <Search size={18} color='white' strokeWidth={3} />
-            </Button>
-          </InputGroup>
+          <SearchBar />
           <div className='d-none d-md-flex justify-content-center align-items-center gap-3 me-4'>
             <div className='d-flex gap-2 secondary-btn p-1 px-2 ms-4' onClick={() => setModalShow(true)}>
               <span className='user-select-none text-nowrap'>Publish skill</span>

@@ -1,12 +1,16 @@
 import HomeNavbar from './HomeNavbar'
 import MobileBottomMenu from './MobileBottomMenu'
-import PostList from './PostsList'
+import SearchResultList from './SearchResultList'
+import { SearchProvider } from '../contexts/SearchContext'
 
 function Homepage() {
   return (
     <div>
-      <HomeNavbar />
-      <PostList />
+      <SearchProvider>
+        <HomeNavbar />
+        <SearchResultList />
+      </SearchProvider>
+
       <MobileBottomMenu />
     </div>
   )

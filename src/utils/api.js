@@ -268,6 +268,27 @@ async function publishPost(payload) {
   }
 }
 
+async function getPostByQuery(query, page = 0, size = 10) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/posts/filters?query=${query}&page=${page}&size=${size}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- { REVIEWS ENDPOINT } ----
 async function getAllReviews() {
   try {
@@ -354,5 +375,6 @@ export {
   getAllReviews,
   getReviewsOfProfile,
   getPostByAuthorId,
-  publishReview
+  publishReview,
+  getPostByQuery
 }
