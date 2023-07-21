@@ -1,11 +1,12 @@
 import { Alert, Badge, Card, Col, Image, Spinner } from 'react-bootstrap'
-import { getPostByAuthorId, getProfileById } from '../../utils/api'
+import { getPostByAuthorId, getProfileById, updateProfile } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/stringUtils'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { MapPin } from 'lucide-react'
+import { MapPin, PenBox } from 'lucide-react'
 import StarRatings from 'react-star-ratings'
 import YourSinglePost from './YourSinglePost'
+import EditProfileModal from './EditProfileModal'
 
 function RightColMyProfile() {
   const [profileData, setProfileData] = useState(null)
@@ -35,6 +36,23 @@ function RightColMyProfile() {
     setIsLoading(false)
   }
 
+  // EDIT PROFILE
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false)
+
+  const handleUpdateProfile = async updatedData => {
+    const payload = {
+      ...updatedData,
+      langs: updatedData.spokenLanguages
+    }
+    const response = await updateProfile(payload, profileId)
+
+    if (response.error) {
+      setErrorMsg(response.error)
+    } else {
+      handleGetProfileById(profileId)
+    }
+  }
+
   // Function to update postData state
   const handlePostDelete = postId => {
     // Remove the deleted post from the postData array
@@ -56,6 +74,29 @@ function RightColMyProfile() {
         </div>
       ) : (
         <Card className='right-col-details border-0'>
+          <div
+            className='edit-profile-btn p-1 px-2 d-flex justify-content-center align-items-center gap-2'
+            onClick={() => setShowEditProfileModal(true)}
+          >
+            <span>
+              Edit<span className='d-none d-sm-inline'> Profile</span>
+            </span>
+            <PenBox size={'18px'} />
+          </div>
+
+          <EditProfileModal
+            show={showEditProfileModal}
+            handleClose={() => setShowEditProfileModal(false)}
+            handleUpdateProfile={handleUpdateProfile}
+            currentName={profileData.name}
+            currentSurname={profileData.surname}
+            currentBio={profileData.biography}
+            currentInterests={profileData.interests}
+            currentSpokenLanguages={profileData.spokenLanguages}
+            currentBirthDate={profileData.birthDate}
+            currentGender={profileData.gender}
+          />
+
           <Card.Body>
             <Image
               src={profileData.profilePicture ? profileData.profilePicture : ProfilePicturePlaceholder}

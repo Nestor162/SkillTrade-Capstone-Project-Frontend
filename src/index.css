@@ -170,6 +170,7 @@ input[type='password']::-ms-clear {
 .secondary-btn:hover {
   background-color: unset;
   border: solid var(--primary-color-borders) 2px;
+  color: var(--neutral-color);
 }
 
 .negative-btn {
@@ -191,6 +192,20 @@ input[type='password']::-ms-clear {
   color: white;
   background-color: var(--tertiary-color-dark);
   border: solid var(--tertiary-color-borders) 3px;
+}
+
+.edit-profile-btn {
+  background-color: transparent;
+  border: solid var(--primary-color-borders) 2px;
+  border-radius: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  cursor: pointer;
+  color: var(--neutral-color);
+  user-select: none;
+
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 /* BUTTONS ANIMATIONS */
 /* .main-btn.clicked {
@@ -730,9 +745,9 @@ a:visited {
   z-index: -1;
 }
 
-.css-13cymwt-control {
+/* .css-13cymwt-control {
   visibility: hidden !important;
-}
+} */
 
 .reset-search-icon {
   cursor: pointer;
