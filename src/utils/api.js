@@ -165,6 +165,22 @@ async function getProfileById(profileId) {
   }
 }
 
+async function getAllProfiles(page = 0, size = 10, sortValue = 'id') {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/profiles?page=${page}&size=${size}&sort=${sortValue}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- {POSTS ENDPOINTS} ----
 async function getAllPosts(page = 0, size = 10, sortValue = 'id') {
   try {
@@ -426,5 +442,6 @@ export {
   publishReview,
   getPostByQuery,
   getPostByTitle,
-  deletePost
+  deletePost,
+  getAllProfiles
 }
