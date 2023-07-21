@@ -5,9 +5,11 @@ import { Alert, Col, Form, Row } from 'react-bootstrap'
 import { useEffect, useRef, useState } from 'react'
 import { convertSnakeCaseToCapitalized } from '../../utils/stringUtils'
 import { getAllInterests, isValidImageUrl, publishPost } from '../../utils/api'
+import { useNavigate } from 'react-router-dom'
 
 function PublishSkillModal(props) {
   const [categories, setCategories] = useState([])
+  const navigate = useNavigate()
 
   const skillLevels = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT', 'ALL_LEVELS', 'NOT_APPLICABLE']
   const availabilities = [
@@ -49,6 +51,7 @@ function PublishSkillModal(props) {
       console.error(response.error)
     } else {
       props.onHide()
+      navigate(`/post-details?id=${response.data.id}`)
     }
   }
 
@@ -237,12 +240,12 @@ function PublishSkillModal(props) {
           </Row>
         </Form>
       </Modal.Body>
-      <Modal.Footer className='d-flex justify-content-between'>
-        <Button className='main-btn' onClick={handleButtonClick}>
-          Publish
-        </Button>
+      <Modal.Footer className='d-flex justify-content-between mx-4'>
         <Button className='negative-btn' onClick={props.onHide}>
           Cancel
+        </Button>
+        <Button className='main-btn' onClick={handleButtonClick}>
+          Publish
         </Button>
       </Modal.Footer>
     </Modal>
