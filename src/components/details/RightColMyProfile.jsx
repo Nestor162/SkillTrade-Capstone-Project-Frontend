@@ -5,6 +5,7 @@ import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/s
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 import { MapPin } from 'lucide-react'
 import StarRatings from 'react-star-ratings'
+import YourSinglePost from './YourSinglePost'
 
 function RightColMyProfile() {
   const [profileData, setProfileData] = useState(null)
@@ -32,6 +33,14 @@ function RightColMyProfile() {
       }
     }
     setIsLoading(false)
+  }
+
+  // Function to update postData state
+  const handlePostDelete = postId => {
+    // Remove the deleted post from the postData array
+    const updatedPosts = postData.filter(post => post.id !== postId)
+    // Update the state with the new array
+    setPostData(updatedPosts)
   }
 
   useEffect(() => {
@@ -125,16 +134,28 @@ function RightColMyProfile() {
               </div>
             </div>
 
-            <div className='mt-5 mx-5'>
+            <div className='mt-5 mx-0 mx-md-5'>
               <h5 className='mb-3'>Your Posts</h5>
               {postData && postData.length > 0 ? (
                 <>
                   {postData.map(post => (
-                    <p key={post.id}>{post.title}</p>
+                    <YourSinglePost
+                      key={post.id}
+                      postId={post.id}
+                      title={post.title}
+                      content={post.content}
+                      availability={convertSnakeCaseToCapitalized(post.availability)}
+                      skillLevel={convertSnakeCaseToCapitalized(post.skillLevel)}
+                      category={post.category.name}
+                      authorName={post.authorName}
+                      authorSurname={post.authorSurname}
+                      publicationDate={formatDate(post.publicationDate)}
+                      handlePostDelete={handlePostDelete}
+                    />
                   ))}
                 </>
               ) : (
-                <></>
+                <p>You don’t have any posts yet</p>
               )}
             </div>
 

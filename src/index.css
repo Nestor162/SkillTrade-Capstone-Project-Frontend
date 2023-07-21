@@ -65,6 +65,10 @@ body {
   overflow-x: hidden;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /*  It adds a bottom margin of 70px to the body element to prevent the bottom navigation bar from overlapping the page content (mobile/tablet) */
 @media (max-width: 991.98px) {
   body {
@@ -458,7 +462,7 @@ a:visited {
 .dropdown-menu::before {
   position: absolute;
   top: -7px;
-  left: 101px;
+  left: 112px;
   display: inline-block;
   border-right: 7px solid transparent;
   border-bottom: 7px solid #ccc;
@@ -469,7 +473,7 @@ a:visited {
 .dropdown-menu::after {
   position: absolute;
   top: -6px;
-  left: 102px;
+  left: 113px;
   display: inline-block;
   border-right: 6px solid transparent;
   border-bottom: 6px solid white;
@@ -481,6 +485,11 @@ a:visited {
   position: absolute;
   top: 69px;
   right: 158px;
+}
+
+.card-options-dropdown {
+  left: -109px !important;
+  top: 6px !important;
 }
 
 /* reset default toggle button style */
@@ -735,4 +744,18 @@ a:visited {
 
 .reset-search-icon:hover {
   transform: rotate(-40deg);
+}
+
+/* Cards more options (edit/delete) */
+.dropdown-toggle::after {
+  display: none;
+}
+
+.trash-hover {
+  transition: color 250ms ease-in-out;
+}
+
+.trash-hover:hover {
+  color: var(--tertiary-color) !important;
+  transition: color 250ms ease-in-out;
 }

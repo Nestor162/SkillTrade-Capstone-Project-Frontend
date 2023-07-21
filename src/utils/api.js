@@ -310,6 +310,33 @@ async function getPostByTitle(title, page = 0, size = 10) {
   }
 }
 
+async function deletePost(postId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.status === 204) {
+      // The post was successfully deleted
+      return { data: 'Post deleted', error: null }
+    } else {
+      const data = await response.json()
+      if (response.ok) {
+        return { data, error: null }
+      } else {
+        return { data: null, error: data.message }
+      }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- { REVIEWS ENDPOINT } ----
 async function getAllReviews() {
   try {
@@ -398,5 +425,6 @@ export {
   getPostByAuthorId,
   publishReview,
   getPostByQuery,
-  getPostByTitle
+  getPostByTitle,
+  deletePost
 }
