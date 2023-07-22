@@ -295,6 +295,11 @@ input[type='password']::-ms-clear {
   box-shadow: 0 0 0 0.2rem var(--tertiary-color-light);
 }
 
+.edit-post__control.edit-post__control--is-focused {
+  border-color: var(--primary-color-light);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
+}
+
 /* CENTER BOX USED IN AUTH PAGES */
 .centered-overlay-box {
   position: absolute;

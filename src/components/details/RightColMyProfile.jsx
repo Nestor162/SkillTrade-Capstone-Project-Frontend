@@ -175,7 +175,7 @@ function RightColMyProfile() {
               </div>
             </div>
 
-            <div className='mt-5 mx-0 mx-md-5'>
+            <div className='mt-5 mx-0 mx-sm-5 mx-md-5'>
               <h5 className='mb-3'>Your Posts</h5>
               {postData && postData.length > 0 ? (
                 <>
@@ -192,6 +192,7 @@ function RightColMyProfile() {
                       authorSurname={post.authorSurname}
                       publicationDate={formatDate(post.publicationDate)}
                       handlePostDelete={handlePostDelete}
+                      postPhoto={post.imageUrl}
                     />
                   ))}
                 </>

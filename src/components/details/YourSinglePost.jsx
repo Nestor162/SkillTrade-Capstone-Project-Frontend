@@ -1,12 +1,14 @@
-import { Alert, Button, Card, Dropdown, Modal } from 'react-bootstrap'
+import { Alert, Card, Dropdown } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import ExtraInfoWithIcons from '../home/ExtraInfoWithIcons'
 import TruncateText from '../../utils/TruncateText'
-import { AlertTriangle, MoreVertical, Trash2 } from 'lucide-react'
+import { MoreVertical, Trash2 } from 'lucide-react'
 import { Pencil } from 'lucide-react'
 import { useState } from 'react'
-import { deletePost } from '../../utils/api'
+import { deletePost, editPost } from '../../utils/api'
+import DeletePostModal from './DeletePostModal'
+import EditPostModal from './EditPostModal'
 
 function YourSinglePost({
   title,
@@ -19,8 +21,9 @@ function YourSinglePost({
   postId,
   handlePostDelete
 }) {
-  const [show, setShow] = useState(false)
+  const [deleteShow, setDeleteShow] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const navigate = useNavigate()
 
   async function handleDelete(postId) {
     const response = await deletePost(postId)
@@ -28,15 +31,26 @@ function YourSinglePost({
       setErrorMsg(response.error.message)
       console.error(response.error)
     } else {
-      console.log('deleted!')
       handlePostDelete(postId)
-      setShow(false)
+      setDeleteShow(false)
+    }
+  }
+
+  const [editShow, setEditShow] = useState(false)
+  async function handleEdit(payload) {
+    const response = await editPost(payload, postId)
+    if (response.error) {
+      setErrorMsg(response.error.message)
+      console.error(response.error)
+    } else {
+      navigate(`/post-details?id=${postId}`)
+      setEditShow(false)
     }
   }
 
   return (
     <>
-      <Card className='custom-card mt-3'>
+      <Card className='custom-card'>
         {postPhoto && <Card.Img variant='top' className='rounded-0' src={postPhoto} />}
         <Card.Body>
           <Card.Title className='text-black d-flex justify-content-between'>
@@ -48,14 +62,18 @@ function YourSinglePost({
                 <MoreVertical size={'22px'} className='cursor-pointer' />
               </Dropdown.Toggle>
               <Dropdown.Menu className='card-options-dropdown'>
-                <Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    setEditShow(true)
+                  }}
+                >
                   <Pencil size={'16px'} />
                   <span>Edit post</span>
                 </Dropdown.Item>
                 <Dropdown.Item
                   className='trash-hover'
                   onClick={() => {
-                    setShow(true)
+                    setDeleteShow(true)
                   }}
                 >
                   <Trash2 size={'16px'} />
@@ -79,44 +97,34 @@ function YourSinglePost({
           </Card.Footer>
         </Link>
       </Card>
-      <Modal show={show} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <AlertTriangle color='var(--tertiary-color)' />
-            <span className='ms-3'>Delete Post</span>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this post?
-          <Card className='custom-card mt-3'>
-            {postPhoto && <Card.Img variant='top' className='rounded-0' src={postPhoto} />}
-            <Card.Body>
-              <Card.Title className='text-black d-flex justify-content-between'>
-                <span>{title}</span>
-              </Card.Title>
 
-              <div className='text-body mb-3'>
-                <TruncateText text={content} maxLines={3} className='text-body' />
-              </div>
-              <div className='d-flex gap-3 small text-secondary'>
-                <ExtraInfoWithIcons category={category} availability={availability} skillLevel={skillLevel} />
-              </div>
-            </Card.Body>
+      <DeletePostModal
+        show={deleteShow}
+        onHide={() => setDeleteShow(false)}
+        title={title}
+        content={content}
+        category={category}
+        availability={availability}
+        skillLevel={skillLevel}
+        publicationDate={publicationDate}
+        postPhoto={postPhoto}
+        postId={postId}
+        handleDelete={handleDelete}
+      />
 
-            <Card.Footer>
-              <div className='small text-secondary ms-2'>Published on: {publicationDate}</div>
-            </Card.Footer>
-          </Card>
-        </Modal.Body>
-        <Modal.Footer>
-          <div className='secondary-btn' onClick={() => setShow(false)} style={{ padding: '6px' }}>
-            Cancel
-          </div>
-          <Button className='negative-btn' onClick={() => handleDelete(postId)}>
-            DELETE!
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <EditPostModal
+        show={editShow}
+        onHide={() => setEditShow(false)}
+        title={title}
+        content={content}
+        currentCategory={category}
+        availability={availability}
+        skillLevel={skillLevel}
+        publicationDate={publicationDate}
+        postId={postId}
+        handleEdit={handleEdit}
+      />
+
       {errorMsg && (
         <Alert
           className='position-fixed top-0 start-0 w-100'
