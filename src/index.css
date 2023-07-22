@@ -746,9 +746,9 @@ a:visited {
   z-index: -1;
 }
 
-/* .css-13cymwt-control {
+.search-suggestions div.css-13cymwt-control {
   visibility: hidden !important;
-} */
+}
 
 .reset-search-icon {
   cursor: pointer;
