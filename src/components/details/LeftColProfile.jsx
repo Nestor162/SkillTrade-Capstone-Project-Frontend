@@ -41,7 +41,7 @@ function LeftColPost() {
         </div>
       ) : (
         <Col xs={4} className='d-none d-md-flex'>
-          <Card className='left-col-details ms-5 mt-4 border-0 position-sticky' style={{ top: '95px' }}>
+          <Card className='left-col-details ms-5 border-0 mt-4'>
             <Card.Body className='text-dark'>
               <h4 className='mb-4'>More interesting profiles</h4>
               {recommendedProfiles.map(profile => (
