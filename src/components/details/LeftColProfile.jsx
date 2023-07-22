@@ -2,7 +2,7 @@ import { Card, Col, Image, Spinner } from 'react-bootstrap'
 import { getAllProfiles } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { truncateText } from '../../utils/stringUtils'
 
 function LeftColPost() {
@@ -45,20 +45,22 @@ function LeftColPost() {
             <Card.Body className='text-dark'>
               <h4 className='mb-4'>More interesting profiles</h4>
               {recommendedProfiles.map(profile => (
-                <Card key={profile.id} className='mb-3'>
-                  <Image
-                    src={profile.profilePicture ? profile.profilePicture : ProfilePicturePlaceholder}
-                    roundedCircle
-                    className='profile-picture-placeholder d-block mx-auto mt-3'
-                    width={'55px'}
-                  />
-                  <Card.Body>
-                    <Card.Title>
-                      {profile.name} {profile.surname}
-                    </Card.Title>
-                    <Card.Text>{truncateText(profile.biography, 100)}</Card.Text>
-                  </Card.Body>
-                </Card>
+                <Link key={profile.id} to={`/profile-details?id=${profile.id}`} className='text-decoration-none'>
+                  <Card className='mb-3'>
+                    <Image
+                      src={profile.profilePicture ? profile.profilePicture : ProfilePicturePlaceholder}
+                      roundedCircle
+                      className='profile-picture-placeholder d-block mx-auto mt-3'
+                      width={'55px'}
+                    />
+                    <Card.Body>
+                      <Card.Title>
+                        {profile.name} {profile.surname}
+                      </Card.Title>
+                      <Card.Text>{truncateText(profile.biography, 100)}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Link>
               ))}
             </Card.Body>
           </Card>
