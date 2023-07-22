@@ -45,7 +45,18 @@ function LeftColPost() {
             <Card.Body className='text-dark'>
               <h4 className='mb-4'>More interesting profiles</h4>
               {recommendedProfiles.map(profile => (
-                <Link key={profile.id} to={`/profile-details?id=${profile.id}`} className='text-decoration-none'>
+                <Link
+                  key={profile.id}
+                  onClick={() => {
+                    // Scroll to the top of the page
+                    window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth'
+                    })
+                  }}
+                  to={`/profile-details?id=${profile.id}`}
+                  className='text-decoration-none'
+                >
                   <Card className='mb-3'>
                     <Image
                       src={profile.profilePicture ? profile.profilePicture : ProfilePicturePlaceholder}
