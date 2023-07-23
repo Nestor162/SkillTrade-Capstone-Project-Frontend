@@ -13,7 +13,6 @@ function LeftColMyProfile() {
     if (response.error) {
       console.error(response.error.message)
     } else {
-      console.log(response.data)
       setData(response.data)
     }
     setIsLoading(false)
@@ -21,6 +20,7 @@ function LeftColMyProfile() {
 
   useEffect(() => {
     getStarsHandler()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
