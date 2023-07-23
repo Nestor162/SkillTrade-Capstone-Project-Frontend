@@ -1,15 +1,17 @@
 import Masonry from 'react-masonry-css'
 import SinglePost from './SinglePost'
 import { convertSnakeCaseToCapitalized, formatDate } from '../../utils/stringUtils'
-import { OverlayTrigger, Pagination, Spinner, Tooltip } from 'react-bootstrap'
-import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react'
+import { Dropdown, OverlayTrigger, Pagination, Spinner, Tooltip } from 'react-bootstrap'
+import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, ChevronsUpDown, RotateCcw } from 'lucide-react'
 import noContentImg from '../../assets/img/no-content-guy.png'
 import { SearchContext } from '../contexts/SearchContext'
 import { useContext } from 'react'
 import PostList from './PostsList'
+import { getProfileById, sortPosts } from '../../utils/api'
 
 function SearchResultList() {
-  const { searchResults, currentPage, setCurrentPage, isLoading, searchQuery, resetSearch } = useContext(SearchContext)
+  const { searchResults, currentPage, setCurrentPage, isLoading, searchQuery, resetSearch, handleSearchResults } =
+    useContext(SearchContext)
 
   const breakpointColumnsObj = {
     default: 4,
@@ -34,6 +36,28 @@ function SearchResultList() {
     return <PostList />
   }
 
+  // SORTING
+  async function handleSort(sort) {
+    const result = await sortPosts({ sort })
+    if (result.error) {
+      console.error(result.error)
+    } else {
+      // I create a copy of array data.content
+      const postsWithAuthor = [...result.data.content]
+      // For each post
+      for (let i = 0; i < postsWithAuthor.length; i++) {
+        const post = postsWithAuthor[i]
+        const author = await getProfileById(post.profile)
+        // I add the author namea nd surname to the post object
+        post.authorName = author.data.name
+        post.authorSurname = author.data.surname
+        post.authorId = author.data.id
+      }
+      // I set the content with the updated data
+      handleSearchResults({ ...result.data, content: postsWithAuthor })
+    }
+  }
+
   return (
     <div className='page-content'>
       {isLoading ? (
@@ -45,8 +69,8 @@ function SearchResultList() {
           {searchResults.numberOfElements > 0 ? (
             <>
               {searchQuery !== ' ' && searchQuery !== undefined && (
-                <div className='ms-3 ms-md-5 fs-5 mb-0 pt-3 d-flex'>
-                  <p>
+                <div className='ms-3 ms-sm-5 fs-5 mb-0 pt-3 d-flex align-items-center'>
+                  <p className='mb-0'>
                     Viewing results for: <em>&quot;{searchQuery}&quot;</em>
                   </p>
                   <span className='ms-3 reset-search-icon' onClick={resetSearch}>
@@ -54,6 +78,22 @@ function SearchResultList() {
                       <RotateCcw size={'20px'} />
                     </OverlayTrigger>
                   </span>
+                  <Dropdown className='position-relative'>
+                    <Dropdown.Toggle id='dropdown-sort' as='button'>
+                      <div className='fs-6 ms-2 secondary-btn py-1 px-2'>
+                        <ChevronsUpDown size={'16px'} className='ms-1' />
+                        <span className='pe-2'> Sort By </span>
+                      </div>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className='position-absolute' id='sort-dropdown-menu'>
+                      <Dropdown.Item onClick={() => handleSort('newest')}>Date (Newest to Oldest) </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSort('oldest')}>Date (Oldest to Newest)</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSort('alphabetical')}>Alphabetical (A to Z) </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSort('reverseAlphabetical')}>
+                        Alphabetical (Z to A)
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               )}
 

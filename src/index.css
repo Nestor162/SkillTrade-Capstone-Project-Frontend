@@ -948,3 +948,8 @@ a:visited {
     opacity: 1;
   }
 }
+
+#sort-dropdown-menu::after,
+#sort-dropdown-menu::before {
+  display: none;
+}

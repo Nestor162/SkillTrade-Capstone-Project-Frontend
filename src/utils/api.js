@@ -375,6 +375,48 @@ async function editPost(payload, postId) {
   }
 }
 
+async function sortPosts({
+  query,
+  page = 0,
+  size = 10,
+  availability,
+  category,
+  skillLevel,
+  status,
+  title,
+  sort,
+  location
+} = {}) {
+  try {
+    const token = localStorage.getItem('token')
+    let queryString = `page=${page}&size=${size}`
+    if (query) queryString += `&query=${query}`
+    if (availability) queryString += `&availability=${availability}`
+    if (category) queryString += `&category=${category}`
+    if (skillLevel) queryString += `&skillLevel=${skillLevel}`
+    if (status) queryString += `&status=${status}`
+    if (title) queryString += `&title=${title}`
+    if (sort) queryString += `&sort=${sort}`
+    if (location) queryString += `&location=${location}`
+
+    const response = await fetch(`http://localhost:3001/posts/filters?${queryString}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- { REVIEWS ENDPOINT } ----
 async function getAllReviews() {
   try {
@@ -488,5 +530,6 @@ export {
   deletePost,
   getAllProfiles,
   editPost,
-  getReviewsStarsCount
+  getReviewsStarsCount,
+  sortPosts
 }
