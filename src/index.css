@@ -625,6 +625,19 @@ a:visited {
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
+/* small bar at the bottom of the icon  */
+.active-bar {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 3px;
+  background-color: var(--primary-color-dark);
+  border-radius: 15px;
+  opacity: 80%;
+}
+
 /* animation */
 .nav-bottom .middle-icon {
   transition: transform 0.2s ease-in-out;
