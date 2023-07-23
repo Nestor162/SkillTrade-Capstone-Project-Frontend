@@ -34,37 +34,45 @@ function LeftColMyProfile() {
           ) : (
             <>
               <h5 className='mb-3'>Rating</h5>
-              {[...data].reverse().map(([rating, count]) => (
-                <div key={rating} className='d-flex flex-column'>
-                  <span>
-                    {rating} stars <span className='small text-secondary'>({count})</span>
-                  </span>
-                  <div className='mt-1 mb-2' style={{ position: 'relative', height: '7px' }}>
-                    <div
-                      className='rounded shadow-sm'
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'lightgray'
-                      }}
-                    />
-                    <div
-                      className='rounded shadow-sm'
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        height: '100%',
-                        width: `${count * 20}px`,
-                        backgroundColor: 'var(--tertiary-color)'
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
+              {(() => {
+                const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
+                data.forEach(([rating, count]) => {
+                  counts[rating] = count
+                })
+                return Object.entries(counts)
+                  .reverse()
+                  .map(([rating, count]) => (
+                    <div key={rating} className='d-flex flex-column'>
+                      <span>
+                        {rating} stars <span className='small text-secondary'>({count})</span>
+                      </span>
+                      <div className='mt-1 mb-2' style={{ position: 'relative', height: '7px' }}>
+                        <div
+                          className='rounded shadow-sm'
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'lightgray'
+                          }}
+                        />
+                        <div
+                          className='rounded shadow-sm'
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            height: '100%',
+                            width: `${count * 20}px`,
+                            backgroundColor: 'var(--tertiary-color)'
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))
+              })()}
             </>
           )}
         </Card.Body>
