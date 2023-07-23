@@ -435,6 +435,27 @@ async function publishReview(payload) {
   }
 }
 
+async function getReviewsStarsCount(profileId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('http://localhost:3001/reviews/stars/' + profileId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // Check if a certaing image URL is valid or not
 export async function isValidImageUrl(url) {
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -466,5 +487,6 @@ export {
   getPostByTitle,
   deletePost,
   getAllProfiles,
-  editPost
+  editPost,
+  getReviewsStarsCount
 }
