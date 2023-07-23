@@ -22,6 +22,7 @@ function RightColProfile() {
 
   const [searchParams] = useSearchParams()
   const profileId = searchParams.get('id')
+  const logedProfileId = localStorage.getItem('profileId')
 
   const handleGetProfileById = async id => {
     setIsLoading(true)
@@ -164,7 +165,7 @@ function RightColProfile() {
           </Card.Body>
 
           <div className='mt-5 mx-5'>
-            <h5 className='mb-3'>More posts from this profile</h5>
+            <h4 className='mb-3'>More posts from this profile</h4>
             {postData && postData.length > 0 ? (
               <div className='position-relative mb-5'>
                 <div className='opacity-layout-start'></div>
@@ -196,10 +197,8 @@ function RightColProfile() {
               <p className='text-center fst-italic text-muted mb-5'>No posts yet</p>
             )}
           </div>
-
-          <div className='ms-5 ps-3'>
-            <NewReviewAccordion />
-          </div>
+          <h4 className='mb-3 mx-5 ps-3'>Profile Reviews</h4>
+          <div className='ms-5 ps-3'>{logedProfileId !== profileId && <NewReviewAccordion />}</div>
           <ReviewList />
         </Card>
       )}

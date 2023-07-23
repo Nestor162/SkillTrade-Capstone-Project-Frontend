@@ -7,6 +7,7 @@ import SingleReview from './SingleReview'
 function ReviewList() {
   const [searchParams] = useSearchParams()
   const profileId = searchParams.get('id')
+  const logedProfileId = localStorage.getItem('profileId')
 
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -79,7 +80,11 @@ function ReviewList() {
       )}
 
       {data.length !== 0 && data.content.length === 0 && (
-        <p className='text-center fst-italic text-muted mb-5'>No reviews yet, be the first to leave a review! </p>
+        <p className='text-center fst-italic text-muted mb-5'>
+          {logedProfileId !== profileId
+            ? 'No reviews yet, be the first to leave a review!'
+            : 'This is your profile! Showcase your talents and start earning great reviews'}
+        </p>
       )}
 
       {errorMsg && (
