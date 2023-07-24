@@ -50,7 +50,7 @@ function YourSinglePost({
 
   return (
     <>
-      <Card className='custom-card'>
+      <Card className='custom-card mb-5'>
         {postPhoto && <Card.Img variant='top' className='rounded-0' src={postPhoto} />}
         <Card.Body>
           <Card.Title className='text-black d-flex justify-content-between'>
