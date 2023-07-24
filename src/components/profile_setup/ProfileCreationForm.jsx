@@ -37,7 +37,7 @@ function ProfileCreationForm() {
       location: location,
       gender: gender,
       biography: bio,
-      profilePicture: profilePic || 'https://pasteboard.co/1I7zuqwG8cQy.jpg' //default profile picture
+      profilePicture: profilePic || 'https://i.postimg.cc/zBdgkMM3/profile-picture-placeholder-v1.jpg' //default profile picture
     }
 
     // fetch to save interests in current profile

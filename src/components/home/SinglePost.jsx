@@ -5,6 +5,7 @@ import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placehol
 import { Link } from 'react-router-dom'
 import ExtraInfoWithIcons from './ExtraInfoWithIcons'
 import TruncateText from '../../utils/TruncateText'
+import { getProfileById } from '../../utils/api'
 
 function SinglePost({
   title,
@@ -21,8 +22,17 @@ function SinglePost({
 }) {
   const [profilePic, setProfilePic] = useState('')
 
+  async function getProfilePic() {
+    const { data, error } = await getProfileById(authorId)
+    if (error) {
+      console.error(error.message)
+    } else {
+      setProfilePic(data.profilePicture)
+    }
+  }
+
   useEffect(() => {
-    setProfilePic(localStorage.getItem('profilePicture'))
+    getProfilePic()
   }, [])
   return (
     <Card className='custom-card'>
