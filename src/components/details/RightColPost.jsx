@@ -27,6 +27,8 @@ function RightColPost({
   const [searchParams] = useSearchParams()
   const postId = searchParams.get('id')
 
+  const logedProfileId = localStorage.getItem('profileId')
+
   const handleClick = async () => {
     setClicked(!clicked)
     const payload = clicked ? { postStatus: 'ACTIVE' } : { postStatus: 'PENDING' }
@@ -79,20 +81,21 @@ function RightColPost({
               {errorMsg}
             </Alert>
           )}
-
-          <Button
-            className={`main-btn d-block mt-4 mx-auto fw-medium ${clicked ? 'clicked' : ''}`}
-            onClick={handleClick}
-            variant='success'
-          >
-            {clicked ? (
-              <>
-                Pending <Clock4 size={16} />
-              </>
-            ) : (
-              'I’m Interested!'
-            )}
-          </Button>
+          {authorId !== logedProfileId && (
+            <Button
+              className={`main-btn d-block mt-4 mx-auto fw-medium ${clicked ? 'clicked' : ''}`}
+              onClick={handleClick}
+              variant='success'
+            >
+              {clicked ? (
+                <>
+                  Pending <Clock4 size={16} />
+                </>
+              ) : (
+                'I’m Interested!'
+              )}
+            </Button>
+          )}
         </Card.Body>
       </Card>
     </Col>
