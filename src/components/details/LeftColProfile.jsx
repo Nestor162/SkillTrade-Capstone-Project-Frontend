@@ -68,7 +68,7 @@ function LeftColPost() {
                       <Card.Title>
                         {profile.name} {profile.surname}
                       </Card.Title>
-                      <Card.Text>{truncateText(profile.biography, 100)}</Card.Text>
+                      {profile.biography && <Card.Text>{truncateText(profile.biography, 100)}</Card.Text>}
                     </Card.Body>
                   </Card>
                 </Link>
