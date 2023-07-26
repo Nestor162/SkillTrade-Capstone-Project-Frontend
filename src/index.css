@@ -281,7 +281,9 @@ input[type='password']::-ms-clear {
 }
 
 /* FORMS */
-.form-control:focus {
+.form-control:focus,
+.valid-form,
+.form-select:focus {
   border-color: var(--primary-color-light);
   box-shadow: 0 0 0 0.2rem var(--primary-color-dark);
 }

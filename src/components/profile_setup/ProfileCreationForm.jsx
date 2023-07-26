@@ -1,17 +1,73 @@
 import { useState } from 'react'
-import { Alert, Button, Dropdown, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
+import { Button, Dropdown, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { isValidImageUrl, updateProfile } from '../../utils/api'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
+import ErrorAlert from '../common/ErrorAlert'
+import { useFormik } from 'formik'
+import ErrorIcon from '../common/ErrorIcon'
+import SuccessIcon from '../common/SuccessIcon'
 
 function ProfileCreationForm() {
+  const validate = values => {
+    const errors = {}
+    if (!values.birthDate) {
+      errors.birthDate = (
+        <>
+          BirthDate is <strong>required</strong>
+        </>
+      )
+    }
+
+    if (!values.location) {
+      errors.location = (
+        <>
+          Location is <strong>required</strong>
+        </>
+      )
+    }
+
+    if (!values.gender) {
+      errors.gender = (
+        <>
+          Gender is <strong>required</strong>
+        </>
+      )
+    }
+
+    if (!values.bio) {
+      errors.bio = (
+        <>
+          Bio is <strong>required</strong>
+        </>
+      )
+    } else if (values.bio.length < 25 || values.bio.length > 500) {
+      errors.bio = (
+        <>
+          Bio must be between <strong>25 and 500 characters</strong>
+        </>
+      )
+    }
+
+    return errors
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      birthDate: '',
+      location: '',
+      gender: '',
+      bio: '',
+      profilePic: ''
+    },
+    validate,
+    onSubmit: values => {
+      handleSubmit(values)
+    }
+  })
   const [errorMsg, setErrorMsg] = useState(null)
   const navigate = useNavigate()
 
-  const [birthDate, setBirthDate] = useState('')
-  const [location, setLocation] = useState('')
-  const [gender, setGender] = useState('')
-  const [bio, setBio] = useState('')
   const [profilePic, setProfilePic] = useState('')
 
   const [show, setShow] = useState(false)
@@ -26,18 +82,16 @@ function ProfileCreationForm() {
       return
     }
     setShow(false)
-    setErrorMsg('')
+    setErrorMsg(null)
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault()
-
+  async function handleSubmit(values) {
     const profilePayload = {
-      birthDate: birthDate,
-      location: location,
-      gender: gender,
-      biography: bio,
-      profilePicture: profilePic || 'https://i.postimg.cc/zBdgkMM3/profile-picture-placeholder-v1.jpg' //default profile picture
+      birthDate: values.birthDate,
+      location: values.location,
+      gender: values.gender,
+      biography: values.bio,
+      profilePicture: values.profilePic || 'https://i.postimg.cc/zBdgkMM3/profile-picture-placeholder-v1.jpg' //default profile picture
     }
 
     // fetch to save interests in current profile
@@ -45,31 +99,23 @@ function ProfileCreationForm() {
     const response = await updateProfile(profilePayload, profileId)
     if (response.error) {
       setErrorMsg(response.error.message)
-      setTimeout(() => {
-        setErrorMsg(null)
-      }, 3000)
     } else {
       navigate('/home')
     }
-  }
-
-  const handleCloseAlert = () => {
-    setErrorMsg(null)
   }
 
   // Geoapify autocomplete API
   const [suggestions, setSuggestions] = useState([])
 
   const handleSuggestionClick = suggestion => {
-    setLocation(suggestion.properties.formatted)
+    formik.setFieldValue('location', suggestion.properties.formatted)
     setSuggestions([])
   }
 
   const apiKey = import.meta.env.VITE_GEOAPIFY_API_KEY
 
-  const handleLocationChange = async event => {
-    setLocation(event.target.value)
-
+  const handleLocationChange = async (event, formikEvent) => {
+    formik.handleChange(formikEvent)
     if (event.target.value.length > 2) {
       const response = await fetch(
         `https://api.geoapify.com/v1/geocode/autocomplete?text=${event.target.value}&apiKey=${apiKey}`
@@ -83,17 +129,8 @@ function ProfileCreationForm() {
 
   return (
     <>
-      {errorMsg && (
-        <Alert
-          key='danger'
-          variant='danger'
-          className='position-absolute start-0 end-0 top-0 z-3'
-          onClick={handleCloseAlert}
-        >
-          {errorMsg}
-        </Alert>
-      )}
-      <Form className='px-5 my-3' onSubmit={handleSubmit}>
+      {errorMsg && <ErrorAlert>{errorMsg}</ErrorAlert>}
+      <Form className='px-5 my-3' onSubmit={formik.handleSubmit}>
         <Image
           src={profilePic ? profilePic : ProfilePicturePlaceholder}
           roundedCircle
@@ -109,23 +146,18 @@ function ProfileCreationForm() {
             <Modal.Title>Set your profile picture</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {errorMsg && (
-              <Alert
-                key='danger'
-                variant='danger'
-                className='position-absolute start-0 end-0 top-0 z-3'
-                onClick={handleCloseAlert}
-              >
-                {errorMsg}
-              </Alert>
-            )}
+            {errorMsg && <ErrorAlert>{errorMsg}</ErrorAlert>}
             <Form>
-              <Form.Group className='my-5' controlId='exampleForm.ControlInput1'>
+              <Form.Group className='my-5'>
                 <Form.Label>Paste link here</Form.Label>
                 <Form.Control
-                  value={profilePic}
+                  id='profilePic'
+                  name='profilePic'
+                  value={formik.values.profilePic}
                   type='text'
-                  onChange={e => setProfilePic(e.target.value)}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={formik.touched.profilePic && formik.errors.profilePic ? 'invalid-form' : null}
                   placeholder='https://example.com/image.jpg'
                   autoFocus
                 />
@@ -142,12 +174,43 @@ function ProfileCreationForm() {
           </Modal.Footer>
         </Modal>
 
-        <Form.Group className='mb-3' controlId='birthDate'>
+        <Form.Group className='mb-3'>
           <Form.Label className='mb-1'>Birth date</Form.Label>
-          <Form.Control type='date' value={birthDate} onChange={e => setBirthDate(e.target.value)} />
+          <div className='position-relative'>
+            <Form.Control
+              type='date'
+              id='birthDate'
+              name='birthDate'
+              value={formik.values.birthDate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.touched.birthDate && formik.errors.birthDate ? 'invalid-form' : null}
+            />
+            {formik.errors.birthDate && formik.touched.birthDate ? (
+              <ErrorIcon message={formik.errors.birthDate} className='me-5' />
+            ) : (
+              !formik.errors.birthDate && formik.touched.birthDate && <SuccessIcon className='me-5' />
+            )}
+          </div>
         </Form.Group>
-        <Form.Group className='mb-3' controlId='location'>
-          <Form.Control type='text' placeholder='Location' value={location} onChange={handleLocationChange} />
+        <Form.Group className='mb-3'>
+          <div className='position-relative'>
+            <Form.Control
+              id='location'
+              name='location'
+              type='text'
+              placeholder='Location'
+              onChange={event => handleLocationChange(event, event)}
+              onBlur={formik.handleBlur}
+              value={formik.values.location}
+              className={formik.touched.location && formik.errors.location ? 'invalid-form' : null}
+            />
+            {formik.errors.location && formik.touched.location ? (
+              <ErrorIcon message={formik.errors.location} />
+            ) : (
+              !formik.errors.location && formik.touched.location && <SuccessIcon />
+            )}
+          </div>
 
           <Dropdown.Menu show={suggestions.length > 0}>
             {suggestions.map(suggestion => (
@@ -157,29 +220,53 @@ function ProfileCreationForm() {
             ))}
           </Dropdown.Menu>
         </Form.Group>
-        <Form.Group controlId='gender'>
-          <Form.Select value={gender} onChange={e => setGender(e.target.value)}>
-            <option disabled>Choose gender</option>
-            <option value='MALE'>Male</option>
-            <option value='FEMALE'>Female</option>
-            <option value='OTHER'>Other</option>
-            <option value='PREFER_NOT_TO_SAY'>Prefer not to say</option>
-          </Form.Select>
+        <Form.Group>
+          <div className='position-relative'>
+            <Form.Select
+              name='gender'
+              id='gender'
+              value={formik.values.gender}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.touched.gender && formik.errors.gender ? 'invalid-form mb-3' : 'mb-3'}
+              defaultValue=''
+            >
+              <option value='' disabled>
+                Choose gender
+              </option>
+              <option value='MALE'>Male</option>
+              <option value='FEMALE'>Female</option>
+              <option value='OTHER'>Other</option>
+              <option value='PREFER_NOT_TO_SAY'>Prefer not to say</option>
+            </Form.Select>
+            {formik.errors.gender && formik.touched.gender ? (
+              <ErrorIcon message={formik.errors.gender} className='me-5' />
+            ) : (
+              !formik.errors.gender && formik.touched.gender && <SuccessIcon className='me-5' />
+            )}
+          </div>
         </Form.Group>
-        <FloatingLabel controlId='floatingTextarea2' label='Bio'>
+
+        <FloatingLabel label='Bio'>
           <Form.Control
             as='textarea'
+            id='bio'
+            name='bio'
+            value={formik.values.bio}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder='Introduce yourself...'
             style={{ height: '65px' }}
-            className='mt-3'
-            value={bio}
-            onChange={e => setBio(e.target.value)}
-            maxLength={500}
-            minLength={25}
+            className={formik.touched.bio && formik.errors.bio ? 'invalid-form mt-3' : 'mt-3'}
           />
+          {formik.errors.bio && formik.touched.bio ? (
+            <ErrorIcon message={formik.errors.bio} />
+          ) : (
+            !formik.errors.bio && formik.touched.bio && <SuccessIcon />
+          )}
         </FloatingLabel>
         <Button type='submit' className='mt-3 main-btn d-block mx-auto'>
-          CONTINUE
+          REGISTER
         </Button>
       </Form>
     </>

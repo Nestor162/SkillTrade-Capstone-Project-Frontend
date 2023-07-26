@@ -1,82 +1,57 @@
-import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { Alert, Button, Form, OverlayTrigger, Popover } from 'react-bootstrap'
+import { Eye, EyeOff } from 'lucide-react'
+import { useState } from 'react'
+import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { registerUser, getUserByEmail } from '../../utils/api.js'
+import { useFormik } from 'formik'
+import ErrorIcon from '../common/ErrorIcon.jsx'
+import SuccessIcon from '../common/SuccessIcon.jsx'
+import ErrorAlert from '../common/ErrorAlert.jsx'
 
 function RegisterForm() {
-  const userRegisterPayload = { username: '', email: '', password: '' }
+  const validate = values => {
+    const errors = {}
+    const usernamePattern = /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!_#%*?&]{8,}$/
 
-  // FIELDS STATES
-  const [username, setUsername] = useState('')
-  const [usernameError, setUsernameError] = useState(null)
-
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState(null)
-
-  const [password, setPassword] = useState('')
-  const [passwordError, setPasswordError] = useState(null)
-
-  const [repeatedPassword, setRepeatedPassword] = useState('')
-  const [repeatedPasswordError, setRepeatedPasswordError] = useState(null)
-
-  // ---- INPUT FIELDS VALIDATION ----
-  const validateUsername = () => {
-    let errorMessage = null
-    const pattern = new RegExp(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/)
-    if (!username) {
-      errorMessage = (
+    if (!values.username) {
+      errors.username = (
         <>
           Username is <strong>reqiuired</strong>
         </>
       )
-    } else if (pattern.test(username)) {
-      errorMessage = null
-    } else {
-      errorMessage = (
+    } else if (!usernamePattern.test(values.username)) {
+      errors.username = (
         <>
-          Username must be <strong>8-20 characters</strong> long, with
-          <strong> no spaces</strong> or <strong>consecutive special characters</strong>
+          <strong>Username:</strong> 8-20 characters, no spaces or consecutive special characters. Only _ or . allowed,
+          but not at start or end
         </>
       )
     }
-    setUsernameError(errorMessage)
-  }
 
-  const validateEmail = () => {
-    let errorMessage = null
-    const pattern = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
-    if (!email) {
-      errorMessage = (
+    if (!values.email) {
+      errors.email = (
         <>
           Email is <strong>reqiuired</strong>
         </>
       )
-    } else if (pattern.test(email)) {
-      errorMessage = null
-    } else {
-      errorMessage = (
+    } else if (!emailPattern.test(values.email)) {
+      errors.email = (
         <>
           <strong>Invalid email format.</strong> Please enter a valid email address
         </>
       )
     }
-    setEmailError(errorMessage)
-  }
 
-  const validatePassword = () => {
-    let errorMessage = null
-    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!_#%*?&]{8,}$/
-    if (!password) {
-      errorMessage = (
+    if (!values.password) {
+      errors.password = (
         <>
           Password is <strong>reqiuired</strong>
         </>
       )
-    } else if (pattern.test(password)) {
-      errorMessage = null
-    } else {
-      errorMessage = (
+    } else if (!passwordPattern.test(values.password)) {
+      errors.password = (
         <>
           Password must be at least <strong>8 characters</strong> long and include an <strong>uppercase</strong> letter,
           a <strong>lowercase</strong> letter, a <strong>number</strong>, and a <strong>special character</strong> (
@@ -84,37 +59,39 @@ function RegisterForm() {
         </>
       )
     }
-    setPasswordError(errorMessage)
-  }
 
-  const validateRepeatedPassword = () => {
-    let errorMessage = null
-    if (!password) {
-      errorMessage = (
+    if (!values.repeatedPassword) {
+      errors.repeatedPassword = (
         <>
           Password is <strong>reqiuired</strong>
         </>
       )
-    } else if (repeatedPassword !== password) {
-      errorMessage = 'Passwords do not match'
-    } else {
-      errorMessage = null
+    } else if (values.repeatedPassword !== values.password) {
+      errors.repeatedPassword = (
+        <>
+          Passwords do <strong>not match</strong>
+        </>
+      )
     }
-    setRepeatedPasswordError(errorMessage)
+    return errors
   }
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      repeatedPassword: ''
+    },
+    validate,
+    onSubmit: values => {
+      handleRegister(values)
+    }
+  })
 
   // ---- PASSWORD SHOW/HIDE ----
   const [hidePassword, setHidePassword] = useState(true)
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true)
-
-  // ---- SUBMIT HANDLER----
-  const handleSubmit = event => {
-    event.preventDefault()
-    userRegisterPayload.username = username
-    userRegisterPayload.email = email
-    userRegisterPayload.password = password
-    handleRegister(userRegisterPayload)
-  }
 
   // REGISTER FETCH (POST)
   const navigate = useNavigate()
@@ -143,69 +120,36 @@ function RegisterForm() {
 
   // ERRROR ALERT SHOW/HIDE
   const [errorMsg, setErrorMsg] = useState(null)
-  const handleCloseAlert = () => {
-    setErrorMsg(null)
-  }
-
-  useEffect(() => {
-    if (errorMsg) {
-      const timer = setTimeout(() => {
-        handleCloseAlert()
-      }, 5000) // close the alert after 5 seconds
-
-      return () => clearTimeout(timer) // clean up the timer when the component unmounts or errorMsg changes
-    }
-  }, [errorMsg])
 
   return (
     <>
       {errorMsg && (
-        <Alert
-          key='danger'
-          variant='danger'
-          className='position-absolute start-0 end-0 top-0'
-          onClick={handleCloseAlert}
+        <ErrorAlert
+          onClose={() => {
+            setErrorMsg(null)
+          }}
         >
           {errorMsg}
-        </Alert>
+        </ErrorAlert>
       )}
-      <Form className='d-flex flex-column mx-4 mt-4' onSubmit={handleSubmit}>
+      <Form className='d-flex flex-column mx-4 mt-4' onSubmit={formik.handleSubmit}>
         <Form.Group className='mb-3'>
           <div className='position-relative'>
             <Form.Control
+              id='username'
+              name='username'
               type='text'
               placeholder='Username'
-              value={username}
-              onChange={event => setUsername(event.target.value)}
-              onBlur={validateUsername}
-              className={usernameError && 'invalid-form'}
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.errors.username && formik.touched.username ? 'invalid-form' : ''}
             />
-            <OverlayTrigger
-              trigger={['hover', 'focus', 'click']}
-              placement='top'
-              overlay={
-                <Popover>
-                  <Popover.Header as='h3'>Invalid value</Popover.Header>
-                  <Popover.Body>{usernameError}</Popover.Body>
-                </Popover>
-              }
-            >
-              <AlertCircle
-                tabIndex={0}
-                color='var(--tertiary-color)'
-                strokeWidth={3}
-                className={usernameError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-              />
-            </OverlayTrigger>
-            <CheckCircle2
-              color='var(--primary-color)'
-              strokeWidth={3}
-              className={
-                usernameError === null && username !== ''
-                  ? 'position-absolute top-50 end-0 translate-middle-y me-1'
-                  : 'd-none'
-              }
-            />
+            {formik.errors.username && formik.touched.username ? (
+              <ErrorIcon message={formik.errors.username} />
+            ) : (
+              !formik.errors.username && formik.touched.username && <SuccessIcon />
+            )}
           </div>
         </Form.Group>
 
@@ -213,86 +157,44 @@ function RegisterForm() {
           <div className='position-relative'>
             <Form.Control
               type='email'
+              id='email'
+              name='email'
               placeholder='Email address'
-              value={email}
-              onChange={event => {
-                setEmail(event.target.value)
-              }}
-              onBlur={validateEmail}
-              className={emailError && 'invalid-form'}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.errors.email && formik.touched.email && 'invalid-form'}
             />
-            <OverlayTrigger
-              trigger={['hover', 'focus', 'click']}
-              placement='top'
-              overlay={
-                <Popover>
-                  <Popover.Header as='h3'>Invalid value</Popover.Header>
-                  <Popover.Body>{emailError}</Popover.Body>
-                </Popover>
-              }
-            >
-              <AlertCircle
-                tabIndex={0}
-                color='var(--tertiary-color)'
-                strokeWidth={3}
-                className={emailError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-              />
-            </OverlayTrigger>
-            <CheckCircle2
-              color='var(--primary-color)'
-              strokeWidth={3}
-              className={
-                emailError === null && email !== ''
-                  ? 'position-absolute top-50 end-0 translate-middle-y me-1'
-                  : 'd-none'
-              }
-            />
+            {formik.errors.email && formik.touched.email ? (
+              <ErrorIcon message={formik.errors.email} />
+            ) : (
+              !formik.errors.email && formik.touched.email && <SuccessIcon />
+            )}
           </div>
         </Form.Group>
         <Form.Group className='mb-3'>
           <div className='position-relative'>
             <Form.Control
               type={hidePassword ? 'password' : 'text'}
+              id='password'
+              name='password'
+              value={formik.values.password}
               placeholder='Password'
-              value={password}
-              onChange={event => {
-                setPassword(event.target.value)
-              }}
-              onBlur={validatePassword}
-              className={passwordError && 'invalid-form'}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.errors.password && formik.touched.password && 'invalid-form'}
             />
-            <OverlayTrigger
-              trigger={['hover', 'focus', 'click']}
-              placement='top'
-              overlay={
-                <Popover>
-                  <Popover.Header as='h3'>Invalid value</Popover.Header>
-                  <Popover.Body>{passwordError}</Popover.Body>
-                </Popover>
-              }
-            >
-              <AlertCircle
-                tabIndex={0}
-                color='var(--tertiary-color)'
-                strokeWidth={3}
-                className={passwordError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-              />
-            </OverlayTrigger>
-            <CheckCircle2
-              color='var(--primary-color)'
-              strokeWidth={3}
-              className={
-                passwordError === null && password !== ''
-                  ? 'position-absolute top-50 end-0 translate-middle-y me-1'
-                  : 'd-none'
-              }
-            />
+            {formik.errors.password && formik.touched.password ? (
+              <ErrorIcon message={formik.errors.password} />
+            ) : (
+              !formik.errors.password && formik.touched.password && <SuccessIcon />
+            )}
             <Eye
               className={
                 hidePassword
                   ? 'd-none'
                   : `position-absolute top-50 end-0 translate-middle-y ${
-                      passwordError !== null || password !== '' ? 'me-35' : 'me-2'
+                      formik.errors.password !== null || formik.values.password !== '' ? 'me-35' : 'me-2'
                     }`
               }
               style={{ cursor: 'pointer' }}
@@ -302,7 +204,7 @@ function RegisterForm() {
               className={
                 hidePassword
                   ? `position-absolute top-50 end-0 translate-middle-y ${
-                      passwordError !== null || password !== '' ? 'me-35' : 'me-2'
+                      formik.errors.password !== null || formik.values.password !== '' ? 'me-35' : 'me-2'
                     }`
                   : 'd-none'
               }
@@ -315,46 +217,28 @@ function RegisterForm() {
         <Form.Group className='mb-3'>
           <div className='position-relative'>
             <Form.Control
+              id='repeatedPassword'
+              name='repeatedPassword'
               type={hideConfirmPassword ? 'password' : 'text'}
               placeholder='Repeat password'
-              value={repeatedPassword}
-              onChange={event => setRepeatedPassword(event.target.value)}
-              onBlur={validateRepeatedPassword}
-              className={repeatedPasswordError && 'invalid-form'}
+              value={formik.values.repeatedPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.errors.repeatedPassword && formik.touched.repeatedPassword && 'invalid-form'}
             />
-            <OverlayTrigger
-              trigger={['hover', 'focus', 'click']}
-              placement='top'
-              overlay={
-                <Popover>
-                  <Popover.Header as='h3'>Invalid value</Popover.Header>
-                  <Popover.Body>{repeatedPasswordError}</Popover.Body>
-                </Popover>
-              }
-            >
-              <AlertCircle
-                tabIndex={0}
-                color='var(--tertiary-color)'
-                strokeWidth={3}
-                className={repeatedPasswordError ? 'position-absolute top-50 end-0 translate-middle-y me-1' : 'd-none'}
-              />
-            </OverlayTrigger>
-            <CheckCircle2
-              color='var(--primary-color)'
-              strokeWidth={3}
-              className={
-                repeatedPasswordError === null && repeatedPassword !== ''
-                  ? 'position-absolute top-50 end-0 translate-middle-y me-1'
-                  : 'd-none'
-              }
-            />
-
+            {formik.errors.repeatedPassword && formik.touched.repeatedPassword ? (
+              <ErrorIcon message={formik.errors.repeatedPassword} />
+            ) : (
+              !formik.errors.repeatedPassword && formik.touched.repeatedPassword && <SuccessIcon />
+            )}
             <Eye
               className={
                 hideConfirmPassword
                   ? 'd-none'
                   : `position-absolute top-50 end-0 translate-middle-y ${
-                      repeatedPasswordError !== null || repeatedPassword !== '' ? 'me-35' : 'me-2'
+                      formik.errors.repeatedPassword !== null || formik.values.repeatedPassword !== ''
+                        ? 'me-35'
+                        : 'me-2'
                     }`
               }
               style={{ cursor: 'pointer' }}
@@ -364,7 +248,9 @@ function RegisterForm() {
               className={
                 hideConfirmPassword
                   ? `position-absolute top-50 end-0 translate-middle-y ${
-                      repeatedPasswordError !== null || repeatedPassword !== '' ? 'me-35' : 'me-2'
+                      formik.errors.repeatedPassword !== null || formik.values.repeatedPassword !== ''
+                        ? 'me-35'
+                        : 'me-2'
                     }`
                   : 'd-none'
               }
@@ -375,7 +261,7 @@ function RegisterForm() {
         </Form.Group>
 
         <Button type='submit' className='mt-3 main-btn'>
-          REGISTER
+          CONTINUE
         </Button>
       </Form>
     </>

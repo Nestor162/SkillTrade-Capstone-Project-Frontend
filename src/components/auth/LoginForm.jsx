@@ -1,24 +1,46 @@
-import { Eye, EyeOff } from 'lucide-react'
+import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
-import { OverlayTrigger, Popover } from 'react-bootstrap'
-import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
 import { loginUser, getUserByEmail } from '../../utils/api.js'
+import { useFormik } from 'formik'
+import { Button, OverlayTrigger, Popover } from 'react-bootstrap'
+import ErrorAlert from '../common/ErrorAlert.jsx'
 
 function LoginForm() {
   const navigate = useNavigate()
-  const userLoginPayload = { email: '', password: '' }
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
-  const handleSubmit = event => {
-    event.preventDefault()
-    userLoginPayload.email = email
-    userLoginPayload.password = password
-    handleLogin(userLoginPayload)
-    setTimeout(() => setErrorMsg(null), 4000)
+  const validate = values => {
+    const errors = {}
+
+    if (!values.email) {
+      errors.email = (
+        <>
+          Email is <strong>reqiuired</strong>
+        </>
+      )
+    }
+    if (!values.password) {
+      errors.password = (
+        <>
+          Password is <strong>reqiuired</strong>
+        </>
+      )
+    }
+
+    return errors
   }
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validate,
+    onSubmit: values => {
+      handleLogin(values)
+    }
+  })
 
   // ---- PASSWORD SHOW/HIDE ----
   const [hidePassword, setHidePassword] = useState(true)
@@ -26,7 +48,7 @@ function LoginForm() {
   async function handleLogin(payload) {
     const { data, error } = await loginUser(payload)
     if (error || data === null) {
-      setErrorMsg(error.message)
+      setErrorMsg(error)
     } else {
       localStorage.setItem('token', data.accessToken)
       // Get user info and store it in localstorage for the future
@@ -50,29 +72,52 @@ function LoginForm() {
   const [errorMsg, setErrorMsg] = useState(null)
 
   return (
-    <Form className='d-flex flex-column mx-4 mt-4' onSubmit={handleSubmit}>
-      <Form.Group className='mb-3' controlId='formBasicEmail'>
+    <Form className='d-flex flex-column mx-4 mt-4' onSubmit={formik.handleSubmit}>
+      <Form.Group className='mb-3 position-relative'>
         <Form.Control
+          id='email'
+          name='email'
           type='email'
           placeholder='Enter your email'
-          onChange={event => {
-            setEmail(event.target.value)
-          }}
-          value={email}
-          required
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          onBlur={formik.handleBlur}
+          className={formik.errors.email && formik.touched.email ? 'invalid-form' : ''}
         />
+        <OverlayTrigger
+          trigger={['hover', 'focus', 'click']}
+          placement='top'
+          overlay={
+            <Popover>
+              <Popover.Header as='h3'>Invalid value</Popover.Header>
+              <Popover.Body>{formik.errors.email}</Popover.Body>
+            </Popover>
+          }
+        >
+          {formik.errors.email && formik.touched.email ? (
+            <AlertCircle
+              tabIndex={0}
+              color='var(--tertiary-color)'
+              strokeWidth={3}
+              className='position-absolute top-50 end-0 translate-middle-y me-1'
+            />
+          ) : (
+            <span></span>
+          )}
+        </OverlayTrigger>
       </Form.Group>
 
-      <Form.Group className='mb-3' controlId='formBasicPassword'>
+      <Form.Group className='mb-3 position-relative'>
         <div className='position-relative'>
           <Form.Control
             type={hidePassword ? 'password' : 'text'}
             placeholder='Enter your password'
-            onChange={event => {
-              setPassword(event.target.value)
-            }}
-            value={password}
-            required
+            id='password'
+            name='password'
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            onBlur={formik.handleBlur}
+            className={formik.errors.password && formik.touched.password ? 'invalid-form' : ''}
           />
           <Eye
             className={hidePassword ? 'd-none' : 'position-absolute top-50 end-0 translate-middle-y me-2'}
@@ -85,27 +130,41 @@ function LoginForm() {
             style={{ cursor: 'pointer' }}
           />
         </div>
-      </Form.Group>
 
-      <OverlayTrigger
-        show={errorMsg !== null}
-        transition={false}
-        placement='bottom'
-        overlay={
-          <Popover id='popover-basic'>
-            <Popover.Header as='h3' className='text-center' style={{ backgroundColor: '#a04a35' }}>
-              <span className='text-light'>LOGIN ERROR</span>
-            </Popover.Header>
-            <Popover.Body className='text-center' style={{ backgroundColor: '#B2523B' }}>
-              <span className='text-light'> {errorMsg}</span>
-            </Popover.Body>
-          </Popover>
-        }
-      >
-        <Button type='submit' className='mt-3 main-btn'>
-          LOGIN
-        </Button>
-      </OverlayTrigger>
+        <OverlayTrigger
+          trigger={['hover', 'focus', 'click']}
+          placement='top'
+          overlay={
+            <Popover>
+              <Popover.Header as='h3'>Invalid value</Popover.Header>
+              <Popover.Body>{formik.errors.password}</Popover.Body>
+            </Popover>
+          }
+        >
+          {formik.errors.password && formik.touched.password ? (
+            <AlertCircle
+              tabIndex={0}
+              color='var(--tertiary-color)'
+              strokeWidth={3}
+              className='position-absolute top-50 end-0 translate-middle-y me-5'
+            />
+          ) : (
+            <span></span>
+          )}
+        </OverlayTrigger>
+      </Form.Group>
+      <Button type='submit' className='mt-3 main-btn'>
+        LOGIN
+      </Button>
+      {errorMsg && (
+        <ErrorAlert
+          onClose={() => {
+            setErrorMsg(null)
+          }}
+        >
+          {errorMsg}
+        </ErrorAlert>
+      )}
     </Form>
   )
 }

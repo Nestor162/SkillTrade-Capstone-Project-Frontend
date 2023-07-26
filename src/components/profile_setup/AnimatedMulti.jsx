@@ -3,15 +3,23 @@ import makeAnimated from 'react-select/animated'
 import PropTypes from 'prop-types'
 const animatedComponents = makeAnimated()
 
-function AnimatedMulti({ options, onChange }) {
+function AnimatedMulti({ options, onChange, invalidStyle }) {
   return (
-    <Select closeMenuOnSelect={false} components={animatedComponents} isMulti options={options} onChange={onChange} />
+    <Select
+      closeMenuOnSelect={false}
+      components={animatedComponents}
+      isMulti
+      options={options}
+      onChange={onChange}
+      className={invalidStyle}
+    />
   )
 }
 
 AnimatedMulti.propTypes = {
   options: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  invalidStyle: PropTypes.string
 }
 
 export default AnimatedMulti
