@@ -12,6 +12,7 @@ function AnimatedMulti({ options, onChange, invalidStyle }) {
       options={options}
       onChange={onChange}
       className={invalidStyle}
+      menuPlacement='auto'
     />
   )
 }

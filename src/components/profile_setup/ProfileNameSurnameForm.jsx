@@ -11,7 +11,7 @@ import SuccessIcon from '../common/SuccessIcon'
 import { useUserStore } from '../../store/UserStore'
 
 function ProfilenameSurnameForm() {
-  const { setName, setSurname, setLangs } = useUserStore()
+  const { setName, setSurname, setLangs, interests } = useUserStore()
 
   const validate = values => {
     const errors = {}
@@ -105,6 +105,14 @@ function ProfilenameSurnameForm() {
     setLangs(languageCodes)
     navigate('/profile-creation')
   }
+
+  useEffect(() => {
+    handleGetAllLanguages()
+    if (interests.length === 0) {
+      navigate('/')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>

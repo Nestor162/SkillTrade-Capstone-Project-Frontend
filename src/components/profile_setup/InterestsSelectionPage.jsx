@@ -2,7 +2,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import InterestsList from './InterestsList'
 import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUserStore } from '../../store/UserStore'
 
 function SelectInterestPage() {
@@ -48,6 +48,14 @@ function SelectInterestPage() {
   const handleMouseLeave = () => {
     setShowTooltip(false)
   }
+
+  const { user } = useUserStore()
+  useEffect(() => {
+    if (user.username === '' || user.email === '' || user.password === '') {
+      navigate('/')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   return (
     <>

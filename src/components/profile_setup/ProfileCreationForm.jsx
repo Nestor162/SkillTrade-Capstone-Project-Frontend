@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Dropdown, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { getUserByEmail, isValidImageUrl, registerUser, updateProfile } from '../../utils/api'
@@ -71,17 +71,16 @@ function ProfileCreationForm() {
   const [errorMsg, setErrorMsg] = useState(null)
   const navigate = useNavigate()
 
-  const [profilePic, setProfilePic] = useState('')
-
   const [show, setShow] = useState(false)
   const handleClose = () => {
     setShow(false)
-    setProfilePic('')
+    formik.setFieldValue('profilePic', '')
   }
   const handleShow = () => setShow(true)
   const handleSavePic = async () => {
-    if (!(await isValidImageUrl(profilePic))) {
+    if (!(await isValidImageUrl(formik.values.profilePic))) {
       setErrorMsg('Please enter a valid image URL.')
+      formik.setFieldValue('profilePic', '')
       return
     }
     setShow(false)
@@ -154,12 +153,19 @@ function ProfileCreationForm() {
     }
   }
 
+  useEffect(() => {
+    if (name === '' || surname === '' || langs.length === 0) {
+      navigate('/')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       {errorMsg && <ErrorAlert>{errorMsg}</ErrorAlert>}
       <Form className='px-5 my-3' onSubmit={formik.handleSubmit}>
         <Image
-          src={profilePic ? profilePic : ProfilePicturePlaceholder}
+          src={formik.values.profilePic ? formik.values.profilePic : ProfilePicturePlaceholder}
           roundedCircle
           className='profile-picture-placeholder mx-auto d-block'
           width={'85px'}

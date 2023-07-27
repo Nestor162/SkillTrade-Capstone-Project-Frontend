@@ -34,30 +34,9 @@ function App() {
         <Routes>
           <Route path='/' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
-          <Route
-            path='/interests'
-            element={
-              <ProtectedRoute>
-                <InterestsSelectionPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/profile-name'
-            element={
-              <ProtectedRoute>
-                <ProfileNameSurnamePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/profile-creation'
-            element={
-              <ProtectedRoute>
-                <ProfileCreation />
-              </ProtectedRoute>
-            }
-          />
+          <Route path='/interests' element={<InterestsSelectionPage />} />
+          <Route path='/profile-name' element={<ProfileNameSurnamePage />} />
+          <Route path='/profile-creation' element={<ProfileCreation />} />
           <Route
             path='/home'
             element={

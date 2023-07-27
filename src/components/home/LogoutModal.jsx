@@ -7,6 +7,9 @@ function LogoutModal({ showModal, handleCloseModal }) {
   const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('profileId')
+    localStorage.removeItem('profilePicture')
     navigate('/')
   }
 

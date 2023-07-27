@@ -69,12 +69,8 @@ async function getUserByEmail(email) {
 // ---- {INTEREST ENDPOINT} ----
 async function getAllInterests() {
   try {
-    const token = localStorage.getItem('token')
     const response = await fetch('http://localhost:3001/interests', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      method: 'GET'
     })
     const data = await response.json()
     return { data, error: null }
@@ -107,12 +103,8 @@ async function getInterestById(interestId) {
 // ---- {LANGUAGE ENDPOINT } ----
 async function GetAllLanguages() {
   try {
-    const token = localStorage.getItem('token')
     const response = await fetch('http://localhost:3001/langs', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      method: 'GET'
     })
     const data = await response.json()
     return { data, error: null }
