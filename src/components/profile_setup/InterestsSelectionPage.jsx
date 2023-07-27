@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import InterestsList from './InterestsList'
 import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useState } from 'react'
-import { updateProfile } from '../../utils/api'
+import { useUserStore } from '../../store/UserStore'
 
 function SelectInterestPage() {
   const [selectedInterests, setSelectedInterests] = useState([])
@@ -22,23 +22,15 @@ function SelectInterestPage() {
     })
   }
 
-  const payloadInterestList = {
-    interests: selectedInterests
-  }
+  const { setInterests } = useUserStore()
 
   const handleCloseAlert = () => {
     setErrorMsg(null)
   }
 
   async function handleSubmit() {
-    // fetch to save interests in current profile
-    const profileId = localStorage.getItem('profileId')
-    const response = await updateProfile(payloadInterestList, profileId)
-    if (response.error) {
-      setErrorMsg(response.error)
-    } else {
-      navigate('/profile-name')
-    }
+    setInterests(selectedInterests)
+    navigate('/profile-name')
   }
 
   // Show message when interests selected are less than 3
@@ -87,7 +79,7 @@ function SelectInterestPage() {
             <OverlayTrigger placement='top' overlay={renderTooltip} show={showTooltip && selectedInterests.length < 3}>
               <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <Button
-                  type='submit'
+                  type='button'
                   className='mb-3 main-btn'
                   onClick={handleSubmit}
                   disabled={selectedInterests.length < 3}

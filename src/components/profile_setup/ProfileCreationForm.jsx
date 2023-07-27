@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { Button, Dropdown, FloatingLabel, Form, Image, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { isValidImageUrl, updateProfile } from '../../utils/api'
+import { getUserByEmail, isValidImageUrl, registerUser, updateProfile } from '../../utils/api'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
 import ErrorAlert from '../common/ErrorAlert'
 import { useFormik } from 'formik'
 import ErrorIcon from '../common/ErrorIcon'
 import SuccessIcon from '../common/SuccessIcon'
+import { useUserStore } from '../../store/UserStore'
 
 function ProfileCreationForm() {
+  const { user, name, surname, langs, interests } = useUserStore()
+
   const validate = values => {
     const errors = {}
     if (!values.birthDate) {
@@ -86,11 +89,35 @@ function ProfileCreationForm() {
   }
 
   async function handleSubmit(values) {
+    const { data, error } = await registerUser(user)
+    if (error || data === null) {
+      setErrorMsg(error.message)
+    } else {
+      localStorage.setItem('token', data.accessToken)
+      // Get user info and store it in localstorage for the future
+      const userByEmailResponse = await getUserByEmail(user.email)
+
+      // If there is an error in get by email fetch return the error
+      if (userByEmailResponse.error) {
+        console.error(userByEmailResponse.error)
+        return { data: null, error: userByEmailResponse.error }
+      }
+      // othrewise store the user's ID and profile's ID in local storage
+      else {
+        localStorage.setItem('userId', userByEmailResponse.data.id)
+        localStorage.setItem('profileId', userByEmailResponse.data.profile)
+      }
+    }
+
     const profilePayload = {
-      birthDate: values.birthDate,
+      name: name,
+      surname: surname,
       location: values.location,
-      gender: values.gender,
       biography: values.bio,
+      birthDate: values.birthDate,
+      gender: values.gender,
+      langs: langs,
+      interests: interests,
       profilePicture: values.profilePic || 'https://i.postimg.cc/zBdgkMM3/profile-picture-placeholder-v1.jpg' //default profile picture
     }
 
@@ -229,7 +256,6 @@ function ProfileCreationForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={formik.touched.gender && formik.errors.gender ? 'invalid-form mb-3' : 'mb-3'}
-              defaultValue=''
             >
               <option value='' disabled>
                 Choose gender

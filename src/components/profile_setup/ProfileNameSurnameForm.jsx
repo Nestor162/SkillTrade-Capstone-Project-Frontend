@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { GetAllLanguages, updateProfile } from '../../utils/api'
+import { GetAllLanguages } from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import AnimatedMulti from './AnimatedMulti'
 
-import ErrorAlert from '../common/ErrorAlert'
 import LoadingSpinner from '../common/LoadingSpinner'
 import { useFormik } from 'formik'
 import ErrorIcon from '../common/ErrorIcon'
 import SuccessIcon from '../common/SuccessIcon'
+import { useUserStore } from '../../store/UserStore'
 
 function ProfilenameSurnameForm() {
+  const { setName, setSurname, setLangs } = useUserStore()
+
   const validate = values => {
     const errors = {}
 
@@ -69,10 +71,9 @@ function ProfilenameSurnameForm() {
   })
 
   // eslint-disable-next-line no-unused-vars
-  const [langs, setLangs] = useState([])
+  const [availableLangs, setAvailableLangs] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [options, setOptions] = useState('')
-  const [errorMsg, setErrorMsg] = useState(null)
   const navigate = useNavigate()
 
   const handleLangChange = selectedOptions => {
@@ -93,28 +94,20 @@ function ProfilenameSurnameForm() {
 
   useEffect(() => {
     handleGetAllLanguages()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleFetch(values) {
     const languageCodes = values.langs.map(lang => lang.value)
-    const payload = {
-      name: values.name,
-      surname: values.surname,
-      langs: languageCodes
-    }
-    // fetch to save name and surname in current profile
-    const profileId = localStorage.getItem('profileId')
-    const response = await updateProfile(payload, profileId)
-    if (response.error) {
-      setErrorMsg(response.error.message)
-    } else {
-      navigate('/profile-creation')
-    }
+
+    setName(values.name)
+    setSurname(values.surname)
+    setLangs(languageCodes)
+    navigate('/profile-creation')
   }
 
   return (
     <>
-      {errorMsg && <ErrorAlert>{errorMsg}</ErrorAlert>}
       {isLoading ? (
         <LoadingSpinner />
       ) : (

@@ -2,13 +2,16 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { registerUser, getUserByEmail } from '../../utils/api.js'
 import { useFormik } from 'formik'
 import ErrorIcon from '../common/ErrorIcon.jsx'
 import SuccessIcon from '../common/SuccessIcon.jsx'
 import ErrorAlert from '../common/ErrorAlert.jsx'
+import { useUserStore } from '../../store/UserStore.js'
 
 function RegisterForm() {
+  const setUser = useUserStore(state => state.setUser)
+  const navigate = useNavigate()
+
   const validate = values => {
     const errors = {}
     const usernamePattern = /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/
@@ -85,38 +88,19 @@ function RegisterForm() {
     },
     validate,
     onSubmit: values => {
-      handleRegister(values)
+      const payload = {
+        username: values.username,
+        email: values.email,
+        password: values.password
+      }
+      setUser(payload)
+      navigate('/interests')
     }
   })
 
   // ---- PASSWORD SHOW/HIDE ----
   const [hidePassword, setHidePassword] = useState(true)
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true)
-
-  // REGISTER FETCH (POST)
-  const navigate = useNavigate()
-  async function handleRegister(payload) {
-    const { data, error } = await registerUser(payload)
-    if (error || data === null) {
-      setErrorMsg(error.message)
-    } else {
-      localStorage.setItem('token', data.accessToken)
-      // Get user info and store it in localstorage for the future
-      const userByEmailResponse = await getUserByEmail(payload.email)
-
-      // If there is an error in get by email fetch return the error
-      if (userByEmailResponse.error) {
-        console.error(userByEmailResponse.error)
-        return { data: null, error: userByEmailResponse.error }
-      }
-      // othrewise store the user's ID and profile's ID in local storage
-      else {
-        localStorage.setItem('userId', userByEmailResponse.data.id)
-        localStorage.setItem('profileId', userByEmailResponse.data.profile)
-      }
-      navigate('/interests')
-    }
-  }
 
   // ERRROR ALERT SHOW/HIDE
   const [errorMsg, setErrorMsg] = useState(null)
