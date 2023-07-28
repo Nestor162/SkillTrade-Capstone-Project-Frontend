@@ -42,7 +42,7 @@ function PostDetails() {
   useEffect(() => {
     handleGetPostById(postId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [postId])
 
   return (
     <>
