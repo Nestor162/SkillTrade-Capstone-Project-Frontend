@@ -14,10 +14,6 @@ function NewReviewAccordion() {
     setActiveKey(null)
   }
 
-  function handleSubmit() {
-    handleClose()
-  }
-
   return (
     <>
       <button className='secondary-btn px-2' onClick={handleButtonClick} style={{ maxWidth: 'fit-content' }}>
@@ -30,7 +26,7 @@ function NewReviewAccordion() {
           <Accordion.Body>
             <Row className='d-flex justify-content-center mt-5'>
               <Col xs={8}>
-                <NewReviewForm onClose={handleClose} onFormSubmit={handleSubmit} />
+                <NewReviewForm onClose={handleClose} />
               </Col>
             </Row>
           </Accordion.Body>

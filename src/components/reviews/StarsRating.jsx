@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types'
 import StarRatings from 'react-star-ratings'
 
-function StarsRating({ rating, onRatingChange }) {
+function StarsRating({ rating, onChange }) {
   return (
     <StarRatings
       rating={rating}
       starRatedColor='var(--tertiary-color-dark)'
       starHoverColor='var(--tertiary-color)'
       starDimension='27px'
-      changeRating={onRatingChange}
+      changeRating={onChange}
       numberOfStars={5}
       name='rating'
     />
@@ -16,7 +16,7 @@ function StarsRating({ rating, onRatingChange }) {
 }
 StarsRating.propTypes = {
   rating: PropTypes.number.isRequired,
-  onRatingChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired
 }
 
 export default StarsRating
