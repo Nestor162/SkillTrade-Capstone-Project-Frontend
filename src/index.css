@@ -211,6 +211,24 @@ input[type='password']::-ms-clear {
   top: 20px;
   right: 20px;
 }
+
+#my-profile-picture-container:hover #my-profile-picture {
+  filter: brightness(50%);
+}
+
+#my-profile-picture-container {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.image-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
 /* BUTTONS ANIMATIONS */
 /* .main-btn.clicked {
   background-color: var(--neutral-color-light);

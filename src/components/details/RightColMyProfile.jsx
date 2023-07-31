@@ -3,15 +3,18 @@ import { getPostByAuthorId, getProfileById, updateProfile } from '../../utils/ap
 import { useEffect, useState } from 'react'
 import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/stringUtils'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
-import { MapPin, PenBox } from 'lucide-react'
+import { Camera, MapPin, PenBox } from 'lucide-react'
 import StarRatings from 'react-star-ratings'
 import YourSinglePost from './YourSinglePost'
 import EditProfileModal from './EditProfileModal'
+import UpdatePictureModal from './UpdatePictureModal'
 
 function RightColMyProfile() {
   const [profileData, setProfileData] = useState(null)
   const [postData, setPostData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [showIcon, setShowIcon] = useState(false)
+  const [showUpdatePicModal, setShowUpdatePicModal] = useState(false)
 
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -61,6 +64,15 @@ function RightColMyProfile() {
     setPostData(updatedPosts)
   }
 
+  const handleUpdatePicture = async newPictureUrl => {
+    const response = await updateProfile({ profilePicture: newPictureUrl }, profileId)
+    if (response.error) {
+      setErrorMsg(response.error)
+    } else {
+      handleGetProfileById(profileId)
+    }
+  }
+
   useEffect(() => {
     handleGetProfileById(profileId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,13 +113,37 @@ function RightColMyProfile() {
           />
 
           <Card.Body>
-            <Image
-              src={profileData.profilePicture ? profileData.profilePicture : ProfilePicturePlaceholder}
-              roundedCircle
-              className='profile-picture-placeholder mx-auto d-block mt-3'
-              width={'85px'}
-              height={'85px'}
+            <div
+              className='position-relative mx-auto d-block mt-3'
+              id='my-profile-picture-container'
+              onMouseEnter={() => setShowIcon(true)}
+              onMouseLeave={() => setShowIcon(false)}
+              onClick={() => {
+                setShowUpdatePicModal(true)
+              }}
+            >
+              <Image
+                id='my-profile-picture'
+                src={profileData.profilePicture ? profileData.profilePicture : ProfilePicturePlaceholder}
+                roundedCircle
+                className='profile-picture-placeholder'
+                width={'85px'}
+                height={'85px'}
+              />
+
+              {showIcon && (
+                <span className='image-icon'>
+                  <Camera size={'30px'} />
+                </span>
+              )}
+            </div>
+
+            <UpdatePictureModal
+              show={showUpdatePicModal}
+              onClose={() => setShowUpdatePicModal(false)}
+              onUpdate={handleUpdatePicture}
             />
+
             <Card.Title className='mb-0 fs-3 text-center mt-3'>
               {profileData.name + ' ' + profileData.surname}
             </Card.Title>
