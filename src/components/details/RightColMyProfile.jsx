@@ -86,7 +86,9 @@ function RightColMyProfile() {
 
           <EditProfileModal
             show={showEditProfileModal}
-            handleClose={() => setShowEditProfileModal(false)}
+            handleClose={() => {
+              setShowEditProfileModal(false)
+            }}
             handleUpdateProfile={handleUpdateProfile}
             currentName={profileData.name}
             currentSurname={profileData.surname}
@@ -95,6 +97,7 @@ function RightColMyProfile() {
             currentSpokenLanguages={profileData.spokenLanguages}
             currentBirthDate={profileData.birthDate}
             currentGender={profileData.gender}
+            currentLocation={profileData.location}
           />
 
           <Card.Body>

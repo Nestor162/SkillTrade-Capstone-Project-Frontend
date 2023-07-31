@@ -106,6 +106,10 @@ input[type='password']::-ms-clear {
   /* overflow-x: hidden; */
 }
 
+.me-6 {
+  margin-inline-end: 4.5rem;
+}
+
 /* BUTTONS */
 .main-btn {
   background-color: var(--button-color);
