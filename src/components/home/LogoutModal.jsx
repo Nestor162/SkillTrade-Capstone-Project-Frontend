@@ -18,6 +18,7 @@ function LogoutModal({ showModal, handleCloseModal }) {
 
   useEffect(() => {
     if (isLoggedOut) {
+      handleLogout()
       navigate('/')
     }
   }, [isLoggedOut, navigate])
