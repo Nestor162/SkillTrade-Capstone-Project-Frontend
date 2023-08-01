@@ -69,6 +69,7 @@ function HomeNavbar() {
                   roundedCircle
                   className='profile-picture-placeholder'
                   width={'50px'}
+                  height={'50px'}
                 />
               </Dropdown.Toggle>
 
