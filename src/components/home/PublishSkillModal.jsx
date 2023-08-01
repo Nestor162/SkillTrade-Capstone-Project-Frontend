@@ -29,14 +29,14 @@ function PublishSkillModal(props) {
       if (!values.title || values.title.length === 0) {
         errors.title = 'Please enter a title.'
       }
-      if (values.title.length > 100) {
-        errors.title = 'Title cannot be longer than 100 characters.'
+      if (values.title.length > 100 || values.title.length < 15) {
+        errors.title = 'Title cannot be longer than 100 characters or shorter than 15 characters.'
       }
       if (!values.content || values.content.length === 0) {
         errors.content = 'Please enter some content.'
       }
-      if (values.content.length > 700) {
-        errors.content = 'Content cannot be longer than 700 characters.'
+      if (values.content.length > 700 || values.content.length < 30) {
+        errors.content = 'Content cannot be longer than 700 characters or shorter than 30 characters.'
       }
       if (!values.skillLevel || !skillLevels.includes(values.skillLevel)) {
         errors.skillLevel = 'Please select a valid skill level.'

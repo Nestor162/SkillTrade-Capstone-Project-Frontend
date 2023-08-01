@@ -123,6 +123,7 @@ function YourSinglePost({
         publicationDate={publicationDate}
         postId={postId}
         handleEdit={handleEdit}
+        postPhoto={postPhoto}
       />
 
       {errorMsg && (
