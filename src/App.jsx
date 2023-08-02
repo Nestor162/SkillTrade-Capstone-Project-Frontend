@@ -9,9 +9,10 @@ import Homepage from './components/home/Homepage'
 import PostDetails from './components/details/PostDetails'
 import ProfileDetails from './components/details/ProfileDetails'
 import MyProfile from './components/details/MyProfile'
+import { useAuthStore } from './store/useAuthStore'
 
 function App() {
-  const token = localStorage.getItem('token')
+  const token = useAuthStore(state => state.token)
 
   return (
     <>
@@ -22,7 +23,7 @@ function App() {
           <Route path='/interests' element={<InterestsSelectionPage />} />
           <Route path='/profile-name' element={<ProfileNameSurnamePage />} />
           <Route path='/profile-creation' element={<ProfileCreation />} />
-          <Route path='/home' element={<Homepage />} />
+          <Route path='/home' element={token ? <Homepage /> : <Navigate to='/' />} />
           <Route path='/post-details' element={<PostDetails />} />
           <Route path='/profile-details' element={<ProfileDetails />} />
           <Route path='/me' element={<MyProfile />} />

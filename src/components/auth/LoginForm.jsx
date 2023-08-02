@@ -6,9 +6,11 @@ import { loginUser, getUserByEmail } from '../../utils/api.js'
 import { useFormik } from 'formik'
 import { Button, OverlayTrigger, Popover } from 'react-bootstrap'
 import ErrorAlert from '../common/ErrorAlert.jsx'
+import { useAuthStore } from '../../store/useAuthStore.js'
 
 function LoginForm() {
   const navigate = useNavigate()
+  const handleLogin = useAuthStore(state => state.handleLogin)
 
   const validate = values => {
     const errors = {}
@@ -38,14 +40,14 @@ function LoginForm() {
     },
     validate,
     onSubmit: values => {
-      handleLogin(values)
+      handleSubmit(values)
     }
   })
 
   // ---- PASSWORD SHOW/HIDE ----
   const [hidePassword, setHidePassword] = useState(true)
 
-  async function handleLogin(payload) {
+  async function handleSubmit(payload) {
     const { data, error } = await loginUser(payload)
     if (error || data === null) {
       setErrorMsg(error)
@@ -64,6 +66,7 @@ function LoginForm() {
         localStorage.setItem('userId', userByEmailResponse.data.id)
         localStorage.setItem('profileId', userByEmailResponse.data.profile)
       }
+      handleLogin(data.accessToken)
       navigate('/home')
     }
   }

@@ -1,27 +1,10 @@
 import { Button, Modal } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import GoodbyeImg from '../../assets/img/funny-character-goodbye.png'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useAuthStore } from '../../store/useAuthStore'
 
 function LogoutModal({ showModal, handleCloseModal }) {
-  const [isLoggedOut, setIsLoggedOut] = useState(false)
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('userId')
-    localStorage.removeItem('profileId')
-    localStorage.removeItem('profilePicture')
-    setIsLoggedOut(true)
-  }
-
-  useEffect(() => {
-    if (isLoggedOut) {
-      handleLogout()
-      navigate('/')
-    }
-  }, [isLoggedOut, navigate])
+  const handleLogout = useAuthStore(state => state.handleLogout)
 
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
