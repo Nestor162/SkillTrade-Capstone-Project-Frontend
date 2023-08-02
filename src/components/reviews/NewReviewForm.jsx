@@ -7,7 +7,7 @@ import { useFormik } from 'formik'
 import { useState } from 'react'
 import ErrorAlert from '../common/ErrorAlert'
 import ErrorIcon from '../common/ErrorIcon'
-import SuccesIcon from '../common/SuccessIcon'
+import SuccessIcon from '../common/SuccessIcon'
 
 function NewReviewForm({ onClose }) {
   const [errorMsg, setErrorMsg] = useState('')
@@ -123,7 +123,7 @@ function NewReviewForm({ onClose }) {
             {formik.errors.title && formik.touched.title ? (
               <ErrorIcon message={formik.errors.title} />
             ) : (
-              !formik.errors.title && formik.touched.title && <SuccesIcon />
+              !formik.errors.title && formik.touched.title && <SuccessIcon />
             )}
           </div>
         </Form.Group>
@@ -143,7 +143,7 @@ function NewReviewForm({ onClose }) {
             {formik.errors.content && formik.touched.content ? (
               <ErrorIcon message={formik.errors.content} />
             ) : (
-              !formik.errors.content && formik.touched.content && <SuccesIcon />
+              !formik.errors.content && formik.touched.content && <SuccessIcon />
             )}
           </div>
         </Form.Group>
