@@ -104,6 +104,11 @@ function NewReviewForm({ onClose }) {
             onChange={value => formik.setFieldValue('rating', value)}
             onBlur={formik.handleBlur}
           />
+          {formik.errors.rating && formik.touched.rating && (
+            <div className='small mt-2' style={{ color: 'var(--tertiary-color)' }}>
+              {formik.errors.rating}
+            </div>
+          )}
         </Form.Group>
         <Form.Group controlId='title' className='mb-3'>
           <Form.Label>Title</Form.Label>
