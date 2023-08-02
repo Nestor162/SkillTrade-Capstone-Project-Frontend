@@ -6,6 +6,8 @@ import { useSearchParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { useState } from 'react'
 import ErrorAlert from '../common/ErrorAlert'
+import ErrorIcon from '../common/ErrorIcon'
+import SuccesIcon from '../common/SuccessIcon'
 
 function NewReviewForm({ onClose }) {
   const [errorMsg, setErrorMsg] = useState('')
@@ -105,26 +107,40 @@ function NewReviewForm({ onClose }) {
         </Form.Group>
         <Form.Group controlId='title' className='mb-3'>
           <Form.Label>Title</Form.Label>
-          <Form.Control
-            type='text'
-            value={formik.values.title}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={formik.errors.title && formik.touched.title ? 'invalid-form mb-3' : null}
-          />
+          <div className='position-relative'>
+            <Form.Control
+              type='text'
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.errors.title && formik.touched.title ? 'invalid-form mb-3' : null}
+            />
+            {formik.errors.title && formik.touched.title ? (
+              <ErrorIcon message={formik.errors.title} />
+            ) : (
+              !formik.errors.title && formik.touched.title && <SuccesIcon />
+            )}
+          </div>
         </Form.Group>
         <Form.Group className='mb-3'>
           <Form.Label>Content</Form.Label>
-          <Form.Control
-            as='textarea'
-            id='content'
-            name='content'
-            rows={3}
-            value={formik.values.content}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={formik.errors.content && formik.touched.content ? 'invalid-form mb-3' : null}
-          />
+          <div className='position-relative'>
+            <Form.Control
+              as='textarea'
+              id='content'
+              name='content'
+              rows={3}
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={formik.errors.content && formik.touched.content ? 'invalid-form mb-3' : null}
+            />
+            {formik.errors.content && formik.touched.content ? (
+              <ErrorIcon message={formik.errors.content} />
+            ) : (
+              !formik.errors.content && formik.touched.content && <SuccesIcon />
+            )}
+          </div>
         </Form.Group>
         <Button className='main-btn text-dark me-3' type='submit'>
           Publish
