@@ -23,6 +23,6 @@ function ErrorAlert({ children, onClose }) {
 
 ErrorAlert.propTypes = {
   children: PropTypes.string.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func
 }
 export default ErrorAlert

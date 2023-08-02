@@ -490,6 +490,76 @@ async function getReviewsStarsCount(profileId) {
   }
 }
 
+async function getReviewsByAuthor(authorId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/reviews?author=` + authorId, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+async function deleteReview(reviewId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/reviews/` + reviewId, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.status === 204) {
+      // The post was successfully deleted
+      return { data: 'Post deleted', error: null }
+    } else {
+      const data = await response.json()
+      if (response.ok) {
+        return { data, error: null }
+      } else {
+        return { data: null, error: data.message }
+      }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
+async function editReview(payload, reviewId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/reviews/` + reviewId, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    const data = await response.json()
+    if (response.ok) {
+      return { data, error: null }
+    } else {
+      return { data: null, error: data.message }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // Check if a certaing image URL is valid or not
 export async function isValidImageUrl(url) {
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
@@ -523,5 +593,8 @@ export {
   getAllProfiles,
   editPost,
   getReviewsStarsCount,
-  sortPosts
+  sortPosts,
+  getReviewsByAuthor,
+  editReview,
+  deleteReview
 }

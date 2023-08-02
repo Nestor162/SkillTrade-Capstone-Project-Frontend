@@ -199,7 +199,9 @@ function RightColProfile() {
           </div>
           <h4 className='mb-3 mx-5 ps-3'>Profile Reviews</h4>
           <div className='ms-5 ps-3'>{logedProfileId !== profileId && <NewReviewAccordion />}</div>
-          <ReviewList />
+          <div className='mx-sm-0 mx-lg-5'>
+            <ReviewList />
+          </div>
         </Card>
       )}
     </Col>

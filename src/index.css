@@ -230,15 +230,15 @@ input[type='password']::-ms-clear {
 }
 
 /* BUTTONS ANIMATIONS */
-/* .main-btn.clicked {
-  background-color: var(--neutral-color-light);
+.negative-btn:hover {
+  background-color: rgb(202, 41, 41);
   color: var(--background-color-dark);
   border-color: var(--neutral-color-borders);
   transition: background-color 0.5s ease-in-out;
   animation: shake 0.5s;
-} */
+}
 
-/* @keyframes shake {
+@keyframes shake {
   0% {
     transform: translate(1px, 1px) rotate(0deg);
   }
@@ -272,7 +272,7 @@ input[type='password']::-ms-clear {
   100% {
     transform: translate(1px, -2px) rotate(-1deg);
   }
-} */
+}
 
 .main-btn.clicked {
   position: relative;
@@ -571,6 +571,18 @@ a:visited {
 
 .review-card {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+.my-profile-tabs {
+  font-size: 20px;
+}
+
+.my-profile-tabs .nav-item .nav-link.active {
+  color: var(--primary-color-dark);
+}
+
+.my-profile-tabs .nav-item .nav-link {
+  color: var(--neutral-color);
 }
 
 /* Custom pagination menu */

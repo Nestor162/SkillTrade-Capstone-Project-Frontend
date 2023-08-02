@@ -30,7 +30,7 @@ function SingleReview({ reviewRating, reviewTitle, reviewContent, reviewAuthor, 
   const [showMore, setShowMore] = useState(false)
 
   return (
-    <Card className='review-card mx-sm-0 mx-lg-5 w-100'>
+    <Card className='review-card w-100'>
       {errorMsg && (
         <Alert key='danger' variant='danger'>
           {errorMsg}

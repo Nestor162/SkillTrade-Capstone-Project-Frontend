@@ -1,5 +1,5 @@
-import { Alert, Badge, Card, Col, Image, Spinner } from 'react-bootstrap'
-import { getPostByAuthorId, getProfileById, updateProfile } from '../../utils/api'
+import { Alert, Badge, Card, Col, Image, Nav, Spinner } from 'react-bootstrap'
+import { getPostByAuthorId, getProfileById, getReviewsByAuthor, updateProfile } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/stringUtils'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
@@ -8,6 +8,7 @@ import StarRatings from 'react-star-ratings'
 import YourSinglePost from './YourSinglePost'
 import EditProfileModal from './EditProfileModal'
 import UpdatePictureModal from './UpdatePictureModal'
+import MySingleReview from '../reviews/MySingleReview'
 
 function RightColMyProfile() {
   const [profileData, setProfileData] = useState(null)
@@ -15,6 +16,7 @@ function RightColMyProfile() {
   const [isLoading, setIsLoading] = useState(true)
   const [showIcon, setShowIcon] = useState(false)
   const [showUpdatePicModal, setShowUpdatePicModal] = useState(false)
+  const [reviews, setReviews] = useState([])
 
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -73,8 +75,25 @@ function RightColMyProfile() {
     }
   }
 
+  const getProfileReviews = async () => {
+    const reviews = await getReviewsByAuthor(profileId)
+    if (reviews.error) {
+      setErrorMsg(reviews.error)
+      console.error(errorMsg)
+    } else {
+      setReviews(reviews.data)
+    }
+  }
+
+  const [selectedOption, setSelectedOption] = useState('posts')
+
+  const handleSelect = eventKey => {
+    setSelectedOption(eventKey)
+  }
+
   useEffect(() => {
     handleGetProfileById(profileId)
+    getProfileReviews(profileId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search])
 
@@ -214,31 +233,64 @@ function RightColMyProfile() {
               </div>
             </div>
 
-            <div className='mt-5 mx-0 mx-sm-5 mx-md-5'>
-              <h5 className='mb-3'>Your Posts</h5>
-              {postData && postData.length > 0 ? (
-                <>
-                  {postData.map(post => (
-                    <YourSinglePost
-                      key={post.id}
-                      postId={post.id}
-                      title={post.title}
-                      content={post.content}
-                      availability={convertSnakeCaseToCapitalized(post.availability)}
-                      skillLevel={convertSnakeCaseToCapitalized(post.skillLevel)}
-                      category={post.category.name}
-                      authorName={post.authorName}
-                      authorSurname={post.authorSurname}
-                      publicationDate={formatDate(post.publicationDate)}
-                      handlePostDelete={handlePostDelete}
-                      postPhoto={post.imageUrl}
-                    />
-                  ))}
-                </>
-              ) : (
-                <p>You don’t have any posts yet</p>
-              )}
-            </div>
+            <Nav className='ms-5 my-profile-tabs' variant='underline' defaultActiveKey='posts' onSelect={handleSelect}>
+              <Nav.Item>
+                <Nav.Link eventKey='posts'>Posts</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey='reviews'>Reviews</Nav.Link>
+              </Nav.Item>
+            </Nav>
+
+            {selectedOption === 'posts' ? (
+              <div className='mt-4 mx-0 mx-sm-5 mx-md-5'>
+                <h5 className='mb-3'>Your Posts</h5>
+                {postData && postData.length > 0 ? (
+                  <>
+                    {postData.map(post => (
+                      <YourSinglePost
+                        key={post.id}
+                        postId={post.id}
+                        title={post.title}
+                        content={post.content}
+                        availability={convertSnakeCaseToCapitalized(post.availability)}
+                        skillLevel={convertSnakeCaseToCapitalized(post.skillLevel)}
+                        category={post.category.name}
+                        authorName={post.authorName}
+                        authorSurname={post.authorSurname}
+                        publicationDate={formatDate(post.publicationDate)}
+                        handlePostDelete={handlePostDelete}
+                        postPhoto={post.imageUrl}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <p>You don’t have any posts yet</p>
+                )}
+              </div>
+            ) : (
+              <div className='mt-4 mx-0 mx-sm-5 mx-md-5 d-flex flex-wrap gap-4'>
+                <h5 className='mb-0'>Your Reviews</h5>
+                {reviews && reviews.length > 0 ? (
+                  <>
+                    {reviews.map(review => (
+                      <MySingleReview
+                        key={review.id}
+                        reviewTitle={review.title}
+                        reviewContent={review.content}
+                        reviewRating={review.rating}
+                        publicationDate={review.publicationDate}
+                        contentPreview={review.content.slice(0, 200) + (review.content.length > 100 ? '...' : '')}
+                        reviewId={review.id}
+                        profileReviewed={review.profileReviewed}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <p>You don’t have any review yet</p>
+                )}
+              </div>
+            )}
 
             {errorMsg && (
               <Alert
