@@ -18,7 +18,7 @@ function DeleteReviewModal({ show, onClose, handleDelete, title, content, public
         <Card className='custom-card mt-3'>
           <Card.Body>
             <Card.Title className='text-black d-flex justify-content-between'>
-              <span>{title}</span>
+              <span className='w-100'>{title}</span>
             </Card.Title>
 
             <div className='text-body mb-3'>

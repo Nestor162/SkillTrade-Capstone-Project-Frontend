@@ -1,5 +1,5 @@
 import { Alert, Badge, Card, Col, Image, Nav, Spinner } from 'react-bootstrap'
-import { getPostByAuthorId, getProfileById, getReviewsByAuthor, updateProfile } from '../../utils/api'
+import { getPostByAuthorId, getProfileById, updateProfile } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/stringUtils'
 import ProfilePicturePlaceholder from '../../assets/img/profile_picture_placeholder_v1.jpg'
@@ -9,6 +9,7 @@ import YourSinglePost from './YourSinglePost'
 import EditProfileModal from './EditProfileModal'
 import UpdatePictureModal from './UpdatePictureModal'
 import MySingleReview from '../reviews/MySingleReview'
+import { useReviewStore } from '../../store/ReviewStore'
 
 function RightColMyProfile() {
   const [profileData, setProfileData] = useState(null)
@@ -16,7 +17,9 @@ function RightColMyProfile() {
   const [isLoading, setIsLoading] = useState(true)
   const [showIcon, setShowIcon] = useState(false)
   const [showUpdatePicModal, setShowUpdatePicModal] = useState(false)
-  const [reviews, setReviews] = useState([])
+
+  const reviews = useReviewStore(state => state.reviews)
+  const deleteReview = useReviewStore(state => state.reviews)
 
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -58,7 +61,6 @@ function RightColMyProfile() {
     }
   }
 
-  // Function to update postData state
   const handlePostDelete = postId => {
     // Remove the deleted post from the postData array
     const updatedPosts = postData.filter(post => post.id !== postId)
@@ -75,16 +77,6 @@ function RightColMyProfile() {
     }
   }
 
-  const getProfileReviews = async () => {
-    const reviews = await getReviewsByAuthor(profileId)
-    if (reviews.error) {
-      setErrorMsg(reviews.error)
-      console.error(errorMsg)
-    } else {
-      setReviews(reviews.data)
-    }
-  }
-
   const [selectedOption, setSelectedOption] = useState('posts')
 
   const handleSelect = eventKey => {
@@ -93,7 +85,6 @@ function RightColMyProfile() {
 
   useEffect(() => {
     handleGetProfileById(profileId)
-    getProfileReviews(profileId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search])
 

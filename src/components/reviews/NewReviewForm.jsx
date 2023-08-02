@@ -8,6 +8,7 @@ import { useState } from 'react'
 import ErrorAlert from '../common/ErrorAlert'
 import ErrorIcon from '../common/ErrorIcon'
 import SuccessIcon from '../common/SuccessIcon'
+import { useReviewStore } from '../../store/ReviewStore'
 
 function NewReviewForm({ onClose }) {
   const [errorMsg, setErrorMsg] = useState('')
@@ -73,6 +74,8 @@ function NewReviewForm({ onClose }) {
   const [searchParams] = useSearchParams()
   const profileId = searchParams.get('id')
 
+  const addReview = useReviewStore(state => state.addReview)
+
   async function handleSubmit(values) {
     const payload = {
       title: values.title,
@@ -87,6 +90,7 @@ function NewReviewForm({ onClose }) {
       console.error(error.message)
       setErrorMsg(error.message)
     }
+    addReview(payload)
     formik.resetForm()
     onClose()
   }

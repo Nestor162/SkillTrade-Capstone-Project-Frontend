@@ -7,6 +7,7 @@ import { formatDate } from '../../utils/stringUtils'
 import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import DeleteReviewModal from './DeleteReviewModal'
 import EditReviewModal from './EditReviewModal'
+import { useReviewStore } from '../../store/ReviewStore'
 
 function MySingleReview({
   reviewRating,
@@ -18,6 +19,7 @@ function MySingleReview({
   profileReviewed
 }) {
   const [deleteShow, setDeleteShow] = useState(false)
+  const removeReview = useReviewStore(state => state.removeReview)
 
   async function handleDelete(selectedReviewId) {
     console.log(selectedReviewId)
@@ -26,6 +28,8 @@ function MySingleReview({
       setErrorMsg(response.error.message)
       console.error(response.error)
     } else {
+      removeReview(selectedReviewId)
+      console.log('aliminato')
       setDeleteShow(false)
     }
   }

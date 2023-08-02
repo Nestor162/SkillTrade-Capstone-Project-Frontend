@@ -1,4 +1,3 @@
-import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
 export const useUserStore = create(set => ({
   user: {
@@ -17,7 +16,3 @@ export const useUserStore = create(set => ({
   setLangs: langs => set({ langs }),
   setInterests: interests => set({ interests })
 }))
-
-if (process.env.NODE_ENV === 'development') {
-  mountStoreDevtool('Store', useUserStore)
-}

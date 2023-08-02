@@ -426,10 +426,10 @@ async function getAllReviews() {
   }
 }
 
-async function getReviewsOfProfile(profileId, page = 0) {
+async function getReviewsOfProfile(profileId, page = 0, sortBy = 'publicationDate') {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/reviews?profile=${profileId}&page=${page}`, {
+    const response = await fetch(`http://localhost:3001/reviews?profile=${profileId}&page=${page}&sortBy=${sortBy}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
