@@ -19,7 +19,6 @@ function RightColMyProfile() {
   const [showUpdatePicModal, setShowUpdatePicModal] = useState(false)
 
   const reviews = useReviewStore(state => state.reviews)
-  const deleteReview = useReviewStore(state => state.reviews)
 
   const [errorMsg, setErrorMsg] = useState('')
 
