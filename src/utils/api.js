@@ -66,6 +66,33 @@ async function getUserByEmail(email) {
   }
 }
 
+async function deleteUser(userId) {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch(`http://localhost:3001/users/` + userId, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (response.status === 204) {
+      // The post was successfully deleted
+      return { data: response, error: null }
+    } else {
+      const data = await response.json()
+      if (response.ok) {
+        return { data, error: null }
+      } else {
+        return { data: null, error: data.message }
+      }
+    }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- {INTEREST ENDPOINT} ----
 async function getAllInterests() {
   try {
@@ -596,5 +623,6 @@ export {
   sortPosts,
   getReviewsByAuthor,
   editReview,
-  deleteReview
+  deleteReview,
+  deleteUser
 }

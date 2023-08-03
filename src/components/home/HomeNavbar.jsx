@@ -83,7 +83,7 @@ function HomeNavbar() {
                     <Bell size={20} />
                     <span>Notifications</span>
                   </Dropdown.Item>
-                  <Dropdown.Item className='item-disabled' href='#/'>
+                  <Dropdown.Item onClick={() => handleLinkClick('/settings')}>
                     <Settings2 size={20} />
                     <span>Settings</span>
                   </Dropdown.Item>

@@ -10,6 +10,8 @@ import PostDetails from './components/details/PostDetails'
 import ProfileDetails from './components/details/ProfileDetails'
 import MyProfile from './components/details/MyProfile'
 import { useAuthStore } from './store/useAuthStore'
+import SettingsPage from './components/settings/SettingsPage'
+import PrivateRoute from './components/common/PrivateRoute'
 
 function App() {
   const token = useAuthStore(state => state.token)
@@ -20,13 +22,51 @@ function App() {
         <Routes>
           <Route path='/' element={token ? <Navigate to='/home' /> : <LoginPage />} />
           <Route path='/register' element={token ? <Navigate to='/home' /> : <RegisterPage />} />
+
           <Route path='/interests' element={<InterestsSelectionPage />} />
           <Route path='/profile-name' element={<ProfileNameSurnamePage />} />
           <Route path='/profile-creation' element={<ProfileCreation />} />
-          <Route path='/home' element={token ? <Homepage /> : <Navigate to='/' />} />
-          <Route path='/post-details' element={<PostDetails />} />
-          <Route path='/profile-details' element={<ProfileDetails />} />
-          <Route path='/me' element={<MyProfile />} />
+
+          <Route
+            path='/home'
+            element={
+              <PrivateRoute>
+                <Homepage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/post-details'
+            element={
+              <PrivateRoute>
+                <PostDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/profile-details'
+            element={
+              <PrivateRoute>
+                <ProfileDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/me'
+            element={
+              <PrivateRoute>
+                <MyProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/settings'
+            element={
+              <PrivateRoute>
+                <SettingsPage />
+              </PrivateRoute>
+            }
+          />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>

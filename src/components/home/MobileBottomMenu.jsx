@@ -62,9 +62,10 @@ function MobileBottomMenu() {
         {/* Separator */}
         <div></div>
 
-        <div>
-          <Settings2 color={'var(--neutral-color-borders) '} />
+        <div onClick={() => handleLinkClick('/settings')} className='position-relative'>
+          <Settings2 color={activePage === '/settings' ? 'var(--primary-color-dark)' : undefined} />
           <span>Settings</span>
+          <div className={activePage === '/settings' ? 'active-bar' : ''} />
         </div>
 
         <div onClick={handleShowModal} className='position-relative'>

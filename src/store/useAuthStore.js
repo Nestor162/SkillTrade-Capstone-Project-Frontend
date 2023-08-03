@@ -8,6 +8,8 @@ export const useAuthStore = create(set => ({
   },
   handleLogout: () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('profileId')
     set({ token: null })
   }
 }))

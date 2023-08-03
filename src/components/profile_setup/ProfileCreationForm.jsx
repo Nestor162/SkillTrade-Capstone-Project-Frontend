@@ -8,9 +8,11 @@ import { useFormik } from 'formik'
 import ErrorIcon from '../common/ErrorIcon'
 import SuccessIcon from '../common/SuccessIcon'
 import { useUserStore } from '../../store/UserStore'
+import { useAuthStore } from '../../store/useAuthStore'
 
 function ProfileCreationForm() {
   const { user, name, surname, langs, interests } = useUserStore()
+  const handleLogin = useAuthStore(state => state.handleLogin)
 
   const validate = values => {
     const errors = {}
@@ -92,7 +94,8 @@ function ProfileCreationForm() {
     if (error || data === null) {
       setErrorMsg(error.message)
     } else {
-      localStorage.setItem('token', data.accessToken)
+      // Save token in locale storage
+      handleLogin(data.accessToken)
       // Get user info and store it in localstorage for the future
       const userByEmailResponse = await getUserByEmail(user.email)
 
