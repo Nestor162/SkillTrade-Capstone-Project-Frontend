@@ -1,7 +1,9 @@
+const BASE_URL = 'http://localhost:8080'
+
 // ---- {USER ENDPOINTS} ----
-async function loginUser(payload) {
+export async function loginUser(payload) {
   try {
-    const response = await fetch('http://localhost:3001/auth/login', {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -19,9 +21,9 @@ async function loginUser(payload) {
   }
 }
 
-async function registerUser(payload) {
+export async function registerUser(payload) {
   try {
-    const response = await fetch('http://localhost:3001/auth/register', {
+    const response = await fetch(`${BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,10 +48,10 @@ async function registerUser(payload) {
   }
 }
 
-async function getUserByEmail(email) {
+export async function getUserByEmail(email) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/users?email=${email}`, {
+    const response = await fetch(`${BASE_URL}/users?email=${email}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
@@ -66,10 +68,10 @@ async function getUserByEmail(email) {
   }
 }
 
-async function deleteUser(userId) {
+export async function deleteUser(userId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/users/` + userId, {
+    const response = await fetch(`${BASE_URL}/users/` + userId, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -94,9 +96,9 @@ async function deleteUser(userId) {
 }
 
 // ---- {INTEREST ENDPOINT} ----
-async function getAllInterests() {
+export async function getAllInterests() {
   try {
-    const response = await fetch('http://localhost:3001/interests', {
+    const response = await fetch(`${BASE_URL}/interests`, {
       method: 'GET'
     })
     const data = await response.json()
@@ -106,10 +108,10 @@ async function getAllInterests() {
   }
 }
 
-async function getInterestById(interestId) {
+export async function getInterestById(interestId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/interests/` + interestId, {
+    const response = await fetch(`${BASE_URL}/interests/` + interestId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -128,9 +130,9 @@ async function getInterestById(interestId) {
 }
 
 // ---- {LANGUAGE ENDPOINT } ----
-async function GetAllLanguages() {
+export async function GetAllLanguages() {
   try {
-    const response = await fetch('http://localhost:3001/langs', {
+    const response = await fetch(`${BASE_URL}/langs`, {
       method: 'GET'
     })
     const data = await response.json()
@@ -141,10 +143,10 @@ async function GetAllLanguages() {
 }
 
 // ---- {PROFILE ENDPOINTS} ----
-async function updateProfile(payload, profileId) {
+export async function updateProfile(payload, profileId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/profiles/` + profileId, {
+    const response = await fetch(`${BASE_URL}/profiles/` + profileId, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -163,10 +165,10 @@ async function updateProfile(payload, profileId) {
   }
 }
 
-async function getProfileById(profileId) {
+export async function getProfileById(profileId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/profiles/` + profileId, {
+    const response = await fetch(`${BASE_URL}/profiles/` + profileId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -184,10 +186,10 @@ async function getProfileById(profileId) {
   }
 }
 
-async function getAllProfiles(page = 0, size = 10, sortValue = 'id') {
+export async function getAllProfiles(page = 0, size = 10, sortValue = 'id') {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/profiles?page=${page}&size=${size}&sort=${sortValue}`, {
+    const response = await fetch(`${BASE_URL}/profiles?page=${page}&size=${size}&sort=${sortValue}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
@@ -201,10 +203,10 @@ async function getAllProfiles(page = 0, size = 10, sortValue = 'id') {
 }
 
 // ---- {POSTS ENDPOINTS} ----
-async function getAllPosts(page = 0, size = 10, sortValue = 'id') {
+export async function getAllPosts(page = 0, size = 10, sortValue = 'id') {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts?page=${page}&size=${size}&sort=${sortValue}`, {
+    const response = await fetch(`${BASE_URL}/posts?page=${page}&size=${size}&sort=${sortValue}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
@@ -217,10 +219,10 @@ async function getAllPosts(page = 0, size = 10, sortValue = 'id') {
   }
 }
 
-async function getPostById(postId) {
+export async function getPostById(postId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+    const response = await fetch(`${BASE_URL}/posts/` + postId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -238,10 +240,10 @@ async function getPostById(postId) {
   }
 }
 
-async function getPostByAuthorId(authorId) {
+export async function getPostByAuthorId(authorId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts?author=` + authorId, {
+    const response = await fetch(`${BASE_URL}/posts?author=` + authorId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -259,10 +261,10 @@ async function getPostByAuthorId(authorId) {
   }
 }
 
-async function changePostStatus(payload, postId) {
+export async function changePostStatus(payload, postId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+    const response = await fetch(`${BASE_URL}/posts/` + postId, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -281,10 +283,10 @@ async function changePostStatus(payload, postId) {
   }
 }
 
-async function publishPost(payload) {
+export async function publishPost(payload) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3001/posts', {
+    const response = await fetch(`${BASE_URL}/posts`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -303,10 +305,10 @@ async function publishPost(payload) {
   }
 }
 
-async function getPostByQuery(query, page = 0, size = 10) {
+export async function getPostByQuery(query, page = 0, size = 10) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts/filters?query=${query}&page=${page}&size=${size}`, {
+    const response = await fetch(`${BASE_URL}/posts/filters?query=${query}&page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -324,10 +326,10 @@ async function getPostByQuery(query, page = 0, size = 10) {
   }
 }
 
-async function getPostByTitle(title, page = 0, size = 10) {
+export async function getPostByTitle(title, page = 0, size = 10) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts/filters?query=${title}&page=${page}&size=${size}`, {
+    const response = await fetch(`${BASE_URL}/posts/filters?query=${title}&page=${page}&size=${size}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -345,10 +347,10 @@ async function getPostByTitle(title, page = 0, size = 10) {
   }
 }
 
-async function deletePost(postId) {
+export async function deletePost(postId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+    const response = await fetch(`${BASE_URL}/posts/` + postId, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -372,10 +374,10 @@ async function deletePost(postId) {
   }
 }
 
-async function editPost(payload, postId) {
+export async function editPost(payload, postId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/posts/` + postId, {
+    const response = await fetch(`${BASE_URL}/posts/` + postId, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -394,7 +396,7 @@ async function editPost(payload, postId) {
   }
 }
 
-async function sortPosts({
+export async function sortPosts({
   query,
   page = 0,
   size = 10,
@@ -418,7 +420,7 @@ async function sortPosts({
     if (sort) queryString += `&sort=${sort}`
     if (location) queryString += `&location=${location}`
 
-    const response = await fetch(`http://localhost:3001/posts/filters?${queryString}`, {
+    const response = await fetch(`${BASE_URL}/posts/filters?${queryString}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -437,10 +439,10 @@ async function sortPosts({
 }
 
 // ---- { REVIEWS ENDPOINT } ----
-async function getAllReviews() {
+export async function getAllReviews() {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3001/reviews', {
+    const response = await fetch(`${BASE_URL}/reviews`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
@@ -453,10 +455,10 @@ async function getAllReviews() {
   }
 }
 
-async function getReviewsOfProfile(profileId, page = 0, sortBy = 'publicationDate') {
+export async function getReviewsOfProfile(profileId, page = 0, sortBy = 'publicationDate') {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/reviews?profile=${profileId}&page=${page}&sortBy=${sortBy}`, {
+    const response = await fetch(`${BASE_URL}/reviews?profile=${profileId}&page=${page}&sortBy=${sortBy}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -474,10 +476,10 @@ async function getReviewsOfProfile(profileId, page = 0, sortBy = 'publicationDat
   }
 }
 
-async function publishReview(payload) {
+export async function publishReview(payload) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3001/reviews', {
+    const response = await fetch(`${BASE_URL}/reviews`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -496,10 +498,10 @@ async function publishReview(payload) {
   }
 }
 
-async function getReviewsStarsCount(profileId) {
+export async function getReviewsStarsCount(profileId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3001/reviews/stars/' + profileId, {
+    const response = await fetch(`${BASE_URL}/reviews/stars/` + profileId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -517,10 +519,10 @@ async function getReviewsStarsCount(profileId) {
   }
 }
 
-async function getReviewsByAuthor(authorId) {
+export async function getReviewsByAuthor(authorId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/reviews?author=` + authorId, {
+    const response = await fetch(`${BASE_URL}/reviews?author=` + authorId, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -538,10 +540,10 @@ async function getReviewsByAuthor(authorId) {
   }
 }
 
-async function deleteReview(reviewId) {
+export async function deleteReview(reviewId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/reviews/` + reviewId, {
+    const response = await fetch(`${BASE_URL}/reviews/` + reviewId, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -565,10 +567,10 @@ async function deleteReview(reviewId) {
   }
 }
 
-async function editReview(payload, reviewId) {
+export async function editReview(payload, reviewId) {
   try {
     const token = localStorage.getItem('token')
-    const response = await fetch(`http://localhost:3001/reviews/` + reviewId, {
+    const response = await fetch(`${BASE_URL}/reviews/` + reviewId, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -595,34 +597,4 @@ export async function isValidImageUrl(url) {
   const response = await fetch(url, { method: 'HEAD' })
   const contentType = response.headers.get('Content-Type')
   return contentType.startsWith('image/')
-}
-
-export {
-  loginUser,
-  registerUser,
-  getAllInterests,
-  getUserByEmail,
-  updateProfile,
-  getProfileById,
-  getAllPosts,
-  getInterestById,
-  getPostById,
-  changePostStatus,
-  publishPost,
-  GetAllLanguages,
-  getAllReviews,
-  getReviewsOfProfile,
-  getPostByAuthorId,
-  publishReview,
-  getPostByQuery,
-  getPostByTitle,
-  deletePost,
-  getAllProfiles,
-  editPost,
-  getReviewsStarsCount,
-  sortPosts,
-  getReviewsByAuthor,
-  editReview,
-  deleteReview,
-  deleteUser
 }
