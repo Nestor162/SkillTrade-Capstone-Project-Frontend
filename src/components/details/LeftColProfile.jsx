@@ -44,35 +44,38 @@ function LeftColPost() {
           <Card className='left-col-details ms-5 border-0 mt-4'>
             <Card.Body className='text-dark'>
               <h4 className='mb-4'>More interesting profiles</h4>
-              {recommendedProfiles.map(profile => (
-                <Link
-                  key={profile.id}
-                  onClick={() => {
-                    // Scroll to the top of the page
-                    window.scrollTo({
-                      top: 0,
-                      behavior: 'smooth'
-                    })
-                  }}
-                  to={`/profile-details?id=${profile.id}`}
-                  className='text-decoration-none'
-                >
-                  <Card className='mb-3'>
-                    <Image
-                      src={profile.profilePicture ? profile.profilePicture : ProfilePicturePlaceholder}
-                      roundedCircle
-                      className='profile-picture-placeholder d-block mx-auto mt-3'
-                      width={'55px'}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        {profile.name} {profile.surname}
-                      </Card.Title>
-                      {profile.biography && <Card.Text>{truncateText(profile.biography, 100)}</Card.Text>}
-                    </Card.Body>
-                  </Card>
-                </Link>
-              ))}
+              {recommendedProfiles.map(
+                profile =>
+                  profile && (
+                    <Link
+                      key={profile.id}
+                      onClick={() => {
+                        // Scroll to the top of the page
+                        window.scrollTo({
+                          top: 0,
+                          behavior: 'smooth'
+                        })
+                      }}
+                      to={`/profile-details?id=${profile.id}`}
+                      className='text-decoration-none'
+                    >
+                      <Card className='mb-3'>
+                        <Image
+                          src={profile.profilePicture ? profile.profilePicture : ProfilePicturePlaceholder}
+                          roundedCircle
+                          className='profile-picture-placeholder d-block mx-auto mt-3'
+                          width={'55px'}
+                        />
+                        <Card.Body>
+                          <Card.Title>
+                            {profile.name} {profile.surname}
+                          </Card.Title>
+                          {profile.biography && <Card.Text>{truncateText(profile.biography, 100)}</Card.Text>}
+                        </Card.Body>
+                      </Card>
+                    </Link>
+                  )
+              )}
             </Card.Body>
           </Card>
         </Col>
