@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import SingleInterestBadge from './singleInterestBadge'
+import SingleInterestBadge from './SingleInterestBadge'
 import { Alert, Spinner } from 'react-bootstrap'
 import { getAllInterests } from '../../utils/api'
 import PropTypes from 'prop-types'
