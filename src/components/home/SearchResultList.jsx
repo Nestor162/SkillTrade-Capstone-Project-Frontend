@@ -38,7 +38,7 @@ function SearchResultList() {
 
   // SORTING
   async function handleSort(sort) {
-    const result = await sortPosts({ sort })
+    const result = await sortPosts({ sort, query: searchQuery })
     if (result.error) {
       console.error(result.error)
     } else {
