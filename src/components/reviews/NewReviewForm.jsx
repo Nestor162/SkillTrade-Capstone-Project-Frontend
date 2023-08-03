@@ -89,10 +89,11 @@ function NewReviewForm({ onClose }) {
     if (error) {
       console.error(error.message)
       setErrorMsg(error.message)
+    } else {
+      addReview(data)
+      formik.resetForm()
+      onClose()
     }
-    addReview(payload)
-    formik.resetForm()
-    onClose()
   }
 
   return (

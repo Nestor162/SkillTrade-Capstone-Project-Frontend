@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getReviewsOfProfile } from '../utils/api'
+import { getReviewsByAuthor, getReviewsOfProfile } from '../utils/api'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 
 export const useReviewStore = create(set => ({
@@ -15,6 +15,16 @@ export const useReviewStore = create(set => ({
       set({ errorMsg: error.message })
     } else {
       set({ reviews: data.content, totalPages: data.totalPages })
+    }
+    set({ isLoading: false })
+  },
+  handleGetReviewsByAuthor: async (id, page, sortBy = 'publicationDate') => {
+    set({ isLoading: true })
+    const { data, error } = await getReviewsByAuthor(id, page - 1, sortBy)
+    if (error) {
+      set({ errorMsg: error.message })
+    } else {
+      set({ reviews: data, totalPages: data.totalPages })
     }
     set({ isLoading: false })
   },

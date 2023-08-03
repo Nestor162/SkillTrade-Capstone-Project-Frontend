@@ -19,6 +19,7 @@ function ReviewList() {
 
   useEffect(() => {
     handleGetReviewsOfProfile(profileId, currentPage)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
 
   let items = []

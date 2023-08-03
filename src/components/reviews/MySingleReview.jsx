@@ -20,6 +20,7 @@ function MySingleReview({
 }) {
   const [deleteShow, setDeleteShow] = useState(false)
   const removeReview = useReviewStore(state => state.removeReview)
+  const editReviewStore = useReviewStore(state => state.editReview)
 
   async function handleDelete(selectedReviewId) {
     console.log(selectedReviewId)
@@ -29,7 +30,6 @@ function MySingleReview({
       console.error(response.error)
     } else {
       removeReview(selectedReviewId)
-      console.log('aliminato')
       setDeleteShow(false)
     }
   }
@@ -41,6 +41,7 @@ function MySingleReview({
       setErrorMsg(response.error.message)
       console.error(response.error)
     } else {
+      editReviewStore(reviewId, response.data)
       setEditShow(false)
     }
   }

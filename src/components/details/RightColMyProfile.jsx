@@ -1,4 +1,4 @@
-import { Alert, Badge, Card, Col, Image, Nav, Spinner } from 'react-bootstrap'
+import { Alert, Badge, Card, Col, Image, Nav, Pagination, Spinner } from 'react-bootstrap'
 import { getPostByAuthorId, getProfileById, updateProfile } from '../../utils/api'
 import { useEffect, useState } from 'react'
 import { convertSnakeCaseToCapitalized, formatDate, getAge } from '../../utils/stringUtils'
@@ -19,6 +19,10 @@ function RightColMyProfile() {
   const [showUpdatePicModal, setShowUpdatePicModal] = useState(false)
 
   const reviews = useReviewStore(state => state.reviews)
+  const getReviewsByAuthor = useReviewStore(state => state.handleGetReviewsByAuthor)
+  const currentPage = useReviewStore(state => state.currentPage)
+  const handlePageClick = useReviewStore(state => state.handlePageClick)
+  const totalPages = useReviewStore(state => state.totalPages)
 
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -80,12 +84,37 @@ function RightColMyProfile() {
 
   const handleSelect = eventKey => {
     setSelectedOption(eventKey)
+    if (eventKey === 'reviews') {
+      getReviewsByAuthor(profileId, 1)
+    }
   }
 
   useEffect(() => {
     handleGetProfileById(profileId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search])
+
+  useEffect(() => {
+    getReviewsByAuthor(profileId, currentPage)
+  }, [currentPage])
+
+  let items = []
+  for (let number = 1; number <= totalPages; number++) {
+    items.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={e => {
+          e.preventDefault()
+          e.stopPropagation()
+          handlePageClick(number)
+        }}
+        onMouseDown={e => e.preventDefault()}
+      >
+        {number}
+      </Pagination.Item>
+    )
+  }
 
   return (
     <Col xs={10} md={7} className='mx-auto mx-lg-3 mx-xl-0 mt-4 mb-4'>
