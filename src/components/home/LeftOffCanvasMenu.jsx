@@ -77,12 +77,12 @@ function LeftOffCanvasMenu() {
               </OverlayTrigger>
             </div>
 
-            <div>
-              <Settings2 size={20} />
-              <OverlayTrigger placement='right' overlay={<Tooltip id='notifications-tooltip'>Coming soon!</Tooltip>}>
+            <Link to={'/settings'} className='text-decoration-none text-dark'>
+              <div>
+                <Settings2 size={20} />
                 <span>Settings</span>
-              </OverlayTrigger>
-            </div>
+              </div>
+            </Link>
             <div>
               <History size={20} />
               <OverlayTrigger placement='right' overlay={<Tooltip id='notifications-tooltip'>Coming soon!</Tooltip>}>
