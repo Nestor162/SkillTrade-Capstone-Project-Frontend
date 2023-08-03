@@ -32,7 +32,7 @@ function SearchResultList() {
     )
   }
 
-  if (Object.keys(searchResults).length === 0) {
+  if (Object.keys(searchResults).length === 0 || searchResults.content.length === 0) {
     return <PostList />
   }
 
