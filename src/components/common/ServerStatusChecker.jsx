@@ -18,7 +18,7 @@ const ServerStatusChecker = () => {
   return (
     <div>
       <div>Server status: {status}</div>
-      {status === 'ready' && <LoadingBar />}
+      {status !== 'ready' && <LoadingBar />}
     </div>
   )
 }
