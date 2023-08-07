@@ -9,6 +9,7 @@ import ErrorIcon from '../common/ErrorIcon'
 import SuccessIcon from '../common/SuccessIcon'
 import { useUserStore } from '../../store/UserStore'
 import { useAuthStore } from '../../store/useAuthStore'
+import LoadingSpinner from '../common/LoadingSpinner'
 
 function ProfileCreationForm() {
   const { user, name, surname, langs, interests } = useUserStore()
@@ -71,6 +72,7 @@ function ProfileCreationForm() {
     }
   })
   const [errorMsg, setErrorMsg] = useState(null)
+  const [isLoading, setIsLoading] = useState(null)
   const navigate = useNavigate()
 
   const [show, setShow] = useState(false)
@@ -90,6 +92,7 @@ function ProfileCreationForm() {
   }
 
   async function handleSubmit(values) {
+    setIsLoading(true)
     const { data, error } = await registerUser(user)
     if (error || data === null) {
       setErrorMsg(error.message)
@@ -165,6 +168,11 @@ function ProfileCreationForm() {
 
   return (
     <>
+      {isLoading && (
+        <div className='loading-spinner-container'>
+          <LoadingSpinner />
+        </div>
+      )}
       {errorMsg && <ErrorAlert>{errorMsg}</ErrorAlert>}
       <Form className='px-5 my-3' onSubmit={formik.handleSubmit}>
         <Image
@@ -300,7 +308,7 @@ function ProfileCreationForm() {
             !formik.errors.bio && formik.touched.bio && <SuccessIcon />
           )}
         </FloatingLabel>
-        <Button type='submit' className='mt-3 main-btn d-block mx-auto'>
+        <Button type='submit' className='mt-3 main-btn d-block mx-auto' disabled={isLoading}>
           REGISTER
         </Button>
       </Form>
