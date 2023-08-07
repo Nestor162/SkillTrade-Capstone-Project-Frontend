@@ -1,5 +1,18 @@
 const BASE_URL = 'https://skilltrade.onrender.com'
 
+// ---- {CHECK SERVER STATUS} ----
+export async function checkServerStatus() {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/status`, {
+      method: 'GET'
+    })
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error) {
+    return { data: null, error }
+  }
+}
+
 // ---- {USER ENDPOINTS} ----
 export async function loginUser(payload) {
   try {

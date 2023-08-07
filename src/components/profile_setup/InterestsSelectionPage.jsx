@@ -4,6 +4,7 @@ import InterestsList from './InterestsList'
 import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import { useUserStore } from '../../store/UserStore'
+import ServerStatusChecker from '../common/ServerStatusChecker'
 
 function SelectInterestPage() {
   const [selectedInterests, setSelectedInterests] = useState([])
@@ -69,6 +70,7 @@ function SelectInterestPage() {
           {errorMsg}
         </Alert>
       )}
+      <ServerStatusChecker />
       <div className='dark-bg'>
         <div className='centered-overlay-box'>
           <div className='position-relative'>
