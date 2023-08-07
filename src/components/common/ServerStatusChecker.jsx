@@ -15,12 +15,7 @@ const ServerStatusChecker = () => {
     handleStatus()
   }, [])
 
-  return (
-    <div>
-      <div>Server status: {status}</div>
-      {status !== 'ready' && <LoadingBar />}
-    </div>
-  )
+  return <div>{status !== 'ready' && <LoadingBar />}</div>
 }
 
 export default ServerStatusChecker

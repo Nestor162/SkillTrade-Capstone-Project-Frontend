@@ -2,10 +2,12 @@ import LoginForm from './LoginForm'
 import GoogleSignBtn from './GoogleSignBtn'
 import AuthHeader from './AuthHeader'
 import { Link } from 'react-router-dom'
+import ServerStatusChecker from '../common/ServerStatusChecker'
 
 function LoginPage() {
   return (
     <div className='dark-bg'>
+      <ServerStatusChecker />
       <div className='centered-overlay-box'>
         <AuthHeader title='Welcome!' subtitle='Login to continue' />
         <LoginForm />

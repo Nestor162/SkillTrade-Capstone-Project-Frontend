@@ -1004,7 +1004,7 @@ a:visited {
   align-items: center;
   opacity: 0;
   animation: fadeInAnimation 2s forwards ease-in-out;
-  animation-delay: 2s;
+  animation-delay: 1s;
 }
 
 @keyframes fadeInAnimation {
